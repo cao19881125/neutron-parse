@@ -1,0 +1,16 @@
+{
+	"gitbook": "3.x",
+	"title": "Neutron源码解析",
+	"description": "Neutron源码解析",
+	"language": "zh-hans",
+
+	"pluginsConfig": {
+		"theme-default": {
+			"showLevel": false
+		}
+	},
+
+	"plugins": [
+		"-search"
+	]
+}
