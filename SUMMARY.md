@@ -3,5 +3,4 @@
 * [Introduction](README.md)
 
 
-* [core-plugin]
-    * [create network](core_plugin/create_network.md)
+* [序章](forward.md)
