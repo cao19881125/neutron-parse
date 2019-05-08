@@ -8,7 +8,7 @@ argparse 是 Python 内置的一个用于命令项选项与参数解析的模块
 
 ### 简单示例
 
-```
+```python
 import argparse
 
 parser = argparse.ArgumentParser()
@@ -32,7 +32,7 @@ print args.integer
 ### 对象定义
 cfg.CONF的定义在oslo_config/cfg.py中，如下 
 
-```
+```python
 CONF = ConfigOpts()
 ```
 
@@ -137,24 +137,26 @@ cfg.CONF(sys.argv[1:])
 从这里开始，cfg.CONF将开始与argparse产生关联
 
 #### 第一步：自定义ArgumentParser 和 Action
-```
+```python
 class _CachedArgumentParser(argparse.ArgumentParser)
 ```
 - 扩展了ArgumentParser实现了_CachedArgumentParser
 
 - \_\_call\_\_ -> self._pre_setup 中进行了初始化
 
-```
+```python
 self._oparser = _CachedArgumentParser()
 ```
 
 - 同时自定义了两个Action
   分别为ConfigFileAction和ConfigDirAction，顾名思义，这两个Action是分别对文件和目录进行处理的
-```
+  
+```python
 class ConfigFileAction(argparse.Action)
 
 class ConfigDirAction(argparse.Action)
 ```
+
 argparser内部实现了很多action，默认的action为store，即保存参数值
 
 cfg扩展实现了Action，实现了两个action，分别为ConfigFileAction和ConfigDirAction，分别对应命令行中的--config-file和--config-dir命令
@@ -163,7 +165,7 @@ cfg扩展实现了Action，实现了两个action，分别为ConfigFileAction和C
 
 ##### 初始化_ConfigFileOpt和_ConfigDirOpt
 这两个Option分别是处理文件和目录的，他们关联了上节两个action，后面将讲解如果通过这两个action解析文件和目录
-```
+```python
 self._config_opts = self._make_config_options(default_config_files,
                                                       default_config_dirs)
                                                
@@ -195,7 +197,7 @@ for opt, group in self._all_cli_opts():
 - 那么opt的类型就是_ConfigFileOpt，调用到的是其父类Opt的_add_to_cli函数
 
 
-```
+```python
 class Opt(object):
     def _add_to_cli(self, parser, group=None):
         container = self._get_argparse_container(parser, group)
@@ -208,7 +210,7 @@ class Opt(object):
 - container在DEFAULT组情况下，获取到的还是_CachedArgumentParser
 - self._get_argparse_kwargs这里，调用到的是_ConfigFileOpt多态实现的_get_argparse_kwargs函数
 
-```
+```python
 class _ConfigFileOpt(Opt):
     def _get_argparse_kwargs(self, group, **kwargs):
     kwargs = super(_ConfigFileOpt, self)._get_argparse_kwargs(group)
@@ -219,7 +221,7 @@ class _ConfigFileOpt(Opt):
 
 - 继续通过self._add_to_argparse -> _CachedArgumentParser.add_parser_argument
 
-```
+```python
 class _ConfigFileOpt(Opt):
     def _add_to_argparse(self, parser, container, name,...)
         # ...
@@ -243,7 +245,7 @@ class _CachedArgumentParser(argparse.ArgumentParser):
 
 __call__ -> self._parse_cli_opts(args) -> self._parse_config_files() -> self._oparser.parse_args(self._args, namespace) -> _CachedArgumentParser.parse_args(self, args=None, namespace=None) -> _CachedArgumentParser.initialize_parser_arguments(self)
 
-```
+```python
 class _CachedArgumentParser(argparse.ArgumentParser):
     def initialize_parser_arguments(self):
         for container, values in self._args_cache.items():
@@ -268,7 +270,7 @@ class _CachedArgumentParser(argparse.ArgumentParser):
 
 \_\_call\_\_ -> self._parse_cli_opts(args) -> self._parse_config_files() -> self._oparser.parse_args(self._args, namespace) -> _CachedArgumentParser.parse_args(self, args=None, namespace=None) 
 
-```
+```python
 class _CachedArgumentParser(argparse.ArgumentParser):
     def parse_args(self, args=None, namespace=None):
         self.initialize_parser_arguments()
@@ -281,7 +283,7 @@ class _CachedArgumentParser(argparse.ArgumentParser):
 
 - argparser经过一系列处理，最终会调用到自定义action的__call__方法，我们上面分析了，在这里的自定义action为ConfigFileAction
 
-```
+```python
 class ConfigFileAction(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
         ...
@@ -304,13 +306,13 @@ class ConfigParser(iniparser.BaseParser):
 - 这里构造一个ConfigParser的实例，并调用parse解析文件
 - parse的代码就不贴了，大概的意思是通过iniparser.BaseParser这个python库将文件进行读取分析，并保存到self.sections中，解析后的结果如下所示
 
-```
+```python
 {'DEFAULT': {'option3': ['true']}, 'mygroup': {'option1': ['foo']}}
 ```
 - 即字典的key为组名，value为值的字典，value的字典以变量名为key，值为value
 - 然后调用namespace的_add_parsed_config_file函数
 
-```
+```python
 class _Namespace(argparse.Namespace):
     def _add_parsed_config_file(self, filename, sections, normalized):
         for s in sections:
@@ -323,7 +325,7 @@ class _Namespace(argparse.Namespace):
 #### 第四步：获取变量
 通过以上的解析，已经知道了cfg.CONF如何通过命令行中的'--config-file'解析配置文件参数的，本节介绍如何获取参数，以如下的形式
 
-```
+```python
 cfg.CONF.mygroup.option1
 cfg.CONF.mygroup.option2
 cfg.CONF.option3
@@ -331,7 +333,7 @@ cfg.CONF.option3
 
 当直接以.来访问变量时，python会调用内置函数__getattr__，则ConfigOpts.__getattr__得到响应
 
-```
+```python
 class ConfigOpts(collections.Mapping):
     def __getattr__(self, name):
         return self._get(name)
@@ -356,7 +358,7 @@ class ConfigOpts(collections.Mapping):
 - 通过__getattr__一路调用到了Opt._get_from_namespace
 - 次数的Opt是name所对应类型的Opt扩展类，如option3即BoolOpt
 
-```
+```python
 class Opt(object):
     def _get_from_namespace(self, namespace, group_name):
         # ...
@@ -368,7 +370,7 @@ class Opt(object):
 ```
 - 调用到了namespace的_get_value方法
 
-```
+```python
 class _Namespace(argparse.Namespace):
     def _get_value(self, names, multi=False, positional=False,
                    current_name=None, normalized=True):

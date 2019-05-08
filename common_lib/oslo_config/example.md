@@ -5,7 +5,7 @@
 
 - 编写osloclitest.py
 
-```
+```python
 import sys
 
 from oslo_config import cfg
@@ -50,7 +50,7 @@ The value of option2 is 42
 
 - 编写oslocfgtest.py文件
 
-```
+```python
 import sys
 
 from oslo_config import cfg
