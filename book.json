@@ -6,11 +6,12 @@
 
 	"pluginsConfig": {
 		"theme-default": {
-			"showLevel": false
+			"showLevel": true
 		}
 	},
 
 	"plugins": [
-		"-search"
+		"-search",
+		"mermaid-gb3"
 	]
 }
