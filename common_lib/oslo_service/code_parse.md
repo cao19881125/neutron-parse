@@ -113,7 +113,7 @@ class Server(service.ServiceBase):
         # ...
         self._server = eventlet.spawn(**wsgi_kwargs)    
 ```
-- 先duplicate一份socket，为什么要做这一步，原因如下
+- 先duplicate一份socket，为什么要做这一步，因为在使用ProcessLauncher时，需要这么做（关于ProcessLauncher的一些细节请看后续章节），原因如下
 
 > 因为每个已打开的文件，在内核中都会用一个file结构体来表示，file结构体中有一个属性为f_count，表示当前文件的引用计数，如果调用close，引用计数会减一，如果引用计数变为0，则内核会释放此文件，达到真正的关闭文件
 > 所以这里先dup，仅仅为如果有其他地方同样用到了此socket，先dup一下，让文件计数+1，则无论哪一方先关闭了socket，都不会让内核释放已打开的文件
@@ -205,3 +205,78 @@ class Server(service.ServiceBase):
 通过上一章的解析，将oslo-service如何封装pastedeploy和eventlet.wsgi进行了源码层面的分析
 
 
+## ProcessLauncher创建多进程
+
+上一节我们讲解了ServiceLauncher的实现原理，本节着重讲解ProcessLauncher对于多进程的处理
+
+直接看到ProcessLauncher.launch_service函数
+```python
+class ProcessLauncher(object):
+    def launch_service(self, service, workers=1):
+        wrap = ServiceWrapper(service, workers)
+        while self.running and len(wrap.children) < wrap.workers:
+            self._start_child(wrap)
+```
+
+从launch_service的结构来看，其目的是不断的调用_start_child创建子进程，直到子进程的数量与我们期望的workers数量相等为止
+
+_start_child函数是关键，我们来看一下这个函数
+
+```python
+def _start_child(self, wrap):
+    # ...
+    pid = os.fork()
+    if pid == 0:
+        self.launcher = self._child_process(wrap.service)
+        while True:
+            self._child_process_handle_signal()
+            # ...进入事件循环
+        os._exit(status)
+    wrap.children.add(pid)
+    self.children[pid] = wrap
+
+    return pid        
+```
+
+在_start_child中，先fork一个子进程，如果pid==0表示是子进程的进程空间，则调用_child_process
+launch service，并进入事件循环，如果是父进程空间，则加入wrap.children并返回
+
+返回后的while循环会不断的判断wrap.children中的进程数是否已经达到目标值，否则会不断的调用_start_child创建子进程，知道达标
+
+self._child_process功能即用Launcher启动服务,与ServiceLauncher启动过程一致
+
+```python
+def _child_process(self, service):
+    # ...
+    launcher = Launcher(self.conf, restart_method=self.restart_method)
+    launcher.launch_service(service)
+    return launcher
+    
+```
+
+## 对socket dup的说明
+上一节提到了server.start时需要先dup
+socket，在上节说明了目标，目标是多个进程共享同一个socket的文件，但是当其中某个进程退出时调用socket.close,不会影响其他进程
+
+本节在代码层面进行分析
+
+socket初始化在fork之前，在server的init函数中
+
+```python
+# oslo_service/wsgi.py
+import socket
+
+class Server(service.ServiceBase):
+    def __init__(self, conf, name, app, host='0.0.0.0', port=0,socket_family=None):
+        # ...
+        if not socket_family or socket_family in [socket.AF_INET,
+                                                  socket.AF_INET6]:
+            self.socket = self._get_socket(host, port, backlog)
+        # ...
+```
+
+当调用到_start_child fork子进程后，两个进程空间共享了此socket
+
+即在进程A,B，C中，尽管他们拥有了自己独有的对象栈空间，socket对象均有用独立的内存空间，但socket中的文件描述符一致
+
+显示调用dup函数后，会创建不同的文件描述符指向同一个文件，使内核中此文件的引用计数+1，socket关闭时不会影响其他进程的socket

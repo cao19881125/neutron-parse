@@ -19,6 +19,7 @@
 * [oslo-service使用](common_lib/oslo_service/oslo_service.md)
 * [oslo-service其他用法](common_lib/oslo_service/service_usage.md)
 * [oslo-service源码解析](common_lib/oslo_service/code_parse.md)
+* [neutron与oslo-service](common_lib/oslo_service/neutron_oslo_service.md)
 
 ## oslo-message搭建rpc通信框架
 
