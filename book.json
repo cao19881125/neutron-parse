@@ -12,6 +12,10 @@
 
 	"plugins": [
 		"-search",
-		"mermaid-gb3"
+		"mermaid-gb3",
+		"splitter@^0.0.8",
+		"expandable-chapters-small"
 	]
+
+
 }
