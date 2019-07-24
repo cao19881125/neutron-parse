@@ -120,8 +120,8 @@ class Server(service.ServiceBase):
 
 - 利用eventlet.spawn创建一个green thread，其中线程体为eventlet.wsgi.server
 
-> 注：简单说一下**wsgi_kwargs，免得有写对pyhton不是很熟的小伙伴看不懂这里，**+变量表示将字典展开，要求变量一定是字典，展开之后会变成多个属性，比如d={'name':'jack','age':10}
-> 则**d会被展开为(name='jack',age=10),所以**wsgi_kwargs会直接变为eventlet.spawn的实参进行调用
+> 注：简单说一下\*\*wsgi_kwargs，免得有写对pyhton不是很熟的小伙伴看不懂这里，\*\*+变量表示将字典展开，要求变量一定是字典，展开之后会变成多个属性，比如d={'name':'jack','age':10}
+> 则\*\*d会被展开为(name='jack',age=10),所以**wsgi_kwargs会直接变为eventlet.spawn的实参进行调用
 
 
 ## 对PasteDeploy的封装

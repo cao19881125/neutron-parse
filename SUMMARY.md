@@ -22,6 +22,10 @@
 * [neutron与oslo-service](common_lib/oslo_service/neutron_oslo_service.md)
 
 ## oslo-message搭建rpc通信框架
+* [简介](common_lib/oslo_messaging/define.md)
+* [kombu](common_lib/oslo_messaging/kombu.md)
+* [oslo-message使用](common_lib/oslo_messaging/oslo_message_usage.md)
+* [RabbitDriver解析](common_lib/oslo_messaging/rabbit_driver.md)
 
 ## oslo-db操作数据库
 
