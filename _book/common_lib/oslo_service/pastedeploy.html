@@ -1,0 +1,877 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>PasteDeploy · Neutron源码解析</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search-plus/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-expandable-chapters-small/expandable-chapters-small.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-page-footer-ex/style/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+
+    
+
+        
+    
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="oslo_service.html" />
+    
+    
+    <link rel="prev" href="wsgi_eventlet.html" />
+    
+
+    <style>
+    @media only screen and (max-width: 640px) {
+        .book-header .hidden-mobile {
+            display: none;
+        }
+    }
+    </style>
+    <script>
+        window["gitbook-plugin-github-buttons"] = {"repo":"cao19881125/neutron-parse","types":["star","watch","fork"],"size":"small"};
+    </script>
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="输入并搜索" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="https://github.com/cao19881125" target="_blank" class="custom-link">Home</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        <li class="header">简介</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                        <b>1.1.</b>
+                    
+                    前言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../../forward.html">
+            
+                <a href="../../forward.html">
+            
+                    
+                        <b>1.2.</b>
+                    
+                    序章
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-config配置解析</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../oslo_config/config.html">
+            
+                <a href="../oslo_config/config.html">
+            
+                    
+                        <b>2.1.</b>
+                    
+                    安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../oslo_config/example.html">
+            
+                <a href="../oslo_config/example.html">
+            
+                    
+                        <b>2.2.</b>
+                    
+                    例子
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../oslo_config/value_type.html">
+            
+                <a href="../oslo_config/value_type.html">
+            
+                    
+                        <b>2.3.</b>
+                    
+                    变量类型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../oslo_config/cfg_conf.html">
+            
+                <a href="../oslo_config/cfg_conf.html">
+            
+                    
+                        <b>2.4.</b>
+                    
+                    cfg.CONF实现解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="../oslo_config/neutron_conf.html">
+            
+                <a href="../oslo_config/neutron_conf.html">
+            
+                    
+                        <b>2.5.</b>
+                    
+                    neutron与cfg.CONF
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-service构建resetful server</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="define.html">
+            
+                <a href="define.html">
+            
+                    
+                        <b>3.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="wsgi_eventlet.html">
+            
+                <a href="wsgi_eventlet.html">
+            
+                    
+                        <b>3.2.</b>
+                    
+                    eventlet.wsgi
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.3" data-path="pastedeploy.html">
+            
+                <a href="pastedeploy.html">
+            
+                    
+                        <b>3.3.</b>
+                    
+                    PasteDeploy
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="oslo_service.html">
+            
+                <a href="oslo_service.html">
+            
+                    
+                        <b>3.4.</b>
+                    
+                    oslo-service使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="service_usage.html">
+            
+                <a href="service_usage.html">
+            
+                    
+                        <b>3.5.</b>
+                    
+                    oslo-service其他用法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" data-path="code_parse.html">
+            
+                <a href="code_parse.html">
+            
+                    
+                        <b>3.6.</b>
+                    
+                    oslo-service源码解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="neutron_oslo_service.html">
+            
+                <a href="neutron_oslo_service.html">
+            
+                    
+                        <b>3.7.</b>
+                    
+                    neutron与oslo-service
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-message搭建rpc通信框架</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../oslo_messaging/define.html">
+            
+                <a href="../oslo_messaging/define.html">
+            
+                    
+                        <b>4.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="../oslo_messaging/kombu.html">
+            
+                <a href="../oslo_messaging/kombu.html">
+            
+                    
+                        <b>4.2.</b>
+                    
+                    kombu
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="../oslo_messaging/oslo_message_usage.html">
+            
+                <a href="../oslo_messaging/oslo_message_usage.html">
+            
+                    
+                        <b>4.3.</b>
+                    
+                    oslo-message使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="../oslo_messaging/rabbit_driver.html">
+            
+                <a href="../oslo_messaging/rabbit_driver.html">
+            
+                    
+                        <b>4.4.</b>
+                    
+                    RabbitDriver解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-db操作数据库</li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../oslo_db/define.html">
+            
+                <a href="../oslo_db/define.html">
+            
+                    
+                        <b>5.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-log记录日志</li>
+        
+        
+    
+        <li class="chapter " data-level="6.1" data-path="../oslo_log/define.html">
+            
+                <a href="../oslo_log/define.html">
+            
+                    
+                        <b>6.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">core-plugin二层业务处理</li>
+        
+        
+    
+        <li class="chapter " data-level="7.1" data-path="../../core_plugin/define.html">
+            
+                <a href="../../core_plugin/define.html">
+            
+                    
+                        <b>7.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">service-plugin三层业务处理</li>
+        
+        
+    
+        <li class="chapter " data-level="8.1" data-path="../../service_plugin/define.html">
+            
+                <a href="../../service_plugin/define.html">
+            
+                    
+                        <b>8.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">mechanism-driver构建sdn桥梁</li>
+        
+        
+    
+        <li class="chapter " data-level="9.1" data-path="../../mechanism_driver/define.html">
+            
+                <a href="../../mechanism_driver/define.html">
+            
+                    
+                        <b>9.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">openvswitch架构</li>
+        
+        
+    
+        <li class="chapter " data-level="10.1" data-path="../../openvswitch/define.html">
+            
+                <a href="../../openvswitch/define.html">
+            
+                    
+                        <b>10.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">ovn架构</li>
+        
+        
+    
+        <li class="chapter " data-level="11.1" data-path="../../ovn/define.html">
+            
+                <a href="../../ovn/define.html">
+            
+                    
+                        <b>11.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">自己实现一个mechanism-driver</li>
+        
+        
+    
+        <li class="chapter " data-level="12.1" data-path="../../mechanism_self/define.html">
+            
+                <a href="../../mechanism_self/define.html">
+            
+                    
+                        <b>12.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本书使用 GitBook 发布
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >PasteDeploy</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="paste-deploy">Paste Deploy</h1>
+<p>&#x5BF9;&#x4E8E;Paste Deploy&#x7684;&#x4ECB;&#x7ECD;&#xFF0C;&#x5B98;&#x65B9;&#x4ECB;&#x7ECD;&#x5982;&#x4E0B;</p>
+<blockquote>
+<p>Paste Deployment is a system for finding and configuring WSGI applications and servers. For WSGI application consumers it provides a single, simple function (loadapp) for loading a WSGI application from a configuration file or a Python Egg. For WSGI application providers it only asks for a single, simple entry point to your application, so that application users don&#x2019;t need to be exposed to the implementation details of your application.</p>
+<p>Paste Deployment&#x662F;&#x4E00;&#x4E2A;&#x7528;&#x4E8E;&#x67E5;&#x627E;&#x548C;&#x914D;&#x7F6E;WSGI&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x548C;&#x670D;&#x52A1;&#x5668;&#x7684;&#x7CFB;&#x7EDF;&#x3002;&#x5BF9;&#x4E8E;WSGI&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x4F7F;&#x7528;&#x8005;&#xFF0C;&#x5B83;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x51FD;&#x6570;&#xFF08;loadapp&#xFF09;&#xFF0C;&#x7528;&#x4E8E;&#x4ECE;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x6216;Python Egg&#x52A0;&#x8F7D;WSGI&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x3002;&#x5BF9;&#x4E8E;WSGI&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x63D0;&#x4F9B;&#x7A0B;&#x5E8F;&#xFF0C;&#x5B83;&#x53EA;&#x8981;&#x6C42;&#x4E3A;&#x60A8;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x5165;&#x53E3;&#x70B9;&#xFF0C;&#x8FD9;&#x6837;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7528;&#x6237;&#x5C31;&#x4E0D;&#x9700;&#x8981;&#x4E86;&#x89E3;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7684;&#x5B9E;&#x73B0;&#x7EC6;&#x8282;&#x3002;</p>
+</blockquote>
+<p>&#x4E0A;&#x4E00;&#x8282;&#x6211;&#x4EEC;&#x4ECB;&#x7ECD;&#x4E86;wsgi&#x670D;&#x52A1;&#xFF0C;&#x5176;&#x4E2D;&#x63D0;&#x5230;&#x4E86;wsgi
+service&#x7684;&#x4E24;&#x4E2A;&#x91CD;&#x8981;&#x6B65;&#x9AA4;&#xFF0C;&#x5728;&#x8FD9;&#x91CC;&#x4E5F;&#x6709;&#x63D0;&#x53CA;&#xFF0C;&#x4E3A;&#x901A;&#x8FC7;PasteDeploy&#x53EF;&#x4EE5;&#x505A;&#x5230;&#xFF1A;</p>
+<ul>
+<li>1.&#x914D;&#x7F6E;WSGI&#x670D;&#x52A1;</li>
+<li>2.&#x901A;&#x8FC7;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x52A0;&#x8F7D;WSGI application</li>
+<li>3.WSGI application&#x53EA;&#x9700;&#x8981;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x5165;&#x53E3;&#x70B9;</li>
+</ul>
+<p>&#x5BF9;&#x4E8E;&#x4EE5;&#x4E0A;&#x51E0;&#x70B9;&#xFF0C;&#x6211;&#x4EEC;&#x4F1A;&#x5728;&#x540E;&#x9762;&#x7684;&#x8BB2;&#x89E3;&#x4E2D;&#x8FDB;&#x884C;&#x8BF4;&#x660E;</p>
+<h1 id="&#x5B89;&#x88C5;pastedeploy">&#x5B89;&#x88C5;PasteDeploy</h1>
+<pre><code># sudo pip install PasteDeploy
+</code></pre><h1 id="&#x4F8B;&#x5B50;">&#x4F8B;&#x5B50;</h1>
+<p>&#x672C;&#x8282;&#x901A;&#x8FC7;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x4F8B;&#x5B50;&#x6765;&#x6F14;&#x793A;PasteDeploy&#x7684;&#x7528;&#x6CD5;&#xFF0C;&#x5176;&#x4E2D;wsgi&#x670D;&#x52A1;&#x4F7F;&#x7528;&#x4E0A;&#x8282;&#x8BB2;&#x89E3;&#x7684;eventlet.wsgi</p>
+<h2 id="&#x7F16;&#x5199;&#x914D;&#x7F6E;&#x6587;&#x4EF6;">&#x7F16;&#x5199;&#x914D;&#x7F6E;&#x6587;&#x4EF6;</h2>
+<p>pastedeploylab.ini</p>
+<pre><code>[DEFAULT]
+key1=value1
+key2=value2
+key3=values
+[composite:pdl]
+use=egg:Paste#urlmap
+/:root
+/calc:calc
+[pipeline:root]
+pipeline = logrequest showversion
+[pipeline:calc]
+pipeline = logrequest calculator
+[filter:logrequest]
+username = root
+password = root123
+paste.filter_factory = pastedeploylab:LogFilter.factory
+[app:showversion]
+version = 1.0.0
+paste.app_factory = pastedeploylab:ShowVersion.factory
+[app:calculator]
+description = This is an &quot;+-*/&quot; Calculator
+paste.app_factory = pastedeploylab:Calculator.factory
+</code></pre><ul>
+<li>[DEFAULT]&#x6BB5;&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E9B;&#x5168;&#x5C40;&#x53D8;&#x91CF;</li>
+<li>[composite:pdl]&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E2A;&#x540D;&#x4E3A;pdl&#x7684;&#x5206;&#x53D1;&#x5668;<ul>
+<li>&#x76F4;&#x63A5;&#x8BBF;&#x95EE;ip:port&#x7684;&#x8BF7;&#x6C42;&#x5206;&#x53D1;&#x7ED9;root&#x8FC7;&#x6EE4;&#x5668;</li>
+<li>&#x8BBF;&#x95EE;ip:port/calc&#x7684;&#x8BF7;&#x6C42;&#x5206;&#x53D1;&#x7ED9;calc&#x8FC7;&#x6EE4;&#x5668;</li>
+</ul>
+</li>
+<li>[pipeline:root]&#x5B9A;&#x4E49;&#x4E86;root&#x8FC7;&#x6EE4;&#x5668;&#xFF0C;&#x8F6C;&#x53D1;&#x8BF7;&#x6C42;&#x7ED9;logrequest&#x548C;showversion</li>
+<li>[pipeline:calc]&#x5B9A;&#x4E49;&#x4E86;calc&#x8FC7;&#x6EE4;&#x5668;&#xFF0C;&#x8F6C;&#x53D1;&#x8BF7;&#x6C42;&#x7ED9;logrequest&#x548C;calculator</li>
+<li>[filter:logrequest]&#x5B9A;&#x4E49;&#x4E86;logrequest&#x8FC7;&#x6EE4;&#x5668;&#xFF0C;&#x8C03;&#x7528;&#x7684;&#x4EE3;&#x7801;&#x4E3A;pastedeploylab.py&#x4E2D;&#x7684;LogFilter.factory&#x51FD;&#x6570;</li>
+<li>[app:showversion]&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E2A;&#x540D;&#x4E3A;showversion&#x7684;app&#xFF0C;&#x8C03;&#x7528;&#x4EE3;&#x7801;&#x4E3A;pastedeploylab.py&#x4E2D;&#x7684;ShowVersion.factory&#x51FD;&#x6570;</li>
+<li>[app:calculator]&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E2A;&#x540D;&#x4E3A;calculator&#x7684;app&#xFF0C;&#x8C03;&#x7528;&#x4EE3;&#x7801;&#x4E3A;pastedeploylab.py&#x4E2D;&#x7684;Calculator.factory&#x51FD;&#x6570;</li>
+</ul>
+<h2 id="&#x7F16;&#x5199;py&#x6587;&#x4EF6;">&#x7F16;&#x5199;py&#x6587;&#x4EF6;</h2>
+<p>pastedeploylab.py</p>
+<pre><code class="lang-python">
+import os
+from webob import Request
+from webob import Response
+from paste.deploy import loadapp
+from eventlet import wsgi
+import eventlet
+#Filter
+class LogFilter():
+    def __init__(self,app):
+        self.app = app
+        pass
+    def __call__(self,environ,start_response):
+        print &quot;filter:LogFilter is called.&quot;
+        return self.app(environ,start_response)
+    @classmethod
+    def factory(cls, global_conf, **kwargs):
+        print &quot;in LogFilter.factory&quot;, global_conf, kwargs
+        return LogFilter
+class ShowVersion():
+    def __init__(self):
+        pass
+    def __call__(self,environ,start_response):
+        start_response(&quot;200 OK&quot;,[(&quot;Content-type&quot;, &quot;text/plain&quot;)])
+        return [&quot;Paste Deploy LAB: Version = 1.0.0&quot;,]
+    @classmethod
+    def factory(cls,global_conf,**kwargs):
+        print &quot;in ShowVersion.factory&quot;, global_conf, kwargs
+        return ShowVersion()
+class Calculator():
+    def __init__(self):
+        pass
+
+    def __call__(self,environ,start_response):
+        req = Request(environ)
+        res = Response()
+        res.status = &quot;200 OK&quot;
+        res.content_type = &quot;text/plain&quot;
+        # get operands
+        operator = req.GET.get(&quot;operator&quot;, None)
+        operand1 = req.GET.get(&quot;operand1&quot;, None)
+        operand2 = req.GET.get(&quot;operand2&quot;, None)
+        print req.GET
+        opnd1 = int(operand1)
+        opnd2 = int(operand2)
+        if operator == u&apos;plus&apos;:
+            opnd1 = opnd1 + opnd2
+        elif operator == u&apos;minus&apos;:
+            opnd1 = opnd1 - opnd2
+        elif operator == u&apos;star&apos;:
+            opnd1 = opnd1 * opnd2
+        elif operator == u&apos;slash&apos;:
+            opnd1 = opnd1 / opnd2
+        res.body = &quot;%s /nRESULT= %d&quot; % (str(req.GET) , opnd1)
+        return res(environ,start_response)
+    @classmethod
+    def factory(cls,global_conf,**kwargs):
+        print &quot;in Calculator.factory&quot;, global_conf, kwargs
+        return Calculator()
+if __name__ == &apos;__main__&apos;:
+    configfile=&quot;pastedeploylab.ini&quot;
+    appname=&quot;pdl&quot;
+    wsgi_app = loadapp(&quot;config:%s&quot; % os.path.abspath(configfile), appname)
+    wsgi.server(eventlet.listen((&apos;&apos;, 8090)), wsgi_app)
+</code></pre>
+<ul>
+<li>main&#x51FD;&#x6570;&#x4E2D;&#x6307;&#x5B9A;&#x52A0;&#x8F7D;pastedeploylab.ini&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF0C;&#x5E76;load pdl&#x8FD9;&#x4E2A;app&#xFF0C;&#x5BF9;&#x5E94;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4E2D;&#x7684;[composite:pdl]&#x5206;&#x53D1;&#x5668;</li>
+<li>&#x4F7F;&#x7528;eventlet.wsgi&#x542F;&#x52A8;&#x4E00;&#x4E2A;0.0.0.0:8090&#x7AEF;&#x53E3;&#x7684;http&#x670D;&#x52A1;</li>
+<li>&#x6BCF;&#x4E2A;app&#x6216;&#x8005;filter&#x7684;factory&#x51FD;&#x6570;&#xFF0C;global_conf&#x53C2;&#x6570;&#x4E3A;&#x5168;&#x5C40;&#x53D8;&#x91CF;&#x5B57;&#x5178;&#xFF0C;**kwargs&#x4E3A;ini&#x6587;&#x4EF6;&#x4E2D;&#x5B9A;&#x4E49;&#x7684;&#x6B64;app&#x6BB5;&#x4E2D;&#x7684;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x5B57;&#x5178;</li>
+<li>&#x5728;ShowVersion.<strong>call</strong>&#x4E2D;&#xFF0C;&#x8C03;&#x7528;start_response&#x8FD4;&#x56DE;&#x6D88;&#x606F;&#x5934;&#xFF0C;return&#x8FD4;&#x56DE;&#x6D88;&#x606F;&#x4F53;</li>
+<li>&#x5728;Calculator.<strong>call</strong>&#x4E2D;&#xFF0C;&#x5148;&#x6784;&#x9020;&#x4E00;&#x4E2A;Response&#x5BF9;&#x8C61;&#xFF0C;&#x5728;&#x5176;&#x4E2D;&#x586B;&#x5145;&#x6D88;&#x606F;&#x5934;&#x548C;&#x6D88;&#x606F;&#x4F53;&#xFF0C;&#x7136;&#x540E;&#x4E00;&#x8D77;&#x8FD4;&#x56DE;</li>
+</ul>
+<h2 id="&#x8FD0;&#x884C;">&#x8FD0;&#x884C;</h2>
+<pre><code># python pastedeploylab.py
+</code></pre><h2 id="&#x8C03;&#x7528;">&#x8C03;&#x7528;</h2>
+<pre><code># curl http://127.0.0.1:8080
+Paste Deploy LAB: Version = 1.0.0
+</code></pre><pre><code># curl &quot;http://127.0.0.1:8090/calc?operator=plus&amp;operand1=12&amp;operand2=23&quot;
+GET([(u&apos;operator&apos;, u&apos;plus&apos;), (u&apos;operand1&apos;, u&apos;12&apos;), (u&apos;operand2&apos;, u&apos;23&apos;)]) /nRESULT= 35
+</code></pre><hr>
+<p>&#x901A;&#x8FC7;&#x672C;&#x7AE0;&#xFF0C;&#x4E86;&#x89E3;&#x4E86;&#x5982;&#x4F55;&#x901A;&#x8FC7;PasteDeploy&#x52A0;&#x8F7D;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF0C;&#x5C06;wsgi server&#x548C;wsgi
+application&#x8FDB;&#x884C;&#x89E3;&#x8026;&#x5408;&#xFF0C;&#x5E76;&#x901A;&#x8FC7;&#x5176;&#x4E2D;&#x7684;middleware&#x673A;&#x5236;&#x5BF9;&#x8BF7;&#x6C42;&#x8FDB;&#x884C;&#x4E2D;&#x95F4;&#x5904;&#x7406;&#xFF0C;&#x540E;&#x9762;&#x5728;&#x8BB2;&#x89E3;neutron&#x7684;keystone
+&#x6821;&#x9A8C;&#x65F6;&#xFF0C;&#x4F1A;&#x7740;&#x91CD;&#x8BB2;&#x89E3;middleware&#x5728;neutron&#x4E2D;&#x7684;&#x5E94;&#x7528;</p>
+<footer class="page-footer-ex"> <span class="page-footer-ex-copyright"> By <a href="https://github.com/cao19881125" target="_blank">&#x66F9;&#x4E91;&#x6D9B;</a>&#xFF0C;&#x4F7F;&#x7528;<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">&#x77E5;&#x8BC6;&#x5171;&#x4EAB; &#x7F72;&#x540D;-&#x975E;&#x5546;&#x4E1A;&#x6027;&#x4F7F;&#x7528;-&#x7981;&#x6B62;&#x6F14;&#x7ECE; 4.0 &#x56FD;&#x9645; &#x8BB8;&#x53EF;&#x534F;&#x8BAE;</a>&#x53D1;&#x5E03; </span> &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; <span class="page-footer-ex-footer-update"> &#x6B64;&#x9875;&#x9762;&#x4FEE;&#x8BA2;&#x4E8E;&#xFF1A; 2019-05-09 16:53:19 </span> </footer>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="wsgi_eventlet.html" class="navigation navigation-prev " aria-label="Previous page: eventlet.wsgi">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="oslo_service.html" class="navigation navigation-next " aria-label="Next page: oslo-service使用">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"PasteDeploy","level":"3.3","depth":1,"next":{"title":"oslo-service使用","level":"3.4","depth":1,"path":"common_lib/oslo_service/oslo_service.md","ref":"common_lib/oslo_service/oslo_service.md","articles":[]},"previous":{"title":"eventlet.wsgi","level":"3.2","depth":1,"path":"common_lib/oslo_service/wsgi_eventlet.md","ref":"common_lib/oslo_service/wsgi_eventlet.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-lunr","-search","-highlight","-livereload","search-plus@^0.0.11","mermaid-gb3","splitter@^0.0.8","expandable-chapters-small","github@^2.0.0","github-buttons@2.1.0","page-footer-ex","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"github":{"url":"https://github.com/cao19881125/neutron-parse"},"page-footer-ex":{"copyright":"By [曹云涛](https://github.com/cao19881125)，使用[知识共享 署名-非商业性使用-禁止演绎 4.0 国际 许可协议](http://creativecommons.org/licenses/by-nc-nd/4.0/)发布","markdown":true,"update_format":"YYYY-MM-DD HH:mm:ss","update_label":"此页面修订于："},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"github-buttons":{"repo":"cao19881125/neutron-parse","types":["star","watch","fork"],"size":"small"},"expandable-chapters-small":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"search-plus":{}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Neutron源码解析","language":"zh-hans","links":{"sidebar":{"Home":"https://github.com/cao19881125"}},"gitbook":"3.x","description":"Neutron源码解析"},"file":{"path":"common_lib/oslo_service/pastedeploy.md","mtime":"2019-05-09T08:53:19.827Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-07-24T06:33:04.642Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-plus/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-plus/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-mermaid-gb3/book/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-expandable-chapters-small/expandable-chapters-small.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github-buttons/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    <script src="../../gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.min.js"></script>
+
+    </body>
+</html>
+

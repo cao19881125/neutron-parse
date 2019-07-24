@@ -1,0 +1,1086 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>cfg.CONF实现解析 · Neutron源码解析</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search-plus/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-expandable-chapters-small/expandable-chapters-small.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-page-footer-ex/style/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+
+    
+
+        
+    
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="neutron_conf.html" />
+    
+    
+    <link rel="prev" href="value_type.html" />
+    
+
+    <style>
+    @media only screen and (max-width: 640px) {
+        .book-header .hidden-mobile {
+            display: none;
+        }
+    }
+    </style>
+    <script>
+        window["gitbook-plugin-github-buttons"] = {"repo":"cao19881125/neutron-parse","types":["star","watch","fork"],"size":"small"};
+    </script>
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="输入并搜索" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="https://github.com/cao19881125" target="_blank" class="custom-link">Home</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        <li class="header">简介</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                        <b>1.1.</b>
+                    
+                    前言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../../forward.html">
+            
+                <a href="../../forward.html">
+            
+                    
+                        <b>1.2.</b>
+                    
+                    序章
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-config配置解析</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="config.html">
+            
+                <a href="config.html">
+            
+                    
+                        <b>2.1.</b>
+                    
+                    安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="example.html">
+            
+                <a href="example.html">
+            
+                    
+                        <b>2.2.</b>
+                    
+                    例子
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="value_type.html">
+            
+                <a href="value_type.html">
+            
+                    
+                        <b>2.3.</b>
+                    
+                    变量类型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.4" data-path="cfg_conf.html">
+            
+                <a href="cfg_conf.html">
+            
+                    
+                        <b>2.4.</b>
+                    
+                    cfg.CONF实现解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="neutron_conf.html">
+            
+                <a href="neutron_conf.html">
+            
+                    
+                        <b>2.5.</b>
+                    
+                    neutron与cfg.CONF
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-service构建resetful server</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../oslo_service/define.html">
+            
+                <a href="../oslo_service/define.html">
+            
+                    
+                        <b>3.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../oslo_service/wsgi_eventlet.html">
+            
+                <a href="../oslo_service/wsgi_eventlet.html">
+            
+                    
+                        <b>3.2.</b>
+                    
+                    eventlet.wsgi
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="../oslo_service/pastedeploy.html">
+            
+                <a href="../oslo_service/pastedeploy.html">
+            
+                    
+                        <b>3.3.</b>
+                    
+                    PasteDeploy
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="../oslo_service/oslo_service.html">
+            
+                <a href="../oslo_service/oslo_service.html">
+            
+                    
+                        <b>3.4.</b>
+                    
+                    oslo-service使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="../oslo_service/service_usage.html">
+            
+                <a href="../oslo_service/service_usage.html">
+            
+                    
+                        <b>3.5.</b>
+                    
+                    oslo-service其他用法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" data-path="../oslo_service/code_parse.html">
+            
+                <a href="../oslo_service/code_parse.html">
+            
+                    
+                        <b>3.6.</b>
+                    
+                    oslo-service源码解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="../oslo_service/neutron_oslo_service.html">
+            
+                <a href="../oslo_service/neutron_oslo_service.html">
+            
+                    
+                        <b>3.7.</b>
+                    
+                    neutron与oslo-service
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-message搭建rpc通信框架</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../oslo_messaging/define.html">
+            
+                <a href="../oslo_messaging/define.html">
+            
+                    
+                        <b>4.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="../oslo_messaging/kombu.html">
+            
+                <a href="../oslo_messaging/kombu.html">
+            
+                    
+                        <b>4.2.</b>
+                    
+                    kombu
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="../oslo_messaging/oslo_message_usage.html">
+            
+                <a href="../oslo_messaging/oslo_message_usage.html">
+            
+                    
+                        <b>4.3.</b>
+                    
+                    oslo-message使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="../oslo_messaging/rabbit_driver.html">
+            
+                <a href="../oslo_messaging/rabbit_driver.html">
+            
+                    
+                        <b>4.4.</b>
+                    
+                    RabbitDriver解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-db操作数据库</li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../oslo_db/define.html">
+            
+                <a href="../oslo_db/define.html">
+            
+                    
+                        <b>5.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-log记录日志</li>
+        
+        
+    
+        <li class="chapter " data-level="6.1" data-path="../oslo_log/define.html">
+            
+                <a href="../oslo_log/define.html">
+            
+                    
+                        <b>6.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">core-plugin二层业务处理</li>
+        
+        
+    
+        <li class="chapter " data-level="7.1" data-path="../../core_plugin/define.html">
+            
+                <a href="../../core_plugin/define.html">
+            
+                    
+                        <b>7.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">service-plugin三层业务处理</li>
+        
+        
+    
+        <li class="chapter " data-level="8.1" data-path="../../service_plugin/define.html">
+            
+                <a href="../../service_plugin/define.html">
+            
+                    
+                        <b>8.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">mechanism-driver构建sdn桥梁</li>
+        
+        
+    
+        <li class="chapter " data-level="9.1" data-path="../../mechanism_driver/define.html">
+            
+                <a href="../../mechanism_driver/define.html">
+            
+                    
+                        <b>9.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">openvswitch架构</li>
+        
+        
+    
+        <li class="chapter " data-level="10.1" data-path="../../openvswitch/define.html">
+            
+                <a href="../../openvswitch/define.html">
+            
+                    
+                        <b>10.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">ovn架构</li>
+        
+        
+    
+        <li class="chapter " data-level="11.1" data-path="../../ovn/define.html">
+            
+                <a href="../../ovn/define.html">
+            
+                    
+                        <b>11.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">自己实现一个mechanism-driver</li>
+        
+        
+    
+        <li class="chapter " data-level="12.1" data-path="../../mechanism_self/define.html">
+            
+                <a href="../../mechanism_self/define.html">
+            
+                    
+                        <b>12.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本书使用 GitBook 发布
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >cfg.CONF实现解析</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="cfgconf&#x89E3;&#x6790;">cfg.CONF&#x89E3;&#x6790;</h1>
+<p>&#x672C;&#x7AE0;&#x5BF9;cfg.CONF&#x7684;&#x4E00;&#x4E9B;&#x5173;&#x952E;&#x51FD;&#x6570;&#x8FDB;&#x884C;&#x4E86;&#x5206;&#x6790;&#xFF0C;&#x76EE;&#x6807;&#x662F;&#x901A;&#x8FC7;&#x672C;&#x7AE0;&#x7684;&#x5B66;&#x4E60;&#xFF0C;&#x80FD;&#x591F;&#x4E86;&#x89E3;&#x5230;&#x4E00;&#x4E9B;cfg.CONF&#x5173;&#x952E;&#x90E8;&#x5206;&#x7684;&#x4EE3;&#x7801;&#x7EC6;&#x8282;</p>
+<h2 id="cfgconf&#x4E0E;arpparse">cfg.CONF&#x4E0E;arpparse</h2>
+<p>&#x9996;&#x5148;&#x8FDB;&#x884C;&#x8BF4;&#x660E;&#x4E00;&#x4E0B;&#xFF0C;cfg.CONF&#x662F;&#x901A;&#x8FC7;argparse&#x6765;&#x5B9E;&#x73B0;&#x7684;&#xFF0C;&#x540E;&#x9762;&#x7684;&#x8BB2;&#x89E3;&#x5C06;&#x56F4;&#x7ED5;&#x5982;&#x4F55;&#x901A;&#x8FC7;argparse&#x6765;&#x5B9E;&#x73B0;&#x547D;&#x4EE4;&#x884C;&#x4E0E;&#x6587;&#x4EF6;&#x89E3;&#x6790;&#xFF0C;&#x8FD9;&#x91CC;&#x5148;&#x7B80;&#x5355;&#x4ECB;&#x7ECD;&#x4E00;&#x4E0B;argparse</p>
+<p>argparse &#x662F; Python &#x5185;&#x7F6E;&#x7684;&#x4E00;&#x4E2A;&#x7528;&#x4E8E;&#x547D;&#x4EE4;&#x9879;&#x9009;&#x9879;&#x4E0E;&#x53C2;&#x6570;&#x89E3;&#x6790;&#x7684;&#x6A21;&#x5757;&#xFF0C;&#x901A;&#x8FC7;&#x5728;&#x7A0B;&#x5E8F;&#x4E2D;&#x5B9A;&#x4E49;&#x597D;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x7684;&#x53C2;&#x6570;&#xFF0C;argparse &#x5C06;&#x4F1A;&#x4ECE; sys.argv &#x4E2D;&#x89E3;&#x6790;&#x51FA;&#x8FD9;&#x4E9B;&#x53C2;&#x6570;&#xFF0C;&#x5E76;&#x81EA;&#x52A8;&#x751F;&#x6210;&#x5E2E;&#x52A9;&#x548C;&#x4F7F;&#x7528;&#x4FE1;&#x606F;&#x3002;</p>
+<h3 id="&#x7B80;&#x5355;&#x793A;&#x4F8B;">&#x7B80;&#x5355;&#x793A;&#x4F8B;</h3>
+<pre><code class="lang-python">import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument(&apos;integer&apos;, type=int, help=&apos;display an integer&apos;)
+args = parser.parse_args()
+
+print args.integer
+</code></pre>
+<p>&#x4F7F;&#x7528;argparse&#x4E3B;&#x8981;&#x6709;&#x56DB;&#x4E2A;&#x6B65;&#x9AA4;</p>
+<ol>
+<li>&#x521B;&#x5EFA; ArgumentParser() &#x5BF9;&#x8C61;</li>
+<li>&#x8C03;&#x7528; add_argument() &#x65B9;&#x6CD5;&#x6DFB;&#x52A0;&#x53C2;&#x6570;</li>
+<li>&#x4F7F;&#x7528; parse_args() &#x89E3;&#x6790;&#x53C2;&#x6570;</li>
+<li>&#x901A;&#x8FC7;&#x8FD4;&#x56DE;&#x503C;args.&#x53D8;&#x91CF;&#x540D;&#x6765;&#x83B7;&#x53D6;&#x53D8;&#x91CF;</li>
+</ol>
+<h2 id="cfgconf&#x7684;&#x5B9E;&#x73B0;">cfg.CONF&#x7684;&#x5B9E;&#x73B0;</h2>
+<p>&#x4E0A;&#x4E00;&#x8282;&#x6211;&#x4EEC;&#x8BB2;&#x89E3;&#x4E86;argparse&#x7684;&#x56DB;&#x4E2A;&#x6B65;&#x9AA4;&#xFF0C;&#x672C;&#x8282;&#x6211;&#x4EEC;&#x5C06;&#x5206;&#x6790;cfg.CONF&#x7684;&#x5904;&#x7406;&#x65B9;&#x5F0F;&#xFF0C;&#x5E76;&#x7ED3;&#x5408;&#x4E0A;&#x8282;&#x7684;&#x56DB;&#x4E2A;&#x5173;&#x952E;&#x6B65;&#x9AA4;&#x6765;&#x5206;&#x6790;cfg.CONF&#x662F;&#x5982;&#x4F55;&#x5B9E;&#x73B0;&#x7684;</p>
+<h3 id="&#x5BF9;&#x8C61;&#x5B9A;&#x4E49;">&#x5BF9;&#x8C61;&#x5B9A;&#x4E49;</h3>
+<p>cfg.CONF&#x7684;&#x5B9A;&#x4E49;&#x5728;oslo_config/cfg.py&#x4E2D;&#xFF0C;&#x5982;&#x4E0B; </p>
+<pre><code class="lang-python">CONF = ConfigOpts()
+</code></pre>
+<p>&#x5728;cfg.py&#x6587;&#x4EF6;&#x7684;&#x6700;&#x540E;&#x4E00;&#x884C;&#xFF0C;&#x5B9A;&#x4E49;&#x4E86;CONF&#x8FD9;&#x4E2A;&#x5168;&#x5C40;&#x5BF9;&#x8C61;&#xFF0C;&#x521D;&#x59CB;&#x5316;&#x7684;&#x7C7B;&#x4E3A;ConfigOpts</p>
+<h3 id="&#x6CE8;&#x518C;&#x53D8;&#x91CF;">&#x6CE8;&#x518C;&#x53D8;&#x91CF;</h3>
+<p>&#x6211;&#x4EEC;&#x901A;&#x8FC7;cfg.CONF.register_opt&#x6765;&#x6CE8;&#x518C;&#x5355;&#x4E2A;&#x53D8;&#x91CF;&#xFF0C;&#x4EE3;&#x7801;&#x5982;&#x4E0B;</p>
+<h4 id="default-group&#x7684;&#x5904;&#x7406;">DEFAULT group&#x7684;&#x5904;&#x7406;</h4>
+<p>&#x521B;&#x5EFA;&#x9ED8;&#x8BA4;&#x5C5E;&#x6027;&#x65F6;&#xFF0C;group&#x4E0D;&#x586B;&#x6216;&#x8005;&#x586B;None&#xFF0C;&#x5373;&#x8868;&#x793A;&#x521B;&#x5EFA;&#x5728;DEFAULT&#x7EC4;</p>
+<pre><code class="lang-python"># oslo_config/cfg.py
+
+class ConfigOpts(collections.Mapping):
+    disallow_names = (&apos;project&apos;, &apos;prog&apos;, &apos;version&apos;,
+                      &apos;usage&apos;, &apos;default_config_files&apos;, &apos;default_config_dirs&apos;)
+    def register_opt(self, opt, group=None, cli=False):
+        # ...
+        if group is None:
+            if opt.name in self.disallow_names:
+                raise ValueError(&apos;Name %s was reserved for oslo.config.&apos;
+                                 % opt.name)   
+        # ...
+        self._opts[opt.dest] = {&apos;opt&apos;: opt, &apos;cli&apos;: cli}
+        # ...
+</code></pre>
+<ul>
+<li>&#x5148;&#x8DDF;disallow_names&#x6BD4;&#x8F83;&#x4E00;&#x4E0B;&#x770B;&#x4E00;&#x4E0B;&#x53D8;&#x91CF;&#x540D;&#x662F;&#x4E0D;&#x662F;&#x5408;&#x6CD5;&#x7684;</li>
+<li>opt.dest &#x83B7;&#x53D6;&#x7684;&#x662F;&#x53D8;&#x91CF;&#x540D;&#xFF0C;&#x6709;&#x4E00;&#x4E2A;&#x5C0F;&#x5904;&#x7406;&#xFF0C;&#x5373;&#x5C06;&#x53D8;&#x91CF;&#x540D;&#x4E2D;&#x7684;&apos;-&apos;&#x66FF;&#x6362;&#x6210;&apos;_&apos;&#xFF0C;&#x5982;&#x4E0B;</li>
+</ul>
+<pre><code class="lang-python">class Opt(object):
+    def __init__(self, name):
+        self.name = name
+        self.dest = self.name.replace(&apos;-&apos;, &apos;_&apos;)
+        # ...
+</code></pre>
+<ul>
+<li>&#x5C06;opt.dest&#x4F5C;&#x4E3A;key&#x4FDD;&#x5B58;&#x5230;self._opts&#x5B57;&#x5178;&#x4E2D;&#xFF0C;value&#x4E3A;opt&#x5BF9;&#x8C61;</li>
+</ul>
+<h4 id="&#x975E;default-group&#x5904;&#x7406;">&#x975E;DEFAULT group&#x5904;&#x7406;</h4>
+<p>&#x8C03;&#x7528;register_opt&#x65F6;&#x4F20;&#x5165;group&#x5C5E;&#x6027;&#xFF0C;&#x5219;&#x5C06;&#x6B64;&#x53D8;&#x91CF;&#x548C;&#x5BF9;&#x5E94;&#x7684;group&#x8FDB;&#x884C;&#x5173;&#x8054;</p>
+<pre><code class="lang-python"># oslo_config/cfg.py
+class ConfigOpts(collections.Mapping):
+    def register_opt(self, opt, group=None, cli=False):
+        if group is not None:
+            group = self._get_group(group, autocreate=True)
+            if cli:
+                self._add_cli_opt(opt, group)
+            return group._register_opt(opt, cli)
+        # ...
+
+    def _get_group(self, group_or_name, autocreate=False):
+        group = group_or_name 
+        group_name = group.name 
+
+        if group_name not in self._groups:
+            self.register_group(group or OptGroup(name=group_name))
+        return self._groups[group_name]    
+
+    def register_group(self, group):
+        if group.name in self._groups:
+            return
+
+        self._groups[group.name] = copy.copy(group)
+</code></pre>
+<pre><code class="lang-python">class OptGroup(object):
+    def _register_opt(self, opt, cli=False):
+        self._opts[opt.dest] = {&apos;opt&apos;: opt, &apos;cli&apos;: cli}
+
+        return True
+</code></pre>
+<ul>
+<li>register_opt&#x7684;group&#x4E3A;OptGroup&#x7C7B;&#x578B;</li>
+<li>&#x901A;&#x8FC7;register_group&#x51FD;&#x6570;&#x521B;&#x5EFA;group&#xFF0C;&#x4FDD;&#x5B58;&#x5230;self._groups&#x4E2D;</li>
+<li>&#x5E76;&#x901A;&#x8FC7;OptGroup._register_opt&#x5C06;&#x53D8;&#x91CF;&#x6CE8;&#x518C;&#x5230;self._opts&#x4E2D;</li>
+</ul>
+<h4 id="&#x6CE8;&#x518C;&#x53D8;&#x91CF;&#x603B;&#x7ED3;">&#x6CE8;&#x518C;&#x53D8;&#x91CF;&#x603B;&#x7ED3;</h4>
+<ul>
+<li>ConfigOpts&#x7C7B;&#x6709;&#x4E24;&#x4E2A;&#x5B57;&#x5178;&#xFF1A;<ul>
+<li>self._opts&#x5B57;&#x5178;&#x4FDD;&#x5B58;DEFAULT&#x7EC4;&#x7684;&#x53D8;&#x91CF;&#xFF0C;key&#x4E3A;&#x53D8;&#x91CF;&#x540D;&#xFF0C;value&#x4E3A;&#x53D8;&#x91CF;&#x5BF9;&#x8C61;</li>
+<li>self._groups&#x5B57;&#x5178;&#x4FDD;&#x5B58;&#x6240;&#x6709;&#x7684;&#x7EC4;&#xFF0C;key&#x4E3A;&#x7EC4;&#x540D;&#xFF0C;value&#x4E3A;&#x7EC4;&#x5BF9;&#x5E94;&#x7684;OptGroup&#x5BF9;&#x8C61;</li>
+</ul>
+</li>
+<li>OptGroup&#x7C7B;&#x6709;&#x4E00;&#x4E2A;&#x5B57;&#x5178;&#xFF0C;self._opts&#x4FDD;&#x5B58;&#x8FD9;&#x4E2A;&#x7EC4;&#x7684;&#x53D8;&#x91CF;&#xFF0C;&#x5B57;&#x5178;&#x7ED3;&#x6784;&#x540C;ConfigOpts._opts</li>
+<li>&#x6240;&#x6709;&#x7684;&#x6CE8;&#x518C;&#x53D8;&#x91CF;&#xFF0C;&#x90FD;&#x4F1A;&#x6309;&#x7167;&#x4EE5;&#x4E0A;&#x7684;&#x7ED3;&#x6784;&#x4FDD;&#x5B58;&#x5728;cfg.CONF&#x8FD9;&#x4E2A;&#x5BF9;&#x8C61;&#x4E2D;</li>
+</ul>
+<h3 id="&#x914D;&#x7F6E;&#x547D;&#x4EE4;&#x884C;&#x53C2;&#x6570;">&#x914D;&#x7F6E;&#x547D;&#x4EE4;&#x884C;&#x53C2;&#x6570;</h3>
+<p>&#x547D;&#x4EE4;&#x884C;&#x53C2;&#x6570;&#x662F;&#x901A;&#x8FC7;&#x5982;&#x4E0B;&#x65B9;&#x5F0F;&#x4F20;&#x9012;&#x7ED9;ConfigOpts&#x7684;</p>
+<pre><code>cfg.CONF(sys.argv[1:])
+</code></pre><p>&#x8FD9;&#x91CC;&#x7528;&#x5230;&#x4E86;python&#x7684;&#x53EF;&#x8C03;&#x7528;&#x5BF9;&#x8C61;&#x7279;&#x6027;&#xFF0C;&#x5373;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x5728;&#x5BF9;&#x8C61;&#x540E;&#x52A0;()&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x50CF;&#x8C03;&#x7528;&#x51FD;&#x6570;&#x4E00;&#x6837;&#x8C03;&#x7528;&#x5BF9;&#x8C61;</p>
+<p>&#x5F53;&#x5982;&#x6B64;&#x8C03;&#x7528;&#x5BF9;&#x8C61;&#x65F6;&#xFF0C;&#x5BF9;&#x8C61;&#x7684;__call__&#x65B9;&#x6CD5;&#x5F97;&#x5230;&#x8C03;&#x7528;</p>
+<p>&#x4ECE;&#x8FD9;&#x91CC;&#x5F00;&#x59CB;&#xFF0C;cfg.CONF&#x5C06;&#x5F00;&#x59CB;&#x4E0E;argparse&#x4EA7;&#x751F;&#x5173;&#x8054;</p>
+<h4 id="&#x7B2C;&#x4E00;&#x6B65;&#xFF1A;&#x81EA;&#x5B9A;&#x4E49;argumentparser-&#x548C;-action">&#x7B2C;&#x4E00;&#x6B65;&#xFF1A;&#x81EA;&#x5B9A;&#x4E49;ArgumentParser &#x548C; Action</h4>
+<pre><code class="lang-python">class _CachedArgumentParser(argparse.ArgumentParser)
+</code></pre>
+<ul>
+<li><p>&#x6269;&#x5C55;&#x4E86;ArgumentParser&#x5B9E;&#x73B0;&#x4E86;_CachedArgumentParser</p>
+</li>
+<li><p>__call__ -&gt; self._pre_setup &#x4E2D;&#x8FDB;&#x884C;&#x4E86;&#x521D;&#x59CB;&#x5316;</p>
+</li>
+</ul>
+<pre><code class="lang-python">self._oparser = _CachedArgumentParser()
+</code></pre>
+<ul>
+<li>&#x540C;&#x65F6;&#x81EA;&#x5B9A;&#x4E49;&#x4E86;&#x4E24;&#x4E2A;Action
+&#x5206;&#x522B;&#x4E3A;ConfigFileAction&#x548C;ConfigDirAction&#xFF0C;&#x987E;&#x540D;&#x601D;&#x4E49;&#xFF0C;&#x8FD9;&#x4E24;&#x4E2A;Action&#x662F;&#x5206;&#x522B;&#x5BF9;&#x6587;&#x4EF6;&#x548C;&#x76EE;&#x5F55;&#x8FDB;&#x884C;&#x5904;&#x7406;&#x7684;</li>
+</ul>
+<pre><code class="lang-python">class ConfigFileAction(argparse.Action)
+
+class ConfigDirAction(argparse.Action)
+</code></pre>
+<p>argparser&#x5185;&#x90E8;&#x5B9E;&#x73B0;&#x4E86;&#x5F88;&#x591A;action&#xFF0C;&#x9ED8;&#x8BA4;&#x7684;action&#x4E3A;store&#xFF0C;&#x5373;&#x4FDD;&#x5B58;&#x53C2;&#x6570;&#x503C;</p>
+<p>cfg&#x6269;&#x5C55;&#x5B9E;&#x73B0;&#x4E86;Action&#xFF0C;&#x5B9E;&#x73B0;&#x4E86;&#x4E24;&#x4E2A;action&#xFF0C;&#x5206;&#x522B;&#x4E3A;ConfigFileAction&#x548C;ConfigDirAction&#xFF0C;&#x5206;&#x522B;&#x5BF9;&#x5E94;&#x547D;&#x4EE4;&#x884C;&#x4E2D;&#x7684;--config-file&#x548C;--config-dir&#x547D;&#x4EE4;</p>
+<h4 id="&#x7B2C;&#x4E8C;&#x6B65;&#xFF1A;&#x6DFB;&#x52A0;&#x6CE8;&#x518C;&#x547D;&#x4EE4;&#x884C;&#x53C2;&#x6570;">&#x7B2C;&#x4E8C;&#x6B65;&#xFF1A;&#x6DFB;&#x52A0;&#x6CE8;&#x518C;&#x547D;&#x4EE4;&#x884C;&#x53C2;&#x6570;</h4>
+<h5 id="&#x521D;&#x59CB;&#x5316;configfileopt&#x548C;configdiropt">&#x521D;&#x59CB;&#x5316;_ConfigFileOpt&#x548C;_ConfigDirOpt</h5>
+<p>&#x8FD9;&#x4E24;&#x4E2A;Option&#x5206;&#x522B;&#x662F;&#x5904;&#x7406;&#x6587;&#x4EF6;&#x548C;&#x76EE;&#x5F55;&#x7684;&#xFF0C;&#x4ED6;&#x4EEC;&#x5173;&#x8054;&#x4E86;&#x4E0A;&#x8282;&#x4E24;&#x4E2A;action&#xFF0C;&#x540E;&#x9762;&#x5C06;&#x8BB2;&#x89E3;&#x5982;&#x679C;&#x901A;&#x8FC7;&#x8FD9;&#x4E24;&#x4E2A;action&#x89E3;&#x6790;&#x6587;&#x4EF6;&#x548C;&#x76EE;&#x5F55;</p>
+<pre><code class="lang-python">self._config_opts = self._make_config_options(default_config_files,
+                                                      default_config_dirs)
+
+def _make_config_options(default_config_files, default_config_dirs):
+    return [
+        _ConfigFileOpt(&apos;config-file&apos;,
+                       default=default_config_files,
+                       metavar=&apos;PATH&apos;,
+                       help=(&apos;Path to ...&apos;)),
+        _ConfigDirOpt(&apos;config-dir&apos;,
+                      metavar=&apos;DIR&apos;,
+                      default=default_config_dirs,
+                      help=&apos;Path to ...&apos;),
+    ]
+</code></pre>
+<h6 id="&#x6784;&#x9020;action">&#x6784;&#x9020;action</h6>
+<p>__call__ -&gt; self._parse_cli_opts(args)</p>
+<pre><code class="lang-python">self._args = args
+for opt, group in self._all_cli_opts():
+    opt._add_to_cli(self._oparser, group)
+</code></pre>
+<ul>
+<li><p>&#x5728;neutron&#x542F;&#x52A8;&#x547D;&#x4EE4;&#x4E2D;&#xFF0C;cli opts&#x4E2D;&#x53EA;&#x6709;--config-file &#xFF0C;&#x6211;&#x4EEC;&#x5148;&#x5047;&#x8BBE;&#x53EA;&#x6709;--config-file&#x800C;&#x6CA1;&#x6709;&#x5176;&#x4ED6;&#x7684;opt</p>
+</li>
+<li><p>&#x90A3;&#x4E48;opt&#x7684;&#x7C7B;&#x578B;&#x5C31;&#x662F;_ConfigFileOpt&#xFF0C;&#x8C03;&#x7528;&#x5230;&#x7684;&#x662F;&#x5176;&#x7236;&#x7C7B;Opt&#x7684;_add_to_cli&#x51FD;&#x6570;</p>
+</li>
+</ul>
+<pre><code class="lang-python">class Opt(object):
+    def _add_to_cli(self, parser, group=None):
+        container = self._get_argparse_container(parser, group)
+        kwargs = self._get_argparse_kwargs(group)
+        # ...
+        self._add_to_argparse(parser, container, self.name, self.short,
+                              kwargs, prefix,
+                              self.positional, deprecated_names)
+</code></pre>
+<ul>
+<li>container&#x5728;DEFAULT&#x7EC4;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x83B7;&#x53D6;&#x5230;&#x7684;&#x8FD8;&#x662F;_CachedArgumentParser</li>
+<li>self._get_argparse_kwargs&#x8FD9;&#x91CC;&#xFF0C;&#x8C03;&#x7528;&#x5230;&#x7684;&#x662F;_ConfigFileOpt&#x591A;&#x6001;&#x5B9E;&#x73B0;&#x7684;_get_argparse_kwargs&#x51FD;&#x6570;</li>
+</ul>
+<pre><code class="lang-python">class _ConfigFileOpt(Opt):
+    def _get_argparse_kwargs(self, group, **kwargs):
+    kwargs = super(_ConfigFileOpt, self)._get_argparse_kwargs(group)
+    kwargs[&apos;action&apos;] = self.ConfigFileAction
+    return kwargs
+</code></pre>
+<ul>
+<li><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x8FD9;&#x91CC;&#x521B;&#x5EFA;&#x4E86;action&#x4E3A;ConfigFileAction&#x5E76;&#x901A;&#x8FC7;&#x5B57;&#x5178;&#x8FD4;&#x56DE;</p>
+</li>
+<li><p>&#x7EE7;&#x7EED;&#x901A;&#x8FC7;self._add_to_argparse -&gt; _CachedArgumentParser.add_parser_argument</p>
+</li>
+</ul>
+<pre><code class="lang-python">class _ConfigFileOpt(Opt):
+    def _add_to_argparse(self, parser, container, name,...)
+        # ...
+        args = [hyphen(&apos;--&apos;) + prefix + name]
+        # ...
+        parser.add_parser_argument(container, *args, **kwargs)
+
+class _CachedArgumentParser(argparse.ArgumentParser):
+    def add_parser_argument(self, container, *args, **kwargs):
+        values = []
+        values.append({&apos;args&apos;: args, &apos;kwargs&apos;: kwargs})
+        self._args_cache[container] = values
+</code></pre>
+<ul>
+<li>self.name&#x4E3A;&apos;config-file&apos;&#xFF0C;&#x5728;&#x524D;&#x9762;&#x52A0;&#x4E0A;--&#xFF0C;&#x7B26;&#x5408;argparser&#x7684;&#x7528;&#x6CD5;</li>
+<li>&#x5230;&#x8FD9;&#x91CC;&#xFF0C;args&#x548C;ConfigFileAction&#x4FDD;&#x5B58;&#x5728;&#x4E86;self._args_cache&#x4E2D;</li>
+</ul>
+<h5 id="&#x901A;&#x8FC7;addargument&#x6CE8;&#x518C;&#x53C2;&#x6570;">&#x901A;&#x8FC7;add_argument&#x6CE8;&#x518C;&#x53C2;&#x6570;</h5>
+<p>&#x901A;&#x8FC7;&#x4EE5;&#x4E0A;&#x51E0;&#x6B65;&#x6784;&#x9020;&#x51FA;&#x6765;&#x4E86;&#x8C03;&#x7528;argparser.add_argument&#x7684;&#x51E0;&#x4E2A;&#x5173;&#x952E;&#x53C2;&#x6570;&#xFF0C;&#x4E0B;&#x9762;&#x5C31;&#x8981;&#x5BF9;&#x5176;&#x8FDB;&#x884C;&#x6CE8;&#x518C;</p>
+<p>&#x8FD8;&#x662F;&#x56DE;&#x5230;ConfigOpts.<strong>call</strong>&#x51FD;&#x6570;&#xFF0C;&#x7EE7;&#x7EED;&#x5411;&#x4E0B;&#x8D70;</p>
+<p><strong>call</strong> -&gt; self._parse_cli_opts(args) -&gt; self._parse_config_files() -&gt; self._oparser.parse_args(self._args, namespace) -&gt; _CachedArgumentParser.parse_args(self, args=None, namespace=None) -&gt; _CachedArgumentParser.initialize_parser_arguments(self)</p>
+<pre><code class="lang-python">class _CachedArgumentParser(argparse.ArgumentParser):
+    def initialize_parser_arguments(self):
+        for container, values in self._args_cache.items():
+            # ...
+            container.add_argument(*argument[&apos;args&apos;],**argument[&apos;kwargs&apos;])
+            # ...
+</code></pre>
+<ul>
+<li>&#x56E0;&#x4E3A;container&#x5C31;&#x662F;_CachedArgumentParser&#xFF0C;&#x5176;&#x7236;&#x7C7B;&#x662F;argparse.ArgumentParser&#xFF0C;&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#x76F8;&#x5F53;&#x4E8E;&#x662F;&#x5728;argparser&#x4E2D;&#x6CE8;&#x518C;&#x4E86;&#x4E00;&#x4E2A;&#x547D;&#x4EE4;&#x884C;&#x53C2;&#x6570;&#xFF0C;&#x5E76;&#x4E14;&#x901A;&#x8FC7;kwargs&#x4E2D;&#x7684;action&#x6CE8;&#x518C;&#x4E86;action&#x4E3A;ConfigFileAction</li>
+</ul>
+<h4 id="&#x7B2C;&#x4E09;&#x6B65;&#xFF1A;&#x89E3;&#x6790;&#x53C2;&#x6570;&#x548C;&#x6587;&#x4EF6;">&#x7B2C;&#x4E09;&#x6B65;&#xFF1A;&#x89E3;&#x6790;&#x53C2;&#x6570;&#x548C;&#x6587;&#x4EF6;</h4>
+<p>&#x901A;&#x8FC7;&#x4E0A;&#x9762;&#x7684;&#x89E3;&#x91CA;&#xFF0C;&#x5DF2;&#x7ECF;&#x77E5;&#x9053;&#x4E86;&#x5982;&#x4F55;&#x901A;&#x8FC7;&#x6269;&#x5C55;&#x7684;argparse.ArgumentParser&#x5C06;&#x547D;&#x4EE4;&#x884C;&#x53C2;&#x6570;&apos;--config-file&apos;&#x548C;&#x81EA;&#x5B9A;&#x4E49;&#x7684;ConfigFileAction&#x6CE8;&#x518C;&#x8FDB;&#x53BB;&#xFF0C;&#x672C;&#x8282;&#x8BB2;&#x89E3;&#x5982;&#x4F55;&#x89E3;&#x6790;&#x6587;&#x4EF6;</p>
+<p>&#x5728;argparse&#x4E2D;&#xFF0C;&#x53C2;&#x6570;&#x53EA;&#x4F1A;&#x901A;&#x8FC7;&#x547D;&#x4EE4;&#x884C;&#x4F20;&#x9012;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x89E3;&#x6790;&#x547D;&#x4EE4;&#x884C;&#x53C2;&#x6570;&#x5373;&#x53EF;</p>
+<p>&#x5728;cfg.CONF&#x7684;&#x5B9E;&#x73B0;&#x4E2D;&#xFF0C;&#x662F;&#x901A;&#x8FC7;&#x547D;&#x4EE4;&#x884C;&#x4F20;&#x9012;&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;&#xFF0C;cfg.CONF&#x89E3;&#x6790;&#x51FA;&#x6765;&#x8DEF;&#x5F84;&#x540E;&#xFF0C;&#x901A;&#x8FC7;&#x81EA;&#x5B9A;&#x4E49;&#x7684;ConfigFileAction&#x56DE;&#x8C03;&#x89E3;&#x6790;&#x5BF9;&#x5E94;&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF0C;&#x83B7;&#x53D6;&#x53C2;&#x6570;</p>
+<p>&#x5728;&#x8FD9;&#x91CC;&#xFF0C;&#x56E0;&#x4E3A;&#x662F;&#x901A;&#x8FC7;_CachedArgumentParser&#x6269;&#x5C55;&#x4E86;ArgumentParser&#xFF0C;&#x6240;&#x4EE5;&#x8981;&#x627E;&#x5230;&#x5982;&#x4F55;&#x901A;&#x8FC7;_CachedArgumentParser&#x8C03;&#x7528;&#x5230;ArgumentParser.parse_args()</p>
+<p>&#x8FD8;&#x662F;&#x987A;&#x7740;<strong>call</strong>&#x51FD;&#x6570;&#x8FDB;&#x884C;&#x68B3;&#x7406;</p>
+<p>__call__ -&gt; self._parse_cli_opts(args) -&gt; self._parse_config_files() -&gt; self._oparser.parse_args(self._args, namespace) -&gt; _CachedArgumentParser.parse_args(self, args=None, namespace=None) </p>
+<pre><code class="lang-python">class _CachedArgumentParser(argparse.ArgumentParser):
+    def parse_args(self, args=None, namespace=None):
+        self.initialize_parser_arguments()
+        return super(_CachedArgumentParser, self).parse_args(args, namespace)
+</code></pre>
+<ul>
+<li><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;initialize_parser_arguments&#x662F;&#x6CE8;&#x518C;&#x53D8;&#x91CF;&#x7684;&#x6700;&#x540E;&#x4E00;&#x6B65;&#xFF0C;&#x540E;&#x9762;&#x7D27;&#x63A5;&#x7740;&#x8C03;&#x7528;&#x4E86;&#x7236;&#x7C7B;&#xFF0C;&#x5373;ArgumentParser&#x7684;parse_args()&#x51FD;&#x6570;</p>
+</li>
+<li><p>&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#x7684;&#x8C03;&#x7528;&#x4F1A;&#x8FDB;&#x5165;&#x5230;argparser&#x7684;&#x6808;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x6682;&#x4E0D;&#x5206;&#x6790;</p>
+</li>
+<li><p>argparser&#x7ECF;&#x8FC7;&#x4E00;&#x7CFB;&#x5217;&#x5904;&#x7406;&#xFF0C;&#x6700;&#x7EC8;&#x4F1A;&#x8C03;&#x7528;&#x5230;&#x81EA;&#x5B9A;&#x4E49;action&#x7684;<strong>call</strong>&#x65B9;&#x6CD5;&#xFF0C;&#x6211;&#x4EEC;&#x4E0A;&#x9762;&#x5206;&#x6790;&#x4E86;&#xFF0C;&#x5728;&#x8FD9;&#x91CC;&#x7684;&#x81EA;&#x5B9A;&#x4E49;action&#x4E3A;ConfigFileAction</p>
+</li>
+</ul>
+<pre><code class="lang-python">class ConfigFileAction(argparse.Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+        ...
+        ConfigParser._parse_file(values, namespace)
+</code></pre>
+<ul>
+<li>&#x8FD9;&#x91CC;&#x8C03;&#x7528;&#x5230;&#x4E86;ConfigParser&#x8FDB;&#x884C;&#x6587;&#x4EF6;&#x89E3;&#x6790;</li>
+</ul>
+<pre><code>class ConfigParser(iniparser.BaseParser):
+    @classmethod
+    def _parse_file(cls, config_file, namespace):
+        ...
+        parser = cls(config_file, sections)
+        arser.parse()
+        ...
+        namespace._add_parsed_config_file(config_file, sections, normalized)
+</code></pre><ul>
+<li>&#x8FD9;&#x91CC;&#x6784;&#x9020;&#x4E00;&#x4E2A;ConfigParser&#x7684;&#x5B9E;&#x4F8B;&#xFF0C;&#x5E76;&#x8C03;&#x7528;parse&#x89E3;&#x6790;&#x6587;&#x4EF6;</li>
+<li>parse&#x7684;&#x4EE3;&#x7801;&#x5C31;&#x4E0D;&#x8D34;&#x4E86;&#xFF0C;&#x5927;&#x6982;&#x7684;&#x610F;&#x601D;&#x662F;&#x901A;&#x8FC7;iniparser.BaseParser&#x8FD9;&#x4E2A;python&#x5E93;&#x5C06;&#x6587;&#x4EF6;&#x8FDB;&#x884C;&#x8BFB;&#x53D6;&#x5206;&#x6790;&#xFF0C;&#x5E76;&#x4FDD;&#x5B58;&#x5230;self.sections&#x4E2D;&#xFF0C;&#x89E3;&#x6790;&#x540E;&#x7684;&#x7ED3;&#x679C;&#x5982;&#x4E0B;&#x6240;&#x793A;</li>
+</ul>
+<pre><code class="lang-python">{&apos;DEFAULT&apos;: {&apos;option3&apos;: [&apos;true&apos;]}, &apos;mygroup&apos;: {&apos;option1&apos;: [&apos;foo&apos;]}}
+</code></pre>
+<ul>
+<li>&#x5373;&#x5B57;&#x5178;&#x7684;key&#x4E3A;&#x7EC4;&#x540D;&#xFF0C;value&#x4E3A;&#x503C;&#x7684;&#x5B57;&#x5178;&#xFF0C;value&#x7684;&#x5B57;&#x5178;&#x4EE5;&#x53D8;&#x91CF;&#x540D;&#x4E3A;key&#xFF0C;&#x503C;&#x4E3A;value</li>
+<li>&#x7136;&#x540E;&#x8C03;&#x7528;namespace&#x7684;_add_parsed_config_file&#x51FD;&#x6570;</li>
+</ul>
+<pre><code class="lang-python">class _Namespace(argparse.Namespace):
+    def _add_parsed_config_file(self, filename, sections, normalized):
+        for s in sections:
+            self._sections_to_file[s] = filename
+        self._parsed.insert(0, sections)
+        self._normalized.insert(0, normalized)
+</code></pre>
+<ul>
+<li>&#x901A;&#x8FC7;&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#xFF0C;sections&#x88AB;&#x4FDD;&#x5B58;&#x5230;&#x4E86;self._parsed&#x4E2D;</li>
+</ul>
+<h4 id="&#x7B2C;&#x56DB;&#x6B65;&#xFF1A;&#x83B7;&#x53D6;&#x53D8;&#x91CF;">&#x7B2C;&#x56DB;&#x6B65;&#xFF1A;&#x83B7;&#x53D6;&#x53D8;&#x91CF;</h4>
+<p>&#x901A;&#x8FC7;&#x4EE5;&#x4E0A;&#x7684;&#x89E3;&#x6790;&#xFF0C;&#x5DF2;&#x7ECF;&#x77E5;&#x9053;&#x4E86;cfg.CONF&#x5982;&#x4F55;&#x901A;&#x8FC7;&#x547D;&#x4EE4;&#x884C;&#x4E2D;&#x7684;&apos;--config-file&apos;&#x89E3;&#x6790;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x53C2;&#x6570;&#x7684;&#xFF0C;&#x672C;&#x8282;&#x4ECB;&#x7ECD;&#x5982;&#x4F55;&#x83B7;&#x53D6;&#x53C2;&#x6570;&#xFF0C;&#x4EE5;&#x5982;&#x4E0B;&#x7684;&#x5F62;&#x5F0F;</p>
+<pre><code class="lang-python">cfg.CONF.mygroup.option1
+cfg.CONF.mygroup.option2
+cfg.CONF.option3
+</code></pre>
+<p>&#x5F53;&#x76F4;&#x63A5;&#x4EE5;.&#x6765;&#x8BBF;&#x95EE;&#x53D8;&#x91CF;&#x65F6;&#xFF0C;python&#x4F1A;&#x8C03;&#x7528;&#x5185;&#x7F6E;&#x51FD;&#x6570;<strong>getattr</strong>&#xFF0C;&#x5219;ConfigOpts.<strong>getattr</strong>&#x5F97;&#x5230;&#x54CD;&#x5E94;</p>
+<pre><code class="lang-python">class ConfigOpts(collections.Mapping):
+    def __getattr__(self, name):
+        return self._get(name)
+
+    def _get(self, name, group=None, namespace=None):
+        if isinstance(group, OptGroup):
+            key = (group.name, name)
+        else:
+            key = (group, name)
+
+        value, loc = self._do_get(name, group, namespace)
+        return value
+
+    def _do_get(self, name, group=None, namespace=None):
+        # ...
+        val, alt_loc = opt._get_from_namespace(namespace, group_name)
+        return (convert(val), alt_loc)
+        # ...
+</code></pre>
+<ul>
+<li>&#x901A;&#x8FC7;<strong>getattr</strong>&#x4E00;&#x8DEF;&#x8C03;&#x7528;&#x5230;&#x4E86;Opt._get_from_namespace</li>
+<li>&#x6B21;&#x6570;&#x7684;Opt&#x662F;name&#x6240;&#x5BF9;&#x5E94;&#x7C7B;&#x578B;&#x7684;Opt&#x6269;&#x5C55;&#x7C7B;&#xFF0C;&#x5982;option3&#x5373;BoolOpt</li>
+</ul>
+<pre><code class="lang-python">class Opt(object):
+    def _get_from_namespace(self, namespace, group_name):
+        # ...
+        value, loc = namespace._get_value(
+            names, multi=self.multi,
+            positional=self.positional, current_name=current_name)
+        # ...
+        return (value, loc)
+</code></pre>
+<ul>
+<li>&#x8C03;&#x7528;&#x5230;&#x4E86;namespace&#x7684;_get_value&#x65B9;&#x6CD5;</li>
+</ul>
+<pre><code class="lang-python">class _Namespace(argparse.Namespace):
+    def _get_value(self, names, multi=False, positional=False,
+                   current_name=None, normalized=True):
+
+        # ...
+        values, loc = self._get_file_value(
+                file_names, multi=multi, normalized=normalized,
+                current_name=current_name)
+
+        # ...
+        return (values if multi else values[-1], loc)
+
+    def _get_file_value(self, names):
+        # ...
+        for sections in (self._normalized if normalized else self._parsed):
+            for section, name in names:
+                # ...
+                val = sections[section][name]
+                # ...
+
+        if multi and rvalue != []:
+            return (rvalue, loc)
+</code></pre>
+<ul>
+<li><p>&#x4ECE;namespace&#x4E2D;&#x7684;self._parsed&#x4E2D;&#xFF0C;&#x53D6;&#x5230;&#x5BF9;&#x5E94;group&#x548C;name&#x7684;&#x503C;</p>
+</li>
+<li><p>&#x5728;&#x6587;&#x4EF6;&#x89E3;&#x6790;&#x7AE0;&#x8282;&#xFF0C;&#x6700;&#x7EC8;&#x6587;&#x4EF6;&#x89E3;&#x6790;&#x7684;&#x7ED3;&#x679C;&#x662F;&#x5C06;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x503C;&#x4FDD;&#x5B58;&#x5230;&#x4E86;self._parsed&#x4E2D;&#xFF0C;&#x6B64;&#x5904;&#x5373;&#x4ECE;self._parsed&#x4E2D;&#x518D;&#x53D6;&#x51FA;&#x6765;</p>
+</li>
+</ul>
+<h1 id="&#x603B;&#x7ED3;">&#x603B;&#x7ED3;</h1>
+<p>&#x901A;&#x8FC7;&#x4EE5;&#x4E0A;&#x7684;&#x5206;&#x6790;&#xFF0C;&#x68B3;&#x7406;&#x4E86;cfg.CONF&#x4ECE;&apos;--config-file&apos;&#x53C2;&#x6570;&#x83B7;&#x53D6;&#x6587;&#x4EF6;&#x540D;&#xFF0C;&#x5230;&#x89E3;&#x6790;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x503C;&#xFF0C;&#x5230;&#x53D6;&#x503C;&#x7684;&#x8FC7;&#x7A0B;&#xFF0C;&#x672C;&#x4F8B;&#x53EA;&#x5206;&#x6790;--config-file&#x7684;&#x89E3;&#x6790;&#x8FC7;&#x7A0B;&#xFF0C;--config-dir&#x7684;&#x89E3;&#x6790;&#x8FC7;&#x7A0B;&#x57FA;&#x672C;&#x4E00;&#x81F4;&#xFF0C;&#x533A;&#x522B;&#x4EC5;&#x4E3A;&#x901A;&#x8FC7;&#x641C;&#x7D22;&#x76EE;&#x5F55;&#x4E0B;&#x7684;.conf&#x6587;&#x4EF6;&#x6765;&#x5B9A;&#x4F4D;config-file&#xFF0C;&#x672C;&#x4F8B;&#x4E0D;&#x518D;&#x8FDB;&#x884C;&#x5206;&#x6790;</p>
+<footer class="page-footer-ex"> <span class="page-footer-ex-copyright"> By <a href="https://github.com/cao19881125" target="_blank">&#x66F9;&#x4E91;&#x6D9B;</a>&#xFF0C;&#x4F7F;&#x7528;<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">&#x77E5;&#x8BC6;&#x5171;&#x4EAB; &#x7F72;&#x540D;-&#x975E;&#x5546;&#x4E1A;&#x6027;&#x4F7F;&#x7528;-&#x7981;&#x6B62;&#x6F14;&#x7ECE; 4.0 &#x56FD;&#x9645; &#x8BB8;&#x53EF;&#x534F;&#x8BAE;</a>&#x53D1;&#x5E03; </span> &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; <span class="page-footer-ex-footer-update"> &#x6B64;&#x9875;&#x9762;&#x4FEE;&#x8BA2;&#x4E8E;&#xFF1A; 2019-05-08 15:40:16 </span> </footer>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="value_type.html" class="navigation navigation-prev " aria-label="Previous page: 变量类型">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="neutron_conf.html" class="navigation navigation-next " aria-label="Next page: neutron与cfg.CONF">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"cfg.CONF实现解析","level":"2.4","depth":1,"next":{"title":"neutron与cfg.CONF","level":"2.5","depth":1,"path":"common_lib/oslo_config/neutron_conf.md","ref":"common_lib/oslo_config/neutron_conf.md","articles":[]},"previous":{"title":"变量类型","level":"2.3","depth":1,"path":"common_lib/oslo_config/value_type.md","ref":"common_lib/oslo_config/value_type.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-lunr","-search","-highlight","-livereload","search-plus@^0.0.11","mermaid-gb3","splitter@^0.0.8","expandable-chapters-small","github@^2.0.0","github-buttons@2.1.0","page-footer-ex","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"github":{"url":"https://github.com/cao19881125/neutron-parse"},"page-footer-ex":{"copyright":"By [曹云涛](https://github.com/cao19881125)，使用[知识共享 署名-非商业性使用-禁止演绎 4.0 国际 许可协议](http://creativecommons.org/licenses/by-nc-nd/4.0/)发布","markdown":true,"update_format":"YYYY-MM-DD HH:mm:ss","update_label":"此页面修订于："},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"github-buttons":{"repo":"cao19881125/neutron-parse","types":["star","watch","fork"],"size":"small"},"expandable-chapters-small":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"search-plus":{}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Neutron源码解析","language":"zh-hans","links":{"sidebar":{"Home":"https://github.com/cao19881125"}},"gitbook":"3.x","description":"Neutron源码解析"},"file":{"path":"common_lib/oslo_config/cfg_conf.md","mtime":"2019-05-08T07:40:16.890Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-07-24T06:33:04.642Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-plus/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-plus/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-mermaid-gb3/book/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-expandable-chapters-small/expandable-chapters-small.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github-buttons/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    <script src="../../gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.min.js"></script>
+
+    </body>
+</html>
+

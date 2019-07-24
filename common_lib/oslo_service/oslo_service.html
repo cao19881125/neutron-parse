@@ -1,0 +1,863 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>oslo-service使用 · Neutron源码解析</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search-plus/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-expandable-chapters-small/expandable-chapters-small.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-page-footer-ex/style/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+
+    
+
+        
+    
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="service_usage.html" />
+    
+    
+    <link rel="prev" href="pastedeploy.html" />
+    
+
+    <style>
+    @media only screen and (max-width: 640px) {
+        .book-header .hidden-mobile {
+            display: none;
+        }
+    }
+    </style>
+    <script>
+        window["gitbook-plugin-github-buttons"] = {"repo":"cao19881125/neutron-parse","types":["star","watch","fork"],"size":"small"};
+    </script>
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="输入并搜索" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="https://github.com/cao19881125" target="_blank" class="custom-link">Home</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        <li class="header">简介</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                        <b>1.1.</b>
+                    
+                    前言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../../forward.html">
+            
+                <a href="../../forward.html">
+            
+                    
+                        <b>1.2.</b>
+                    
+                    序章
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-config配置解析</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../oslo_config/config.html">
+            
+                <a href="../oslo_config/config.html">
+            
+                    
+                        <b>2.1.</b>
+                    
+                    安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../oslo_config/example.html">
+            
+                <a href="../oslo_config/example.html">
+            
+                    
+                        <b>2.2.</b>
+                    
+                    例子
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../oslo_config/value_type.html">
+            
+                <a href="../oslo_config/value_type.html">
+            
+                    
+                        <b>2.3.</b>
+                    
+                    变量类型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../oslo_config/cfg_conf.html">
+            
+                <a href="../oslo_config/cfg_conf.html">
+            
+                    
+                        <b>2.4.</b>
+                    
+                    cfg.CONF实现解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="../oslo_config/neutron_conf.html">
+            
+                <a href="../oslo_config/neutron_conf.html">
+            
+                    
+                        <b>2.5.</b>
+                    
+                    neutron与cfg.CONF
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-service构建resetful server</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="define.html">
+            
+                <a href="define.html">
+            
+                    
+                        <b>3.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="wsgi_eventlet.html">
+            
+                <a href="wsgi_eventlet.html">
+            
+                    
+                        <b>3.2.</b>
+                    
+                    eventlet.wsgi
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="pastedeploy.html">
+            
+                <a href="pastedeploy.html">
+            
+                    
+                        <b>3.3.</b>
+                    
+                    PasteDeploy
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.4" data-path="oslo_service.html">
+            
+                <a href="oslo_service.html">
+            
+                    
+                        <b>3.4.</b>
+                    
+                    oslo-service使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="service_usage.html">
+            
+                <a href="service_usage.html">
+            
+                    
+                        <b>3.5.</b>
+                    
+                    oslo-service其他用法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" data-path="code_parse.html">
+            
+                <a href="code_parse.html">
+            
+                    
+                        <b>3.6.</b>
+                    
+                    oslo-service源码解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="neutron_oslo_service.html">
+            
+                <a href="neutron_oslo_service.html">
+            
+                    
+                        <b>3.7.</b>
+                    
+                    neutron与oslo-service
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-message搭建rpc通信框架</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../oslo_messaging/define.html">
+            
+                <a href="../oslo_messaging/define.html">
+            
+                    
+                        <b>4.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="../oslo_messaging/kombu.html">
+            
+                <a href="../oslo_messaging/kombu.html">
+            
+                    
+                        <b>4.2.</b>
+                    
+                    kombu
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="../oslo_messaging/oslo_message_usage.html">
+            
+                <a href="../oslo_messaging/oslo_message_usage.html">
+            
+                    
+                        <b>4.3.</b>
+                    
+                    oslo-message使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="../oslo_messaging/rabbit_driver.html">
+            
+                <a href="../oslo_messaging/rabbit_driver.html">
+            
+                    
+                        <b>4.4.</b>
+                    
+                    RabbitDriver解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-db操作数据库</li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../oslo_db/define.html">
+            
+                <a href="../oslo_db/define.html">
+            
+                    
+                        <b>5.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-log记录日志</li>
+        
+        
+    
+        <li class="chapter " data-level="6.1" data-path="../oslo_log/define.html">
+            
+                <a href="../oslo_log/define.html">
+            
+                    
+                        <b>6.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">core-plugin二层业务处理</li>
+        
+        
+    
+        <li class="chapter " data-level="7.1" data-path="../../core_plugin/define.html">
+            
+                <a href="../../core_plugin/define.html">
+            
+                    
+                        <b>7.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">service-plugin三层业务处理</li>
+        
+        
+    
+        <li class="chapter " data-level="8.1" data-path="../../service_plugin/define.html">
+            
+                <a href="../../service_plugin/define.html">
+            
+                    
+                        <b>8.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">mechanism-driver构建sdn桥梁</li>
+        
+        
+    
+        <li class="chapter " data-level="9.1" data-path="../../mechanism_driver/define.html">
+            
+                <a href="../../mechanism_driver/define.html">
+            
+                    
+                        <b>9.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">openvswitch架构</li>
+        
+        
+    
+        <li class="chapter " data-level="10.1" data-path="../../openvswitch/define.html">
+            
+                <a href="../../openvswitch/define.html">
+            
+                    
+                        <b>10.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">ovn架构</li>
+        
+        
+    
+        <li class="chapter " data-level="11.1" data-path="../../ovn/define.html">
+            
+                <a href="../../ovn/define.html">
+            
+                    
+                        <b>11.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">自己实现一个mechanism-driver</li>
+        
+        
+    
+        <li class="chapter " data-level="12.1" data-path="../../mechanism_self/define.html">
+            
+                <a href="../../mechanism_self/define.html">
+            
+                    
+                        <b>12.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本书使用 GitBook 发布
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >oslo-service使用</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="oslo-service">oslo service</h1>
+<p>&#x4E0A;&#x4E24;&#x8282;&#x8BB2;&#x89E3;&#x4E86;oslo-service&#x7528;&#x5230;&#x7684;&#x4E24;&#x9879;&#x5173;&#x952E;&#x6027;&#x7684;&#x6280;&#x672F;&#xFF0C;&#x5206;&#x522B;&#x4E3A;wsgi&#x548C;PasteDeploy&#xFF0C;oslo-service&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x4E3A;&#x5C06;&#x5BF9;&#x4ED6;&#x4EEC;&#x8FDB;&#x884C;&#x7684;&#x5C01;&#x88C5;&#xFF0C;&#x4F7F;&#x7528;oslo-service&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x5FEB;&#x901F;&#x642D;&#x5EFA;&#x51FA;&#x6765;&#x4E00;&#x5957;&#x901A;&#x8FC7;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x5C06;server&#x548C;application&#x89E3;&#x8026;&#x5408;&#x7684;restful
+api&#x6846;&#x67B6;</p>
+<p>&#x672C;&#x8282;&#x5C06;&#x7740;&#x91CD;&#x8BB2;&#x89E3;oslo-service&#x7684;&#x4F7F;&#x7528;</p>
+<h1 id="&#x5B89;&#x88C5;">&#x5B89;&#x88C5;</h1>
+<pre><code># pip install oslo.service
+</code></pre><h1 id="&#x4F8B;&#x5B50;&#x4EE3;&#x7801;">&#x4F8B;&#x5B50;&#x4EE3;&#x7801;</h1>
+<p>&#x6211;&#x4EEC;&#x540C;&#x6837;&#x4F7F;&#x7528;pastedeploy&#x7AE0;&#x8282;&#x7684;&#x4F8B;&#x5B50;&#x6765;&#x8BB2;&#x89E3;&#xFF0C;&#x53EA;&#x4E0D;&#x8FC7;&#x521B;&#x5EFA;wsgi
+server&#x7684;&#x90E8;&#x5206;&#x7531;eventlet.wsgi&#x6362;&#x6210;oslo-service</p>
+<h2 id="&#x521B;&#x5EFA;oslo-config&#x914D;&#x7F6E;&#x6587;&#x4EF6;">&#x521B;&#x5EFA;oslo-config&#x914D;&#x7F6E;&#x6587;&#x4EF6;</h2>
+<p>oslo-service&#x9700;&#x8981;&#x7528;&#x5230;oslo-config&#x6765;&#x8BFB;&#x53D6;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF0C;&#x6211;&#x4EEC;&#x5148;&#x8981;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x914D;&#x7F6E;&#x6587;&#x4EF6;</p>
+<p>config.cfg </p>
+<pre><code>[DEFAULT]
+api_paste_config=./service.ini
+</code></pre><ul>
+<li>&#x8FD9;&#x91CC;&#x53EA;&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#xFF0C;&#x4E3A;pastedeploy.ini&#x7684;&#x8DEF;&#x5F84;</li>
+</ul>
+<h2 id="&#x7F16;&#x5199;pastedeploy&#x914D;&#x7F6E;&#x6587;&#x4EF6;">&#x7F16;&#x5199;pastedeploy&#x914D;&#x7F6E;&#x6587;&#x4EF6;</h2>
+<p>service.ini</p>
+<pre><code>[DEFAULT]
+key1=value1
+key2=value2
+key3=values
+[composite:pdl]
+use=egg:Paste#urlmap
+/:root
+/calc:calc
+[pipeline:root]
+pipeline = logrequest showversion
+[pipeline:calc]
+pipeline = logrequest calculator
+[filter:logrequest]
+username = root
+password = root123
+paste.filter_factory = service:LogFilter.factory
+[app:showversion]
+version = 1.0.0
+paste.app_factory = service:ShowVersion.factory
+[app:calculator]
+description = This is an &quot;+-*/&quot; Calculator
+paste.app_factory = service:Calculator.factory
+</code></pre><p>&#x5728;&#x4E0A;&#x4E00;&#x8282;&#x5DF2;&#x7ECF;&#x5BF9;&#x53C2;&#x6570;&#x8FDB;&#x884C;&#x4E86;&#x8BB2;&#x89E3;&#xFF0C;&#x672C;&#x8282;&#x4E0D;&#x5728;&#x8FDB;&#x884C;&#x8BB2;&#x89E3;&#xFF0C;&#x8BE6;&#x89C1;&#x4E0A;&#x4E00;&#x8282;</p>
+<h2 id="&#x7F16;&#x5199;py&#x6587;&#x4EF6;">&#x7F16;&#x5199;py&#x6587;&#x4EF6;</h2>
+<p>service.py</p>
+<pre><code>from oslo_config import cfg
+import oslo_service.wsgi
+from webob import Request
+from webob import Response
+import sys
+from oslo_service import service
+
+
+#Filter
+class LogFilter():
+    def __init__(self,app):
+        self.app = app
+        pass
+    def __call__(self,environ,start_response):
+        print &quot;filter:LogFilter is called.&quot;
+        return self.app(environ,start_response)
+    @classmethod
+    def factory(cls, global_conf, **kwargs):
+        print &quot;in LogFilter.factory&quot;, global_conf, kwargs
+        return LogFilter
+class ShowVersion():
+    def __init__(self):
+        pass
+    def __call__(self,environ,start_response):
+        start_response(&quot;200 OK&quot;,[(&quot;Content-type&quot;, &quot;text/plain&quot;)])
+        return [&quot;Paste Deploy LAB: Version = 1.0.0&quot;,]
+    @classmethod
+    def factory(cls,global_conf,**kwargs):
+        print &quot;in ShowVersion.factory&quot;, global_conf, kwargs
+        return ShowVersion()
+class Calculator():
+    def __init__(self):
+        pass
+
+    def __call__(self,environ,start_response):
+        req = Request(environ)
+        res = Response()
+        res.status = &quot;200 OK&quot;
+        res.content_type = &quot;text/plain&quot;
+        # get operands
+        operator = req.GET.get(&quot;operator&quot;, None)
+        operand1 = req.GET.get(&quot;operand1&quot;, None)
+        operand2 = req.GET.get(&quot;operand2&quot;, None)
+        print req.GET
+        opnd1 = int(operand1)
+        opnd2 = int(operand2)
+        if operator == u&apos;plus&apos;:
+            opnd1 = opnd1 + opnd2
+        elif operator == u&apos;minus&apos;:
+            opnd1 = opnd1 - opnd2
+        elif operator == u&apos;star&apos;:
+            opnd1 = opnd1 * opnd2
+        elif operator == u&apos;slash&apos;:
+            opnd1 = opnd1 / opnd2
+        res.body = &quot;%s /nRESULT= %d&quot; % (str(req.GET) , opnd1)
+        return res(environ,start_response)
+    @classmethod
+    def factory(cls,global_conf,**kwargs):
+        print &quot;in Calculator.factory&quot;, global_conf, kwargs
+        return Calculator()
+
+if __name__ == &apos;__main__&apos;:
+    cfg.CONF(args=sys.argv[1:])
+    loader = oslo_service.wsgi.Loader(cfg.CONF)
+    app = loader.load_app(&apos;pdl&apos;)
+
+    server = oslo_service.wsgi.Server(conf=cfg.CONF,name=&quot;pdl&quot;,app=app,host=&apos;127.0.0.1&apos;,port=8090)
+
+    service_launcher = service.ServiceLauncher(cfg.CONF)
+    service_launcher.launch_service(server)
+    service_launcher.wait()
+</code></pre><p>&#x4E0E;pastedeploy&#x7AE0;&#x8282;&#x7684;&#x4F8B;&#x5B50;&#x6BD4;&#x8D77;&#x6765;&#xFF0C;&#x8FD9;&#x91CC;&#x53EA;&#x6709;main&#x51FD;&#x6570;&#x505A;&#x4E86;&#x6539;&#x52A8;&#xFF0C;&#x6539;&#x52A8;&#x5982;&#x4E0B;</p>
+<ul>
+<li>application&#x901A;&#x8FC7;oslo_service.wsgi.Loader&#x6765;&#x521B;&#x5EFA;</li>
+<li>&#x901A;&#x8FC7;oslo_service.wsgi.Server&#x521B;&#x5EFA;&#x670D;&#x52A1;</li>
+<li>&#x901A;&#x8FC7;service.ServiceLauncher&#x542F;&#x52A8;&#x670D;&#x52A1;</li>
+</ul>
+<h2 id="run">run</h2>
+<pre><code># python service.py --config-file ./config.cfg
+</code></pre><h2 id="&#x5BA2;&#x6237;&#x7AEF;&#x8BBF;&#x95EE;">&#x5BA2;&#x6237;&#x7AEF;&#x8BBF;&#x95EE;</h2>
+<pre><code># curl http://127.0.0.1:8090
+Paste Deploy LAB: Version = 1.0.0
+</code></pre><footer class="page-footer-ex"> <span class="page-footer-ex-copyright"> By <a href="https://github.com/cao19881125" target="_blank">&#x66F9;&#x4E91;&#x6D9B;</a>&#xFF0C;&#x4F7F;&#x7528;<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">&#x77E5;&#x8BC6;&#x5171;&#x4EAB; &#x7F72;&#x540D;-&#x975E;&#x5546;&#x4E1A;&#x6027;&#x4F7F;&#x7528;-&#x7981;&#x6B62;&#x6F14;&#x7ECE; 4.0 &#x56FD;&#x9645; &#x8BB8;&#x53EF;&#x534F;&#x8BAE;</a>&#x53D1;&#x5E03; </span> &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; <span class="page-footer-ex-footer-update"> &#x6B64;&#x9875;&#x9762;&#x4FEE;&#x8BA2;&#x4E8E;&#xFF1A; 2019-05-10 16:52:20 </span> </footer>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="pastedeploy.html" class="navigation navigation-prev " aria-label="Previous page: PasteDeploy">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="service_usage.html" class="navigation navigation-next " aria-label="Next page: oslo-service其他用法">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"oslo-service使用","level":"3.4","depth":1,"next":{"title":"oslo-service其他用法","level":"3.5","depth":1,"path":"common_lib/oslo_service/service_usage.md","ref":"common_lib/oslo_service/service_usage.md","articles":[]},"previous":{"title":"PasteDeploy","level":"3.3","depth":1,"path":"common_lib/oslo_service/pastedeploy.md","ref":"common_lib/oslo_service/pastedeploy.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-lunr","-search","-highlight","-livereload","search-plus@^0.0.11","mermaid-gb3","splitter@^0.0.8","expandable-chapters-small","github@^2.0.0","github-buttons@2.1.0","page-footer-ex","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"github":{"url":"https://github.com/cao19881125/neutron-parse"},"page-footer-ex":{"copyright":"By [曹云涛](https://github.com/cao19881125)，使用[知识共享 署名-非商业性使用-禁止演绎 4.0 国际 许可协议](http://creativecommons.org/licenses/by-nc-nd/4.0/)发布","markdown":true,"update_format":"YYYY-MM-DD HH:mm:ss","update_label":"此页面修订于："},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"github-buttons":{"repo":"cao19881125/neutron-parse","types":["star","watch","fork"],"size":"small"},"expandable-chapters-small":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"search-plus":{}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Neutron源码解析","language":"zh-hans","links":{"sidebar":{"Home":"https://github.com/cao19881125"}},"gitbook":"3.x","description":"Neutron源码解析"},"file":{"path":"common_lib/oslo_service/oslo_service.md","mtime":"2019-05-10T08:52:20.600Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-07-24T06:33:04.642Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-plus/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-plus/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-mermaid-gb3/book/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-expandable-chapters-small/expandable-chapters-small.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github-buttons/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    <script src="../../gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.min.js"></script>
+
+    </body>
+</html>
+

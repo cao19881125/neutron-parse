@@ -1,0 +1,1169 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>RabbitDriver解析 · Neutron源码解析</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search-plus/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-expandable-chapters-small/expandable-chapters-small.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-page-footer-ex/style/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+
+    
+
+        
+    
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../oslo_db/define.html" />
+    
+    
+    <link rel="prev" href="oslo_message_usage.html" />
+    
+
+    <style>
+    @media only screen and (max-width: 640px) {
+        .book-header .hidden-mobile {
+            display: none;
+        }
+    }
+    </style>
+    <script>
+        window["gitbook-plugin-github-buttons"] = {"repo":"cao19881125/neutron-parse","types":["star","watch","fork"],"size":"small"};
+    </script>
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="输入并搜索" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="https://github.com/cao19881125" target="_blank" class="custom-link">Home</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        <li class="header">简介</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                        <b>1.1.</b>
+                    
+                    前言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../../forward.html">
+            
+                <a href="../../forward.html">
+            
+                    
+                        <b>1.2.</b>
+                    
+                    序章
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-config配置解析</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../oslo_config/config.html">
+            
+                <a href="../oslo_config/config.html">
+            
+                    
+                        <b>2.1.</b>
+                    
+                    安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../oslo_config/example.html">
+            
+                <a href="../oslo_config/example.html">
+            
+                    
+                        <b>2.2.</b>
+                    
+                    例子
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../oslo_config/value_type.html">
+            
+                <a href="../oslo_config/value_type.html">
+            
+                    
+                        <b>2.3.</b>
+                    
+                    变量类型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../oslo_config/cfg_conf.html">
+            
+                <a href="../oslo_config/cfg_conf.html">
+            
+                    
+                        <b>2.4.</b>
+                    
+                    cfg.CONF实现解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="../oslo_config/neutron_conf.html">
+            
+                <a href="../oslo_config/neutron_conf.html">
+            
+                    
+                        <b>2.5.</b>
+                    
+                    neutron与cfg.CONF
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-service构建resetful server</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../oslo_service/define.html">
+            
+                <a href="../oslo_service/define.html">
+            
+                    
+                        <b>3.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../oslo_service/wsgi_eventlet.html">
+            
+                <a href="../oslo_service/wsgi_eventlet.html">
+            
+                    
+                        <b>3.2.</b>
+                    
+                    eventlet.wsgi
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="../oslo_service/pastedeploy.html">
+            
+                <a href="../oslo_service/pastedeploy.html">
+            
+                    
+                        <b>3.3.</b>
+                    
+                    PasteDeploy
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="../oslo_service/oslo_service.html">
+            
+                <a href="../oslo_service/oslo_service.html">
+            
+                    
+                        <b>3.4.</b>
+                    
+                    oslo-service使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="../oslo_service/service_usage.html">
+            
+                <a href="../oslo_service/service_usage.html">
+            
+                    
+                        <b>3.5.</b>
+                    
+                    oslo-service其他用法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" data-path="../oslo_service/code_parse.html">
+            
+                <a href="../oslo_service/code_parse.html">
+            
+                    
+                        <b>3.6.</b>
+                    
+                    oslo-service源码解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="../oslo_service/neutron_oslo_service.html">
+            
+                <a href="../oslo_service/neutron_oslo_service.html">
+            
+                    
+                        <b>3.7.</b>
+                    
+                    neutron与oslo-service
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-message搭建rpc通信框架</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="define.html">
+            
+                <a href="define.html">
+            
+                    
+                        <b>4.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="kombu.html">
+            
+                <a href="kombu.html">
+            
+                    
+                        <b>4.2.</b>
+                    
+                    kombu
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="oslo_message_usage.html">
+            
+                <a href="oslo_message_usage.html">
+            
+                    
+                        <b>4.3.</b>
+                    
+                    oslo-message使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="4.4" data-path="rabbit_driver.html">
+            
+                <a href="rabbit_driver.html">
+            
+                    
+                        <b>4.4.</b>
+                    
+                    RabbitDriver解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-db操作数据库</li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../oslo_db/define.html">
+            
+                <a href="../oslo_db/define.html">
+            
+                    
+                        <b>5.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-log记录日志</li>
+        
+        
+    
+        <li class="chapter " data-level="6.1" data-path="../oslo_log/define.html">
+            
+                <a href="../oslo_log/define.html">
+            
+                    
+                        <b>6.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">core-plugin二层业务处理</li>
+        
+        
+    
+        <li class="chapter " data-level="7.1" data-path="../../core_plugin/define.html">
+            
+                <a href="../../core_plugin/define.html">
+            
+                    
+                        <b>7.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">service-plugin三层业务处理</li>
+        
+        
+    
+        <li class="chapter " data-level="8.1" data-path="../../service_plugin/define.html">
+            
+                <a href="../../service_plugin/define.html">
+            
+                    
+                        <b>8.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">mechanism-driver构建sdn桥梁</li>
+        
+        
+    
+        <li class="chapter " data-level="9.1" data-path="../../mechanism_driver/define.html">
+            
+                <a href="../../mechanism_driver/define.html">
+            
+                    
+                        <b>9.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">openvswitch架构</li>
+        
+        
+    
+        <li class="chapter " data-level="10.1" data-path="../../openvswitch/define.html">
+            
+                <a href="../../openvswitch/define.html">
+            
+                    
+                        <b>10.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">ovn架构</li>
+        
+        
+    
+        <li class="chapter " data-level="11.1" data-path="../../ovn/define.html">
+            
+                <a href="../../ovn/define.html">
+            
+                    
+                        <b>11.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">自己实现一个mechanism-driver</li>
+        
+        
+    
+        <li class="chapter " data-level="12.1" data-path="../../mechanism_self/define.html">
+            
+                <a href="../../mechanism_self/define.html">
+            
+                    
+                        <b>12.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本书使用 GitBook 发布
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >RabbitDriver解析</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <p>&#x4E0A;&#x4E24;&#x7AE0;&#x6211;&#x4EEC;&#x8BE6;&#x7EC6;&#x8BB2;&#x89E3;&#x4E86;rabbitmq&#x5E93;kombu&#x4EE5;&#x53CA;oslo-messaging&#x7684;&#x7528;&#x6CD5;&#xFF0C;&#x4E4D;&#x4E00;&#x770B;oslo-messaging&#x4E0E;kombu&#x6CA1;&#x6709;&#x8054;&#x7CFB;&#xFF0C;&#x5B9E;&#x9645;&#x4E0A;&#xFF0C;oslo-messaging&#x662F;&#x901A;&#x8FC7;RabbitDriver&#x4E0E;kombu&#x4EA7;&#x751F;&#x8054;&#x7CFB;&#x7684;&#xFF0C;&#x8FD9;&#x4E00;&#x7AE0;&#xFF0C;&#x6211;&#x4EEC;&#x5C06;&#x5206;&#x6790;oslo-messaging&#x7684;&#x9ED8;&#x8BA4;driver RabbitDriver&#xFF0C;&#x4ECE;&#x6E90;&#x7801;&#x89D2;&#x5EA6;&#x6765;&#x89E3;&#x6790;RabbitDriver&#x662F;&#x5982;&#x4F55;&#x5C06;oslo-messaging&#x7684;&#x6982;&#x5FF5;&#x8F6C;&#x5316;&#x4E3A;rabbitmq&#x7684;&#x6982;&#x5FF5;&#x5E76;&#x901A;&#x8FC7;kombu&#x8FDB;&#x884C;&#x901A;&#x4FE1;&#x7684;</p>
+<h1 id="&#x524D;&#x8A00;">&#x524D;&#x8A00;</h1>
+<blockquote>
+<p>The <code>rabbit</code> driver is the default driver used in OpenStack&apos;s integration tests.
+The driver is aliased as <code>kombu</code> to support upgrading existing installations with older settings.</p>
+</blockquote>
+<p>&#x4E0A;&#x9762;&#x8FD9;&#x6BB5;&#x8BDD;&#x662F;openstack&#x5B98;&#x65B9;&#x5BF9;RabbitDriver&#x7684;&#x4ECB;&#x7ECD;&#xFF0C;&#x5927;&#x81F4;&#x610F;&#x601D;&#x4E3A;&#xFF0C;RabbitDriver&#x662F;openstack&#x7EE7;&#x627F;&#x6D4B;&#x8BD5;&#x4F7F;&#x7528;&#x7684;&#x9ED8;&#x8BA4;driver&#xFF0C;&#x53C8;&#x540D;kombu</p>
+<p>oslo-message&#x5B98;&#x65B9;&#x6E90;&#x7801;&#x4E2D;&#x5B9E;&#x73B0;&#x4E86;&#x591A;&#x4E2A;driver&#xFF0C;&#x9664;&#x4E86;kombu&#x8FD8;&#x6709;ZmqDriver&#x3001;ProtonDriver&#x3001;KafkaDriver&#x3001;FakeDriver&#x3001;PikaDriver&#xFF0C;&#x8BE6;&#x7EC6;&#x4EE3;&#x7801;&#x8DEF;&#x5F84;&#x53EF;&#x4EE5;&#x53C2;&#x8003;oslo_message&#x76EE;&#x5F55;&#x4E0B;&#x7684;setup.cfg&#x4E2D;oslo.messaging.drivers&#x8FD9;&#x4E2A;entry_point</p>
+<p>&#x7531;&#x4E8E;RabbitDriver&#x662F;&#x5B98;&#x65B9;&#x9ED8;&#x8BA4;&#x7684;driver&#xFF0C;&#x6240;&#x4EE5;&#x672C;&#x6587;&#x4E3B;&#x8981;&#x5206;&#x6790;RabbitDriver&#x7684;&#x5B9E;&#x73B0;</p>
+<h1 id="rabbitdriver">RabbitDriver</h1>
+<p>&#x6211;&#x4EEC;&#x5728;kombu&#x8FD9;&#x4E00;&#x7AE0;&#x8BB2;&#x89E3;&#x4E86;&#x5B9E;&#x73B0;kombu&#x7684;&#x51E0;&#x4E2A;&#x91CD;&#x8981;&#x6B65;&#x9AA4;&#xFF0C;&#x8FD9;&#x91CC;&#x518D;&#x590D;&#x4E60;&#x4E00;&#x4E0B;&#xFF0C;&#x5206;&#x522B;&#x4E3A;</p>
+<ul>
+<li>consumer&#x7AEF;&#x6B65;&#x9AA4;</li>
+<li>&#x5B9A;&#x4E49;connection</li>
+<li>&#x5B9A;&#x4E49;exchange</li>
+<li>&#x5B9A;&#x4E49;queue&#xFF0C;&#x7ED1;&#x5B9A;exchange&#x4E0E;routing_key</li>
+<li>&#x5B9A;&#x4E49;consumer&#xFF0C;&#x7ED1;&#x5B9A;queue&#x4E0E;&#x56DE;&#x8C03;&#x51FD;&#x6570;</li>
+<li><p>&#x542F;&#x52A8;&#x670D;&#x52A1;&#xFF0C;&#x5904;&#x7406;&#x56DE;&#x8C03;</p>
+</li>
+<li><p>producer&#x7AEF;&#x6B65;&#x9AA4;</p>
+</li>
+<li>&#x5B9A;&#x4E49;connection</li>
+<li>&#x5B9A;&#x4E49;exchange</li>
+<li>&#x5B9A;&#x4E49;producer</li>
+<li>&#x901A;&#x8FC7;producer&#x5411;exchange&#x53D1;&#x9001;&#x6D88;&#x606F;</li>
+</ul>
+<p>&#x65E2;&#x7136;RabbitDriver&#x662F;&#x5BF9;kombu&#x7684;&#x5C01;&#x88C5;&#xFF0C;&#x90A3;&#x6211;&#x4EEC;&#x5C31;&#x4ECE;&#x8FD9;&#x51E0;&#x4E2A;kombu&#x7684;&#x5B9E;&#x73B0;&#x6B65;&#x9AA4;&#x5165;&#x624B;&#xFF0C;&#x770B;&#x4E00;&#x4E0B;RabbitDriver&#x662F;&#x5982;&#x4F55;&#x5C01;&#x88C5;kombu&#x7684;</p>
+<h2 id="consumer&#x7AEF;">consumer&#x7AEF;</h2>
+<h3 id="&#x5B9A;&#x4E49;connection">&#x5B9A;&#x4E49;connection</h3>
+<p>&#x52A0;&#x8F7D;RabbitDriver&#x540E;&#xFF0C;&#x4F1A;&#x8C03;&#x7528;RabbitDriver.<strong>init</strong>&#x51FD;&#x6570;</p>
+<pre><code>class RabbitDriver(amqpdriver.AMQPDriverBase):
+    def __init__(self, conf, url,
+                 default_exchange=None,
+                 allowed_remote_exmods=None):
+        # ...
+        connection_pool = pool.ConnectionPool(
+            conf, max_size, min_size, ttl,
+            url, Connection)
+        super(RabbitDriver, self).__init__(
+            conf, url,
+            connection_pool,
+            default_exchange,
+            allowed_remote_exmods
+        )
+</code></pre><p>&#x8FD9;&#x91CC;&#x7684;Connection&#x4E3A;oslo_messaging/_drivers/impl_rabbit.Connection&#x7C7B;&#xFF0C;&#x521D;&#x59CB;&#x5316;&#x7236;&#x7C7B;AMQPDriverBase&#x540E;&#xFF0C;&#x6B64;connection_pool&#x4F1A;&#x4FDD;&#x5B58;&#x5728;&#x7236;&#x7C7B;AMQPDriverBase&#x7684;self._connection_pool&#x5C5E;&#x6027;&#x4E2D;</p>
+<pre><code>graph TD
+A(MessageHandlingServer.start)--&gt;B(RPCServer._create_listener)
+B--&gt;C(Transport._listen)
+C--&gt;D(AMQPDriverBase.listen)
+D--&gt;E(self._get_connection)
+E--&gt;F(rpc_common.ConnectionContext.__init__)
+F--&gt;G(ConnectionPool.create)
+</code></pre><p>MessageHandlingServer&#x662F;&#x542F;&#x52A8;Rabbitmq server&#x5B9A;&#x4E49;&#x7684;&#x7C7B;&#xFF0C;&#x5728;&#x540E;&#x9762;&#x8BB2;&#x89E3;&#x5982;&#x4F55;&#x4F7F;&#x7528;RabbitDriver&#x65F6;&#x4F1A;&#x8BB2;&#x5230;</p>
+<pre><code>class ConnectionPool(Pool):
+    def create(self, purpose=common.PURPOSE_SEND):
+        return self.connection_cls(self.conf, self.url, purpose)
+</code></pre><p>&#x8FD9;&#x91CC;&#x7684;connection_cls&#x5373;&#x4E3A;&#x4E0A;&#x9762;&#x521D;&#x59CB;&#x5316;&#x7684;impl_rabbit.Connection&#x7C7B;</p>
+<p>&#x5728;&#x5176;<strong>init</strong>&#x51FD;&#x6570;&#x4E2D;&#xFF0C;&#x521B;&#x5EFA;&#x4E86;kombu Connection</p>
+<pre><code>class Connection(object):
+    def __init__(self, conf, url, purpose):
+        # ...
+        self.connection = kombu.connection.Connection(
+            self._url, ssl=self._fetch_ssl_params(),
+            login_method=self.login_method,
+            heartbeat=self.heartbeat_timeout_threshold,
+            failover_strategy=self.kombu_failover_strategy,
+            transport_options={
+                &apos;confirm_publish&apos;: True,
+                &apos;client_properties&apos;: {
+                    &apos;capabilities&apos;: {
+                        &apos;authentication_failure_close&apos;: True,
+                        &apos;connection.blocked&apos;: True,
+                        &apos;consumer_cancel_notify&apos;: True
+                    },
+                    &apos;connection_name&apos;: self.name},
+                &apos;on_blocked&apos;: self._on_connection_blocked,
+                &apos;on_unblocked&apos;: self._on_connection_unblocked,
+            },
+        )
+        # ...
+</code></pre><h3 id="&#x5B9A;&#x4E49;exchange">&#x5B9A;&#x4E49;exchange</h3>
+<pre><code>graph TD
+A(MessageHandlingServer.start)--&gt;B(RPCServer._create_listener)
+B--&gt;C(Transport._listen)
+C--&gt;D(AMQPDriverBase.listen)
+D--&gt;E(_drivers.impl_rabbit.Connection.declare_topic_consumer)
+E--&gt;F(Consumer.__init__)
+</code></pre><pre><code>class Consumer(object):
+    def __init__(self, exchange_name,...)
+        # ...
+        self.exchange = kombu.entity.Exchange(
+            name=exchange_name,
+            type=type,
+            durable=self.durable,
+            auto_delete=self.exchange_auto_delete)
+</code></pre><p>&#x6CE8;&#x610F;&#xFF0C;&#x5982;&#x679C;&#x5728;&#x5B9A;&#x4E49;Target&#x65F6;&#x6CA1;&#x6709;&#x6307;&#x5B9A;exchange&#xFF0C;&#x8FD9;&#x91CC;&#x4F7F;&#x7528;&#x7684;&#x662F;&#x9ED8;&#x8BA4;&#x7684;exchange&#xFF0C;&#x5373;&quot;openstack&quot;,&#x5728;oslo-messaging&#x4F7F;&#x7528;&#x8FD9;&#x4E00;&#x7AE0;&#x6709;&#x8BE6;&#x7EC6;&#x4ECB;&#x7ECD;</p>
+<h3 id="&#x5B9A;&#x4E49;queue">&#x5B9A;&#x4E49;queue</h3>
+<pre><code>graph TD
+A(MessageHandlingServer.start)--&gt;B(RPCServer._create_listener)
+B--&gt;C(Transport._listen)
+C--&gt;D(AMQPDriverBase.listen)
+D--&gt;E(_drivers.impl_rabbit.Connection.declare_topic_consumer)
+</code></pre><pre><code>class AMQPDriverBase(base.BaseDriver):
+        def listen(self, target, batch_size, batch_timeout):
+        conn = self._get_connection(rpc_common.PURPOSE_LISTEN)
+
+        listener = AMQPListener(self, conn)
+
+        conn.declare_topic_consumer(exchange_name=self._get_exchange(target),
+                                    topic=target.topic,
+                                    callback=listener)
+        conn.declare_topic_consumer(exchange_name=self._get_exchange(target),
+                                    topic=&apos;%s.%s&apos; % (target.topic,
+                                                     target.server),
+                                    callback=listener)
+        conn.declare_fanout_consumer(target.topic, listener)
+
+        return base.PollStyleListenerAdapter(listener, batch_size,
+                                             batch_timeout)
+</code></pre><ul>
+<li>&#x8FD9;&#x91CC;&#x521B;&#x5EFA;&#x4E86;&#x4E00;&#x4E2A;AMQPListener&#x5BF9;&#x8C61;</li>
+<li>&#x521B;&#x5EFA;&#x4E86;&#x4E09;&#x4E2A;consumer:&#x4E24;&#x4E2A;topic&#xFF0C;&#x4E00;&#x4E2A;fanout&#xFF0C;&#x5176;&#x4E2D;&#x4E24;&#x4E2A;topic&#x4E2D;&#x6709;&#x4E00;&#x4E2A;&#x6DFB;&#x52A0;&#x4E86;.server&#xFF0C;&#x8FD9;&#x662F;RabbitDriver</li>
+<li>&#x5C06;listener&#x4F5C;&#x4E3A;callback&#x4F20;&#x5165;</li>
+</ul>
+<pre><code>def declare_topic_consumer(self, exchange_name, topic, callback=None,
+                               queue_name=None):
+        &quot;&quot;&quot;Create a &apos;topic&apos; consumer.&quot;&quot;&quot;
+        consumer = Consumer(exchange_name=exchange_name,
+                            queue_name=queue_name or topic,
+                            routing_key=topic,
+                            type=&apos;topic&apos;,
+                            durable=self.amqp_durable_queues,
+                            exchange_auto_delete=self.amqp_auto_delete,
+                            queue_auto_delete=self.amqp_auto_delete,
+                            callback=callback,
+                            rabbit_ha_queues=self.rabbit_ha_queues)
+
+        self.declare_consumer(consumer)
+</code></pre><pre><code>graph TD
+E(_drivers.impl_rabbit.Connection.declare_topic_consumer)--&gt;F(self.declare_consumer)
+F--&gt;G(self.ensure)
+G--&gt;H(self.ensure.execute_method)
+H--&gt;I(self.declare_consumer._declare_consumer)
+I--&gt;J(Consumer.declare)
+</code></pre><pre><code># oslo_messaging/_drivers/impl_rabbit.py
+class Consumer(object):
+    def declare(self, conn):
+        self.queue = kombu.entity.Queue(
+            name=self.queue_name,
+            channel=conn.channel,
+            exchange=self.exchange,
+            durable=self.durable,
+            auto_delete=self.queue_auto_delete,
+            routing_key=self.routing_key,
+            queue_arguments=self.queue_arguments)
+        self.queue.declare()
+
+        self._declared_on = conn.channel
+</code></pre><h3 id="&#x5B9A;&#x4E49;consumer">&#x5B9A;&#x4E49;consumer</h3>
+<p>&#x5728;&#x6211;&#x4EEC;&#x4E0A;&#x4E00;&#x7AE0;&#x7684;kombu&#x4F8B;&#x5B50;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x662F;&#x8FD9;&#x6837;&#x5B9A;&#x4E49;consumer&#x7684;</p>
+<pre><code>consumer = Consumer(conn.channel(),queues=[q],accept=[&apos;pickle&apos;, &apos;json&apos;],callbacks=[_callback])
+consumer.consume()
+</code></pre><p>&#x5B9A;&#x4E49;consumer&#x7684;&#x4E00;&#x4E2A;&#x76EE;&#x6807;&#x662F;&#x7ED1;&#x5B9A;queue&#x4E0E;&#x56DE;&#x8C03;&#x51FD;&#x6570;</p>
+<p>&#x5728;RabbitDriver&#x7684;&#x5B9E;&#x73B0;&#x4E2D;&#xFF0C;&#x4ED6;&#x5E76;&#x6CA1;&#x6709;&#x50CF;&#x6211;&#x4EEC;kombu&#x4F8B;&#x5B50;&#x4E2D;&#x4E00;&#x6837;&#x663E;&#x5F0F;&#x7684;&#x5B9A;&#x4E49;Consumer&#x5BF9;&#x8C61;&#xFF0C;&#x800C;&#x662F;&#x901A;&#x8FC7;queue.comsumer&#x51FD;&#x6570;&#x6765;&#x7ED1;&#x5B9A;queue&#x4E0E;&#x56DE;&#x8C03;&#x7684;&#xFF0C;&#x8FD9;&#x4E2A;&#x5177;&#x4F53;&#x7684;&#x6B65;&#x9AA4;&#x4F1A;&#x5728;&#x4E0B;&#x4E00;&#x8282;&#x8BB2;&#x5230;</p>
+<p>&#x4E3A;&#x4E86;&#x5370;&#x8BC1;&#x8FD9;&#x4E00;&#x70B9;&#xFF0C;&#x6211;&#x4EEC;&#x5148;&#x6765;&#x770B;&#x4E00;&#x4E0B;kombu&#x6E90;&#x7801;&#x4E2D;&#x5BF9;&#x4E8E;Consumer.consume()&#x51FD;&#x6570;&#x7684;&#x5B9E;&#x73B0;</p>
+<pre><code class="lang-python"># kombu/messaging.py
+class Consumer(object):
+    ...
+    def consume(self, no_ack=None):
+        ...
+        self._basic_consume(queue, no_ack=no_ack, nowait=True)
+        ...
+
+    def _basic_consume(self, queue, consumer_tag=None,
+                       no_ack=no_ack, nowait=True):
+        ...
+        queue.consume(tag, self._receive_callback,
+                          no_ack=no_ack, nowait=nowait)
+        ..
+</code></pre>
+<p>&#x5B9E;&#x9645;&#x4E0A;Consumer&#x5BF9;&#x8C61;&#x4E5F;&#x662F;&#x95F4;&#x63A5;&#x7684;&#x8C03;&#x7528;&#x4E86;queue.consume()&#x51FD;&#x6570;&#x6765;&#x7ED1;&#x5B9A;&#x56DE;&#x8C03;</p>
+<p>&#x6240;&#x4EE5;&#x5728;RabbitDriver&#x4E2D;&#xFF0C;&#x4ED6;&#x76F4;&#x63A5;&#x7701;&#x6389;&#x4E86;&#x5B9A;&#x4E49;Consumer&#x8FD9;&#x4E00;&#x6B65;</p>
+<h3 id="&#x542F;&#x52A8;&#x670D;&#x52A1;&#xFF0C;&#x5904;&#x7406;&#x56DE;&#x8C03;">&#x542F;&#x52A8;&#x670D;&#x52A1;&#xFF0C;&#x5904;&#x7406;&#x56DE;&#x8C03;</h3>
+<p>&#x8C03;&#x7528;MessageHandlingServer.start&#x542F;&#x52A8;&#x670D;&#x52A1;
+&#x5F97;&#x5230;ListenAdapter</p>
+<pre><code>graph TD
+A(MessageHandlingServer.start)--&gt;B(RPCServer._create_listener)
+B--&gt;C(Transport._listen)
+C--&gt;D(AMQPDriverBase.listen)
+</code></pre><pre><code>def listen(self, target, batch_size, batch_timeout):
+    listener = AMQPListener(self, conn)
+    # ...
+    return base.PollStyleListenerAdapter(listener, batch_size,
+                                             batch_timeout)
+</code></pre><p>MessageHandlingServer._create_listener()&#x6700;&#x7EC8;&#x5F97;&#x5230;&#x4E00;&#x4E2A;PollStyleListenerAdapter&#x7C7B;&#x578B;&#x7684;&#x5BF9;&#x8C61;,&#x6587;&#x4EF6;&#x4F4D;&#x7F6E;oslo_messaging/_drivers/base.py</p>
+<pre><code>class MessageHandlingServer(service.ServiceBase, _OrderedTaskRunner):
+    def start(self, override_pool_size=None):
+        # ...
+        self.listener = self._create_listener()
+
+        # ...
+        self.listener.start(self._on_incoming)
+</code></pre><p>&#x7136;&#x540E;PollStyleListenerAdapter.star&#x5F97;&#x5230;&#x8C03;&#x7528;&#xFF0C;&#x4F20;&#x5165;&#x7684;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x662F;self._on_incoming</p>
+<p>self._poll_style_listener&#x7C7B;&#x578B;&#x4E3A;amqpdriver.AMQPListener</p>
+<pre><code>class PollStyleListenerAdapter(Listener):
+    def __init__(self, poll_style_listener, batch_size, batch_timeout):
+        # ...
+        self._poll_style_listener = poll_style_listener
+        self._listen_thread = threading.Thread(target=self._runner)
+        # ...
+
+    def start(self, on_incoming_callback):
+        super(PollStyleListenerAdapter, self).start(on_incoming_callback)
+        self._started = True
+        self._listen_thread.start()
+</code></pre><p>start&#x4E2D;&#x542F;&#x52A8;&#x4E86;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#xFF0C;&#x7EBF;&#x7A0B;&#x6267;&#x884C;&#x4F53;&#x662F;self._runner</p>
+<pre><code>    def _runner(self):
+        while self._started:
+            incoming = self._poll_style_listener.poll(
+                batch_size=self.batch_size, batch_timeout=self.batch_timeout)
+
+            if incoming:
+                self.on_incoming_callback(incoming)
+</code></pre><p>self._poll_style_listener&#x7C7B;&#x578B;&#x4E3A;amqpdriver.AMQPListener</p>
+<pre><code>class AMQPListener(base.PollStyleListener):
+    def poll(self, timeout=None):
+        # ... 
+        while not self._shutdown.is_set():
+            self._message_operations_handler.process()
+            if self.incoming:
+                return self.incoming.pop(0)
+
+            # ...
+            self.conn.consume(timeout=min(self._current_timeout, left))
+
+        # ... 
+        if self.incoming:
+            return self.incoming.pop(0)
+</code></pre><p>&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x5728;poll&#x4E2D;&#x7684;&#x64CD;&#x4F5C;&#x53EF;&#x4EE5;&#x5206;&#x4E3A;&#xFF0C;&#x5148;&#x4ECE;&#x6D88;&#x606F;&#x961F;&#x5217;&#x4E2D;&#x83B7;&#x53D6;&#x6D88;&#x606F;&#x5E76;&#x653E;&#x5165;&#x5230;self.incoming&#x5BB9;&#x5668;&#x4E2D;&#xFF0C;&#x7136;&#x540E;&#x5224;&#x65AD;self.incoming&#x4E2D;&#x662F;&#x5426;&#x6709;&#x6D88;&#x606F;&#xFF0C;&#x5982;&#x679C;&#x6709;&#xFF0C;&#x53D6;&#x4E00;&#x4E2A;&#x6D88;&#x606F;&#x5E76;&#x4E14;&#x8FD4;&#x56DE;</p>
+<p>&#x5148;&#x770B;&#x4E00;&#x4E0B;self.conn.consume&#x8FD9;&#x4E2A;&#x51FD;&#x6570;</p>
+<pre><code>graph TD
+A(impl_rabbit.Connection.consume)--&gt;B(self.ensure)
+B--&gt;C(self.ensure.execute_method)
+C--&gt;D(self.consume._consume)
+</code></pre><pre><code>class Connection(object):
+    def consume(self, timeout=None):
+        # ...
+        def _consume():
+            # ...
+            # 
+            while self._new_tags:
+                for consumer, tag in self._consumers.items():
+                    if tag in self._new_tags:
+                        consumer.consume(self, tag=tag)
+                        self._new_tags.remove(tag)
+
+            while True:
+                # ...
+                self.connection.drain_events(timeout=poll_timeout)
+                # ...
+</code></pre><p>consumer.consume&#x8FD9;&#x4E00;&#x6B65;&#x662F;&#x58F0;&#x660E;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#xFF0C;&#x901A;&#x8FC7;_new_tags&#x6807;&#x5FD7;&#x6765;&#x63A7;&#x5236;&#x53EA;&#x58F0;&#x660E;&#x4E00;&#x6B21;</p>
+<pre><code>class Consumer(object):
+    def consume(self, conn, tag):
+        # ...
+        self.queue.consume(callback=self._callback,
+                           consumer_tag=six.text_type(tag),
+                           nowait=self.nowait)
+        # ...
+</code></pre><p>self._callback&#x662F;&#x5728;&#x521B;&#x5EFA;queue&#x65F6;&#x4F20;&#x8FDB;&#x6765;&#x7684;AMQPListener&#x5BF9;&#x8C61;</p>
+<p>self.connection.drain_events&#x662F;&#x544A;&#x8BC9;kombu connection&#x53BB;&#x961F;&#x5217;&#x91CC;&#x62FF;&#x6D88;&#x606F;&#xFF0C;&#x6536;&#x5230;&#x6D88;&#x606F;&#x540E;&#xFF0C;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x5F97;&#x5230;&#x8C03;&#x7528;&#xFF0C;&#x5373;AMQPListener&#x5BF9;&#x8C61;&#x5F97;&#x5230;&#x8C03;&#x7528;</p>
+<p>&#x8FD9;&#x91CC;&#x7528;&#x5230;&#x4E86;python&#x7684;&#x53EF;&#x8C03;&#x7528;&#x5BF9;&#x8C61;&#x7279;&#x6027;&#xFF0C;&#x5373;&#x5C06;&#x5BF9;&#x8C61;&#x5F53;&#x505A;&#x51FD;&#x6570;&#x8FDB;&#x884C;&#x8C03;&#x7528;&#x65F6;&#xFF0C;&#x5BF9;&#x8C61;&#x7684;<strong>call</strong>&#x65B9;&#x6CD5;&#x54CD;&#x5E94;</p>
+<pre><code class="lang-python"># oslo_messaging/_drivers/amqpdriver.py
+class AMQPListener(base.PollStyleListener):
+    def __call__(self, message):
+        # ...
+        self.incoming.append(AMQPIncomingMessage(
+            self,
+            ctxt.to_dict(),
+            message,
+            unique_id,
+            ctxt.msg_id,
+            ctxt.reply_q,
+            self._obsolete_reply_queues,
+            self._message_operations_handler)
+</code></pre>
+<p>self.incoming&#x4E2D;&#x6709;&#x4E86;&#x6570;&#x636E;&#x540E;&#xFF0C;&#x8C03;&#x7528;&#x5806;&#x6808;&#x5728;&#x56DE;&#x5230;PollStyleListenerAdapter._runner</p>
+<pre><code>    def _runner(self):
+        while self._started:
+            incoming = self._poll_style_listener.poll(
+                batch_size=self.batch_size, batch_timeout=self.batch_timeout)
+
+            if incoming:
+                self.on_incoming_callback(incoming)
+</code></pre><p>self.on_incoming_callback&#x662F;MessageHandlingServer.start&#x65F6;&#x4F20;&#x5165;&#x7684;&#x56DE;&#x8C03;&#x51FD;&#x6570;self._on_incoming</p>
+<pre><code>self.listener.start(self._on_incoming)
+</code></pre><p>&#x770B;&#x4E00;&#x4E0B;self._on_incoming&#x51FD;&#x6570;</p>
+<pre><code>def _on_incoming(self, incoming):
+    self._work_executor.submit(self._process_incoming, incoming)
+</code></pre><p>self._work_executor&#x662F;&#x5229;&#x7528;stevedore&#x52A0;&#x8F7D;&#x7684;&#x6267;&#x884C;&#x63D2;&#x4EF6;&#xFF0C;&#x521D;&#x59CB;&#x5316;&#x5728;init&#x51FD;&#x6570;</p>
+<pre><code>class MessageHandlingServer(service.ServiceBase, _OrderedTaskRunner):
+    def __init__(self, transport, dispatcher, executor=&apos;blocking&apos;):
+        # ...
+        mgr = driver.DriverManager(&apos;oslo.messaging.executors&apos;,
+                                       self.executor_type)
+        self._executor_cls = mgr.driver
+        # ...
+</code></pre><p>_executor_cls&#x9ED8;&#x8BA4;&#x662F;&#x7528;&#x7684;executor=&apos;blocking&apos;</p>
+<p>&#x5728;setup.cfg&#x4E2D;&#x7684;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;</p>
+<pre><code>oslo.messaging.executors =
+    blocking = futurist:SynchronousExecutor
+    eventlet = futurist:GreenThreadPoolExecutor
+    threading = futurist:ThreadPoolExecutor
+</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;blocking&#x7684;&#x7C7B;&#x4E3A;futurist:SynchronousExecutor</p>
+<p>&#x521D;&#x59CB;&#x5316;worker&#x7684;&#x4F4D;&#x7F6E;&#x5728;MessageHandlingServer.start&#x51FD;&#x6570;</p>
+<pre><code>class MessageHandlingServer(service.ServiceBase, _OrderedTaskRunner):
+    def start(self, override_pool_size=None):
+        # ...
+        self._work_executor = self._executor_cls(**executor_opts)
+        # ...
+</code></pre><p>SynchronousExecutor&#x662F;&#x4E00;&#x4E2A;&#x540C;&#x6B65;&#x6267;&#x884C;&#x7684;&#x5DE5;&#x5177;&#xFF0C;&#x8C03;&#x7528;submit&#x65F6;&#x4F20;&#x5165;&#x51FD;&#x6570;&#x6267;&#x884C;&#x4F53;&#x548C;&#x53C2;&#x6570;</p>
+<p>&#x5219;self._process_incoming&#x5F97;&#x5230;&#x8C03;&#x7528;</p>
+<p>&#x5BF9;&#x8C61;&#x5B9E;&#x4F8B;&#x662F;oslo_messaging/rpc/server.RPCServer</p>
+<pre><code>class RPCServer(msg_server.MessageHandlingServer):
+    def _process_incoming(self, incoming):
+        message = incoming[0]
+        # ...
+        res = self.dispatcher.dispatch(message)
+        # ...
+</code></pre><p>&#x8C03;&#x7528;dispatch&#x5206;&#x53D1;&#x6570;&#x636E;</p>
+<pre><code># oslo_messaging/rpc/dispatcher.py
+class RPCDispatcher(dispatcher.DispatcherBase):
+    def dispatch(self, incoming):
+        message = incoming.message
+        ctxt = incoming.ctxt
+
+        method = message.get(&apos;method&apos;)
+        args = message.get(&apos;args&apos;, {})
+        namespace = message.get(&apos;namespace&apos;)
+        version = message.get(&apos;version&apos;, &apos;1.0&apos;)
+
+        for endpoint in self.endpoints:
+            target = getattr(endpoint, &apos;target&apos;, None)
+            if not target:
+                target = self._default_target
+
+            if not (self._is_namespace(target, namespace) and
+                    self._is_compatible(target, version)):
+                continue
+
+            if hasattr(endpoint, method):
+                if self.access_policy.is_allowed(endpoint, method):
+                    return self._do_dispatch(endpoint, method, ctxt, args)
+</code></pre><ul>
+<li>&#x83B7;&#x53D6;client&#x6D88;&#x606F;&#x4E2D;&#x7684;method&#x51FD;&#x6570;&#x540D;</li>
+<li>&#x83B7;&#x53D6;client&#x6D88;&#x606F;&#x4E2D;&#x7684;&#x51FD;&#x6570;&#x53C2;&#x6570;args</li>
+<li>&#x83B7;&#x53D6;client&#x6D88;&#x606F;&#x4E2D;&#x7684;namespace&#x548C;version</li>
+<li>&#x5FAA;&#x73AF;&#x4FDD;&#x5B58;&#x7684;self.endpoints<ul>
+<li>&#x68C0;&#x67E5;endpoint&#x662F;&#x5426;&#x5B9A;&#x4E49;&#x4E86;namespace&#x548C;version&#xFF0C;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x5B9A;&#x4E49;&#xFF0C;&#x5219;&#x7528;default&#x503C;</li>
+<li>&#x4E0E;client&#x4F20;&#x8FC7;&#x6765;namespace&#x548C;version&#x8FDB;&#x884C;&#x6BD4;&#x5BF9;</li>
+<li>&#x83B7;&#x53D6;endpoint&#x4E2D;&#x7684;method&#x65B9;&#x6CD5;&#x5E76;&#x6267;&#x884C;</li>
+</ul>
+</li>
+</ul>
+<h2 id="producer&#x7AEF;">producer&#x7AEF;</h2>
+<p>RabbitDriver&#x5728;producer&#x7AEF;&#x5173;&#x4E8E;kombu&#x7684;&#x5B9E;&#x73B0;&#xFF0C;&#x53EF;&#x4EE5;&#x96C6;&#x4E2D;&#x5728;AMQPDriverBase.send&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x4E0B;&#x9762;&#x5C31;&#x6765;&#x7740;&#x91CD;&#x5206;&#x6790;&#x8FD9;&#x4E2A;&#x51FD;&#x6570;</p>
+<p>oslo_messaging/_drivers/amqpdriver.py</p>
+<pre><code>graph TD
+A(AMQPDriverBase.send)--&gt;B(AMQPDriverBase._send)
+</code></pre><pre><code>def _send(self, target, ctxt, message,
+          wait_for_reply=None, timeout=None,
+          envelope=True, notify=False, retry=None):
+    ...
+    with self._get_connection(rpc_common.PURPOSE_SEND) as conn:
+        if notify:
+            exchange = self._get_exchange(target)
+            conn.notify_send(exchange, target.topic, msg, retry=retry)
+        elif target.fanout:
+            conn.fanout_send(target.topic, msg, retry=retry)
+        else:
+            topic = target.topic
+            exchange = self._get_exchange(target)
+            if target.server:
+                topic = &apos;%s.%s&apos; % (target.topic, target.server)
+            conn.topic_send(exchange_name=exchange, topic=topic,
+                                    msg=msg, timeout=timeout, retry=retry)
+        ...
+</code></pre><p>&#x5206;&#x6790;&#x8FD9;&#x6BB5;&#x51FD;&#x6570;</p>
+<ul>
+<li>&#x4F7F;&#x7528;self._get_connection&#x83B7;&#x53D6;&#x8FDE;&#x63A5;&#xFF0C;&#x5728;&#x4E0A;&#x9762;&#x8BB2;&#x89E3;consumer&#x65F6;&#x6CE8;&#x91CD;&#x4ECB;&#x7ECD;&#x4E86;&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#xFF0C;&#x8FD9;&#x91CC;&#x4E0D;&#x518D;&#x505A;&#x8BF4;&#x660E;</li>
+<li>&#x6839;&#x636E;notify&#xFF0C;fanout&#xFF0C;topic&#x7684;&#x5B9A;&#x4E49;&#x987A;&#x5E8F;&#x786E;&#x5B9A;&#x662F;&#x4F7F;&#x7528;&#x54EA;&#x79CD;&#x6A21;&#x5F0F;&#x8FDB;&#x884C;&#x53D1;&#x9001;</li>
+</ul>
+<h4 id="notify">notify</h4>
+<p>&#x8FD9;&#x662F;RabbitDriver&#x5B9E;&#x73B0;&#x7684;notification&#x529F;&#x80FD;&#xFF0C;&#x6211;&#x4EEC;&#x672C;&#x7AE0;&#x53EA;&#x5206;&#x6790;rpc&#x76F8;&#x5173;&#xFF0C;&#x6682;&#x65F6;&#x4E0D;&#x5206;&#x6790;notification</p>
+<h4 id="fanout">fanout</h4>
+<pre><code>    def fanout_send(self, topic, msg, retry=None):
+        &quot;&quot;&quot;Send a &apos;fanout&apos; message.&quot;&quot;&quot;
+        exchange = kombu.entity.Exchange(name=&apos;%s_fanout&apos; % topic,
+                                         type=&apos;fanout&apos;,
+                                         durable=False,
+                                         auto_delete=True)
+
+        self._ensure_publishing(self._publish, exchange, msg, retry=retry)
+</code></pre><ul>
+<li>&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E2A;fanout&#x7C7B;&#x578B;&#x7684;exchange</li>
+</ul>
+<pre><code>def _publish(self, exchange, msg, routing_key=None, timeout=None):
+    ...
+    with self._transport_socket_timeout(timeout):
+    self._producer.publish(msg,
+                           exchange=exchange,
+                           routing_key=routing_key,
+                           expiration=timeout,
+                           compression=self.kombu_compression)
+</code></pre><ul>
+<li>&#x4F7F;&#x7528;&#x901A;&#x8FC7;producer.publish&#x53D1;&#x9001;&#x51FA;&#x53BB;</li>
+</ul>
+<h4 id="topic">topic</h4>
+<p>topic&#x8FD9;&#x91CC;&#x4E0E;&#x76F4;&#x63A5;&#x7528;kombu&#x4E0D;&#x540C;&#x7684;&#x662F;&#xFF0C;&#x5982;&#x679C;&#x8BBE;&#x7F6E;&#x4E86;server&#x5C5E;&#x6027;&#xFF0C;&#x5219;topic&#x9700;&#x8981;&#x52A0;&#x4E0A;server&#x7EC4;&#x6210;kombu&#x7684;topic&#xFF0C;&#x76F8;&#x5F53;&#x4E8E;&#x662F;RabbitDriver&#x6DFB;&#x52A0;&#x7684;&#x4E00;&#x4E2A;server&#x6982;&#x5FF5;</p>
+<pre><code>    def topic_send(self, exchange_name, topic, msg, timeout=None, retry=None):
+        &quot;&quot;&quot;Send a &apos;topic&apos; message.&quot;&quot;&quot;
+        exchange = kombu.entity.Exchange(
+            name=exchange_name,
+            type=&apos;topic&apos;,
+            durable=self.amqp_durable_queues,
+            auto_delete=self.amqp_auto_delete)
+
+        self._ensure_publishing(self._publish, exchange, msg,
+                                routing_key=topic, timeout=timeout,
+                                retry=retry)
+</code></pre><ul>
+<li>&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;topic&#x7C7B;&#x578B;&#x7684;exchange&#xFF0C;&#x5E76;&#x901A;&#x8FC7;publish&#x51FD;&#x6570;&#x53D1;&#x51FA;</li>
+</ul>
+<footer class="page-footer-ex"> <span class="page-footer-ex-copyright"> By <a href="https://github.com/cao19881125" target="_blank">&#x66F9;&#x4E91;&#x6D9B;</a>&#xFF0C;&#x4F7F;&#x7528;<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">&#x77E5;&#x8BC6;&#x5171;&#x4EAB; &#x7F72;&#x540D;-&#x975E;&#x5546;&#x4E1A;&#x6027;&#x4F7F;&#x7528;-&#x7981;&#x6B62;&#x6F14;&#x7ECE; 4.0 &#x56FD;&#x9645; &#x8BB8;&#x53EF;&#x534F;&#x8BAE;</a>&#x53D1;&#x5E03; </span> &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; <span class="page-footer-ex-footer-update"> &#x6B64;&#x9875;&#x9762;&#x4FEE;&#x8BA2;&#x4E8E;&#xFF1A; 2019-07-23 16:05:55 </span> </footer>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="oslo_message_usage.html" class="navigation navigation-prev " aria-label="Previous page: oslo-message使用">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../oslo_db/define.html" class="navigation navigation-next " aria-label="Next page: 简介">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"RabbitDriver解析","level":"4.4","depth":1,"next":{"title":"简介","level":"5.1","depth":1,"path":"common_lib/oslo_db/define.md","ref":"common_lib/oslo_db/define.md","articles":[]},"previous":{"title":"oslo-message使用","level":"4.3","depth":1,"path":"common_lib/oslo_messaging/oslo_message_usage.md","ref":"common_lib/oslo_messaging/oslo_message_usage.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-lunr","-search","-highlight","-livereload","search-plus@^0.0.11","mermaid-gb3","splitter@^0.0.8","expandable-chapters-small","github@^2.0.0","github-buttons@2.1.0","page-footer-ex","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"github":{"url":"https://github.com/cao19881125/neutron-parse"},"page-footer-ex":{"copyright":"By [曹云涛](https://github.com/cao19881125)，使用[知识共享 署名-非商业性使用-禁止演绎 4.0 国际 许可协议](http://creativecommons.org/licenses/by-nc-nd/4.0/)发布","markdown":true,"update_format":"YYYY-MM-DD HH:mm:ss","update_label":"此页面修订于："},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"github-buttons":{"repo":"cao19881125/neutron-parse","types":["star","watch","fork"],"size":"small"},"expandable-chapters-small":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"search-plus":{}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Neutron源码解析","language":"zh-hans","links":{"sidebar":{"Home":"https://github.com/cao19881125"}},"gitbook":"3.x","description":"Neutron源码解析"},"file":{"path":"common_lib/oslo_messaging/rabbit_driver.md","mtime":"2019-07-23T08:05:55.107Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-07-24T06:33:04.642Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-plus/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-plus/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-mermaid-gb3/book/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-expandable-chapters-small/expandable-chapters-small.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github-buttons/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    <script src="../../gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.min.js"></script>
+
+    </body>
+</html>
+

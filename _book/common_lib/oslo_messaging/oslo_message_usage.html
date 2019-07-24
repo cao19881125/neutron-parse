@@ -1,0 +1,989 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>oslo-message使用 · Neutron源码解析</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search-plus/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-expandable-chapters-small/expandable-chapters-small.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-page-footer-ex/style/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+
+    
+
+        
+    
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="rabbit_driver.html" />
+    
+    
+    <link rel="prev" href="kombu.html" />
+    
+
+    <style>
+    @media only screen and (max-width: 640px) {
+        .book-header .hidden-mobile {
+            display: none;
+        }
+    }
+    </style>
+    <script>
+        window["gitbook-plugin-github-buttons"] = {"repo":"cao19881125/neutron-parse","types":["star","watch","fork"],"size":"small"};
+    </script>
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="输入并搜索" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="https://github.com/cao19881125" target="_blank" class="custom-link">Home</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        <li class="header">简介</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                        <b>1.1.</b>
+                    
+                    前言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../../forward.html">
+            
+                <a href="../../forward.html">
+            
+                    
+                        <b>1.2.</b>
+                    
+                    序章
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-config配置解析</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../oslo_config/config.html">
+            
+                <a href="../oslo_config/config.html">
+            
+                    
+                        <b>2.1.</b>
+                    
+                    安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../oslo_config/example.html">
+            
+                <a href="../oslo_config/example.html">
+            
+                    
+                        <b>2.2.</b>
+                    
+                    例子
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../oslo_config/value_type.html">
+            
+                <a href="../oslo_config/value_type.html">
+            
+                    
+                        <b>2.3.</b>
+                    
+                    变量类型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../oslo_config/cfg_conf.html">
+            
+                <a href="../oslo_config/cfg_conf.html">
+            
+                    
+                        <b>2.4.</b>
+                    
+                    cfg.CONF实现解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="../oslo_config/neutron_conf.html">
+            
+                <a href="../oslo_config/neutron_conf.html">
+            
+                    
+                        <b>2.5.</b>
+                    
+                    neutron与cfg.CONF
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-service构建resetful server</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../oslo_service/define.html">
+            
+                <a href="../oslo_service/define.html">
+            
+                    
+                        <b>3.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../oslo_service/wsgi_eventlet.html">
+            
+                <a href="../oslo_service/wsgi_eventlet.html">
+            
+                    
+                        <b>3.2.</b>
+                    
+                    eventlet.wsgi
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="../oslo_service/pastedeploy.html">
+            
+                <a href="../oslo_service/pastedeploy.html">
+            
+                    
+                        <b>3.3.</b>
+                    
+                    PasteDeploy
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="../oslo_service/oslo_service.html">
+            
+                <a href="../oslo_service/oslo_service.html">
+            
+                    
+                        <b>3.4.</b>
+                    
+                    oslo-service使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="../oslo_service/service_usage.html">
+            
+                <a href="../oslo_service/service_usage.html">
+            
+                    
+                        <b>3.5.</b>
+                    
+                    oslo-service其他用法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" data-path="../oslo_service/code_parse.html">
+            
+                <a href="../oslo_service/code_parse.html">
+            
+                    
+                        <b>3.6.</b>
+                    
+                    oslo-service源码解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="../oslo_service/neutron_oslo_service.html">
+            
+                <a href="../oslo_service/neutron_oslo_service.html">
+            
+                    
+                        <b>3.7.</b>
+                    
+                    neutron与oslo-service
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-message搭建rpc通信框架</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="define.html">
+            
+                <a href="define.html">
+            
+                    
+                        <b>4.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="kombu.html">
+            
+                <a href="kombu.html">
+            
+                    
+                        <b>4.2.</b>
+                    
+                    kombu
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="4.3" data-path="oslo_message_usage.html">
+            
+                <a href="oslo_message_usage.html">
+            
+                    
+                        <b>4.3.</b>
+                    
+                    oslo-message使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="rabbit_driver.html">
+            
+                <a href="rabbit_driver.html">
+            
+                    
+                        <b>4.4.</b>
+                    
+                    RabbitDriver解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-db操作数据库</li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../oslo_db/define.html">
+            
+                <a href="../oslo_db/define.html">
+            
+                    
+                        <b>5.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-log记录日志</li>
+        
+        
+    
+        <li class="chapter " data-level="6.1" data-path="../oslo_log/define.html">
+            
+                <a href="../oslo_log/define.html">
+            
+                    
+                        <b>6.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">core-plugin二层业务处理</li>
+        
+        
+    
+        <li class="chapter " data-level="7.1" data-path="../../core_plugin/define.html">
+            
+                <a href="../../core_plugin/define.html">
+            
+                    
+                        <b>7.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">service-plugin三层业务处理</li>
+        
+        
+    
+        <li class="chapter " data-level="8.1" data-path="../../service_plugin/define.html">
+            
+                <a href="../../service_plugin/define.html">
+            
+                    
+                        <b>8.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">mechanism-driver构建sdn桥梁</li>
+        
+        
+    
+        <li class="chapter " data-level="9.1" data-path="../../mechanism_driver/define.html">
+            
+                <a href="../../mechanism_driver/define.html">
+            
+                    
+                        <b>9.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">openvswitch架构</li>
+        
+        
+    
+        <li class="chapter " data-level="10.1" data-path="../../openvswitch/define.html">
+            
+                <a href="../../openvswitch/define.html">
+            
+                    
+                        <b>10.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">ovn架构</li>
+        
+        
+    
+        <li class="chapter " data-level="11.1" data-path="../../ovn/define.html">
+            
+                <a href="../../ovn/define.html">
+            
+                    
+                        <b>11.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">自己实现一个mechanism-driver</li>
+        
+        
+    
+        <li class="chapter " data-level="12.1" data-path="../../mechanism_self/define.html">
+            
+                <a href="../../mechanism_self/define.html">
+            
+                    
+                        <b>12.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本书使用 GitBook 发布
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >oslo-message使用</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <p>&#x4E0A;&#x9762;&#x7684;&#x7AE0;&#x8282;&#x6211;&#x4EEC;&#x8BB2;&#x89E3;&#x4E86;rpc&#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x4EE5;&#x53CA;&#x5982;&#x4F55;&#x4F7F;&#x7528;rabbitmq&#x6765;&#x5B9E;&#x73B0;rpc&#x7684;&#xFF0C;rabbitmq&#x901A;&#x8FC7;&#x4E00;&#x4E9B;&#x5217;&#x7684;&#x62BD;&#x8C61;&#xFF0C;&#x5B9A;&#x4E49;&#x51FA;&#x6765;&#x4E86;&#x5982;exchange&#xFF0C;queue&#xFF0C;routing_key&#x7B49;&#x6A21;&#x578B;&#x6765;&#x627F;&#x8F7D;rpc&#x6D88;&#x606F;&#xFF0C;&#x4EE5;&#x53CA;&#x901A;&#x8FC7;exchange&#x7684;&#x4E0D;&#x540C;&#x7C7B;&#x578B;&#x6765;&#x5B9A;&#x4E49;&#x4E86;&#x6D88;&#x606F;&#x5206;&#x53D1;&#x7684;&#x6A21;&#x5F0F;</p>
+<p>&#x5728;&#x672C;&#x7AE0;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x6765;&#x5B66;&#x4E60;openstack&#x5C01;&#x88C5;&#x7684;oslo-message&#xFF0C;oslo-message&#x662F;&#x4E00;&#x4E2A;rpc&#x8FDC;&#x7A0B;&#x8C03;&#x7528;&#x5E93;&#xFF0C;&#x5B83;&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x5957;&#x65B0;&#x7684;&#x6982;&#x5FF5;&#x6765;&#x63CF;&#x8FF0;rpc&#x8C03;&#x7528;&#xFF0C;&#x5E76;&#x901A;&#x8FC7;&#x63D2;&#x4EF6;&#x7684;&#x5F62;&#x5F0F;&#x6765;&#x52A0;&#x8F7D;&#x540E;&#x7AEF;&#x9A71;&#x52A8;&#xFF0C;&#x5982;&#x9ED8;&#x8BA4;&#x7684;RabbitDriver&#xFF0C;&#x8FD8;&#x6709;&#x5176;&#x4ED6;&#x7684;&#x9A71;&#x52A8;&#x5982;zmp&#x3001;amqp&#x3001;kafka&#x3001;pika&#x7B49;driver&#xFF0C;&#x8FD9;&#x4E9B;driver&#x7684;&#x4F5C;&#x7528;&#x5373;&#x5C06;oslo-message&#x5B9A;&#x4E49;&#x7684;&#x6982;&#x5FF5;&#x4E0E;&#x540E;&#x7AEF;&#x901A;&#x4FE1;&#x6846;&#x67B6;&#x76F8;&#x8026;&#x5408;&#xFF0C;&#x542F;&#x52A8;&#x8D77;&#x627F;&#x8F6C;&#x5408;&#x7684;&#x4F5C;&#x7528;&#xFF0C;&#x5982;&#x9ED8;&#x8BA4;&#x7684;RabbitDriver&#x9A71;&#x52A8;&#xFF0C;&#x5373;&#x901A;&#x8FC7;kombu&#x6765;&#x8FDB;&#x884C;amqp&#x901A;&#x4FE1;&#xFF0C;&#x5982;kafka driver&#x662F;&#x901A;&#x8FC7;kafka&#x8FDB;&#x884C;&#x901A;&#x4FE1;</p>
+<p>oslo-message&#x76F8;&#x6BD4;amqp&#x66F4;&#x7B80;&#x6D01;&#xFF0C;&#x5B83;&#x629B;&#x5F03;&#x6389;&#x4E86;amqp&#x8BB8;&#x591A;&#x590D;&#x6742;&#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x4F7F;&#x5F97;&#x4F7F;&#x7528;oslo-message&#x53D8;&#x5F97;&#x66F4;&#x7B80;&#x5355;&#xFF0C;&#x540C;&#x65F6;oslo-message&#x5B9A;&#x4E49;&#x7684;endpoint&#x6982;&#x5FF5;&#xFF0C;&#x5C06;message&#x8C03;&#x7528;&#x5C01;&#x88C5;&#x4E3A;&#x5BF9;&#x8C61;&#x8C03;&#x7528;&#xFF0C;&#x4F7F;&#x7528;&#x8005;&#x53EF;&#x4EE5;&#x50CF;&#x5B9A;&#x4E49;&#x7C7B;&#x4E00;&#x6837;&#x6765;&#x5B9A;&#x4E49;msg&#x8C03;&#x7528;&#xFF0C;&#x5728;&#x4ECE;&#x9762;&#x5411;&#x5BF9;&#x8C61;&#x601D;&#x60F3;&#x6765;&#x770B;&#xFF0C;&#x4ED6;&#x6BD4;&#x7EAF;rabbitmq&#x7684;&#x4F20;&#x9012;&#x5B57;&#x7B26;&#x4E32;&#x6A21;&#x5F0F;&#x53C8;&#x8FDB;&#x6B65;&#x4E86;&#x4E0D;&#x5C11;</p>
+<h2 id="oslo-message&#x5B89;&#x88C5;">oslo-message&#x5B89;&#x88C5;</h2>
+<pre><code>pip install oslo-message
+</code></pre><h2 id="oslo-message&#x4F8B;&#x5B50;">oslo-message&#x4F8B;&#x5B50;</h2>
+<p>&#x6211;&#x4EEC;&#x4EE5;&#x4E00;&#x4E2A;get_version&#x7684;&#x4F8B;&#x5B50;&#x6765;&#x5F00;&#x542F;oslo-message&#x7684;&#x5B66;&#x4E60;</p>
+<h3 id="config&#x6587;&#x4EF6;">config&#x6587;&#x4EF6;</h3>
+<p>config&#x6587;&#x4EF6;&#x91C7;&#x7528;&#x7684;&#x540C;&#x6837;&#x662F;openstack&#x5BB6;&#x7684;oslo-config</p>
+<pre><code># vim config.cfg
+
+[DEFAULT]
+transport_url = rabbit://guest:guest@192.168.184.128:5672
+</code></pre><p>&#x8FD9;&#x4E2A;config&#x6587;&#x4EF6;&#x5B9A;&#x4E49;&#x4E86;transport&#x7684;&#x4FE1;&#x606F;</p>
+<p>&#x683C;&#x5F0F;&#x4E3A;</p>
+<pre><code>&#x9A71;&#x52A8;&#x7C7B;&#x578B;://&#x7528;&#x6237;&#x540D;:&#x5BC6;&#x7801;@&#x670D;&#x52A1;&#x7AEF;IP:&#x7AEF;&#x53E3;
+</code></pre><p>&#x8FD9;&#x91CC;&#x9ED8;&#x8BA4;&#x4F7F;&#x7528;rabbit&#x9A71;&#x52A8;&#xFF0C;rabbit&#x9A71;&#x52A8;&#x7684;&#x540E;&#x7AEF;&#x5B9E;&#x73B0;&#x4E3A;kombu</p>
+<p>guest:guest@192.168.184.128:5672&#x662F;rabbitmq&#x670D;&#x52A1;&#x7AEF;&#x7684;&#x4FE1;&#x606F;</p>
+<h3 id="server&#x7AEF;">server&#x7AEF;</h3>
+<pre><code class="lang-python"># vim server.py
+
+import sys
+from oslo_config import cfg
+import oslo_messaging
+import time
+
+class GetVersion(object):
+    def get_version(self,ctx,arg):
+        print &quot;------ GetVersion.get_version arg:%s--------&quot;%arg
+        return &quot;version 1.0.0&quot;
+
+class TestEndpoint(object):
+    def test(self, ctx, arg):
+        print &quot;------ TestEndpoint.test --------&quot;
+        return arg
+
+cfg.CONF(sys.argv[1:])
+
+transport = oslo_messaging.get_transport(cfg.CONF)
+
+target = oslo_messaging.Target(topic=&apos;test&apos;, server=&apos;server1&apos;)
+
+endpoints= [
+    GetVersion(),
+    TestEndpoint(),
+]
+
+server = oslo_messaging.get_rpc_server(transport, target, endpoints,
+                                      executor=&apos;blocking&apos;)
+
+try:
+    server.start()
+    while True:
+        time.sleep(1)
+except KeyboardInterrupt:
+   print(&quot;Stopping server&quot;)
+
+server.stop()
+server.wait()
+</code></pre>
+<p>&#x8FD9;&#x91CC;&#x4E3A;&#x4E86;&#x4F53;&#x73B0;endpoints&#x7684;&#x5B9A;&#x4E49;&#x89C4;&#x5219;&#xFF0C;&#x5B9A;&#x4E49;&#x4E86;&#x4E24;&#x4E2A;&#x51FD;&#x6570;&#xFF0C;&#x4E00;&#x4E2A;get_version&#x4E00;&#x4E2A;test</p>
+<h3 id="client&#x7AEF;">client&#x7AEF;</h3>
+<pre><code># vim client.py
+
+import sys
+from oslo_config import cfg
+import oslo_messaging as messaging
+
+cfg.CONF(sys.argv[1:])
+
+transport= messaging.get_transport(cfg.CONF)
+target = messaging.Target(topic=&apos;test&apos;)
+client = messaging.RPCClient(transport, target)
+ret= client.call(ctxt = {},
+                  method = &apos;get_version&apos;,arg = &apos;hello world&apos;)
+
+print ret
+</code></pre><h3 id="run">run</h3>
+<ul>
+<li><p>server</p>
+<pre><code># python server.py --config-file ./config.cfg
+</code></pre></li>
+<li><p>client</p>
+</li>
+</ul>
+<pre><code># python client.py --config-file ./config.cfg
+version 1.0.0
+</code></pre><ul>
+<li>server &#x663E;&#x793A;</li>
+</ul>
+<pre><code># python server.py --config-file ./config.cfg
+------ GetVersion.get_version arg:hello world-------
+</code></pre><h2 id="&#x6982;&#x5FF5;&#x8BE6;&#x89E3;">&#x6982;&#x5FF5;&#x8BE6;&#x89E3;</h2>
+<h3 id="transport">Transport</h3>
+<blockquote>
+<p>This is a mostly opaque handle for an underlying messaging transport driver.</p>
+<p>RPCs and Notifications may use separate messaging systems that utilize
+    different drivers, access permissions, message delivery, etc. To ensure
+    the correct messaging functionality, the corresponding method should be
+    used to construct a Transport object from transport configuration
+    gleaned from the user&apos;s configuration and, optionally, a transport URL</p>
+</blockquote>
+<p>Transport&#x662F;&#x4E00;&#x4E2A;&#x8FDE;&#x63A5;&#x5E95;&#x5C42;&#x9A71;&#x52A8;&#x7684;&#x53E5;&#x67C4;&#xFF0C;&#x4ED6;&#x901A;&#x8FC7;&#x8BFB;&#x53D6;config&#x6587;&#x4EF6;&#x4E2D;transport_url&#x8FD9;&#x4E2A;&#x53C2;&#x6570;&#xFF0C;&#x83B7;&#x53D6;&#x9A71;&#x52A8;url&#xFF0C;&#x5E76;&#x901A;&#x8FC7;&#x89E3;&#x6790;url&#x52A0;&#x8F7D;&#x4F20;&#x8F93;&#x6570;&#x636E;&#x6240;&#x4F7F;&#x7528;&#x7684;&#x9A71;&#x52A8;</p>
+<p>&#x5728;&#x4E0A;&#x9762;&#x4E00;&#x8282;&#x63D0;&#x5230;&#x4E86;config&#x6587;&#x4EF6;&#xFF0C;&#x5982;&#x4EE5;&#x4E0B;&#x7684;url</p>
+<pre><code># vim config.cfg
+
+[DEFAULT]
+transport_url = rabbit://guest:guest@192.168.184.128:5672
+</code></pre><p>&#x5373;&#x4E3A;&#x52A0;&#x8F7D;RabbitDriver&#x7684;&#x9A71;&#x52A8;&#xFF0C;&#x6700;&#x524D;&#x9762;&#x7684;rabbit&#x4EE3;&#x8868;&#x4E86;&#x9A71;&#x52A8;&#x7684;&#x540D;&#x79F0;&#xFF0C;&#x9A71;&#x52A8;&#x7A0B;&#x5E8F;&#x7684;&#x5177;&#x4F53;&#x4F4D;&#x7F6E;&#x5728;setup.cfg&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;oslo.messaging.drivers&#x8FD9;&#x4E00;&#x4E2A;&#x5C5E;&#x6027;&#x6765;&#x5B9A;&#x4E49;&#xFF0C;&#x5982;&#x5B98;&#x65B9;&#x5B9E;&#x73B0;&#x7684;&#x9A71;&#x52A8;&#x5982;&#x4E0B;</p>
+<pre><code>oslo.messaging.drivers =
+    rabbit = oslo_messaging._drivers.impl_rabbit:RabbitDriver
+    zmq = oslo_messaging._drivers.impl_zmq:ZmqDriver
+    amqp = oslo_messaging._drivers.impl_amqp1:ProtonDriver
+
+    # This driver is supporting for only notification usage
+    kafka = oslo_messaging._drivers.impl_kafka:KafkaDriver
+
+    # To avoid confusion
+    kombu = oslo_messaging._drivers.impl_rabbit:RabbitDriver
+
+    # This is just for internal testing
+    fake = oslo_messaging._drivers.impl_fake:FakeDriver
+    pika = oslo_messaging._drivers.impl_pika:PikaDriver
+</code></pre><p>&#x5176;&#x4E2D;rabbit&#x548C;kombu&#x90FD;&#x4F1A;&#x52A0;&#x8F7D;RabbitDriver&#xFF0C;&#x53EA;&#x662F;&#x53D6;&#x4E86;&#x4E24;&#x4E2A;&#x4E0D;&#x540C;&#x7684;&#x540D;&#x5B57;&#x800C;&#x5DF2;</p>
+<p>&#x5982;&#x679C;&#x60F3;&#x4F7F;&#x7528;&#x5176;&#x4ED6;&#x9A71;&#x52A8;&#xFF0C;&#x53EA;&#x9700;&#x4FEE;&#x6539;config&#x6587;&#x4EF6;&#x4E2D;transport_url&#x53C2;&#x6570;&#xFF0C;&#x6307;&#x5411;&#x5176;&#x4ED6;&#x7684;&#x9A71;&#x52A8;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;</p>
+<h3 id="target">Target</h3>
+<blockquote>
+<p>Identifies the destination of messages</p>
+<p>A Target encapsulates all the information to identify where a message should be sent or what messages a server is listening for.</p>
+</blockquote>
+<p>Target&#x662F;&#x8868;&#x793A;&#x6D88;&#x606F;&#x6295;&#x9012;&#x7684;&#x76EE;&#x6807;&#x7528;&#x7684;&#xFF0C;&#x4ED6;&#x5C31;&#x50CF;&#x5199;&#x4FE1;&#x7684;&#x65F6;&#x7684;&#x6536;&#x4EF6;&#x4EBA;&#x5730;&#x5740;&#x4E00;&#x6837;&#xFF0C;Target&#x660E;&#x786E;&#x8868;&#x793A;&#x4E86;&#x8FD9;&#x6761;&#x6D88;&#x606F;&#x5E94;&#x8BE5;&#x6295;&#x9012;&#x5230;&#x54EA;&#x91CC;&#xFF0C;&#x5728;server&#x7AEF;&#xFF0C;Target&#x7528;&#x6765;&#x58F0;&#x660E;&#x5730;&#x5740;&#xFF0C;&#x5728;client&#x7AEF;&#xFF0C;&#x7528;&#x6765;&#x8868;&#x793A;&#x76EE;&#x7684;&#x5730;</p>
+<p>Target&#x7C7B;&#x7684;&#x53C2;&#x6570;</p>
+<pre><code class="lang-python">class Target(object):
+    def __init__(self, exchange=None, topic=None, namespace=None,
+                 version=None, server=None, fanout=None,
+                 legacy_namespaces=None):
+</code></pre>
+<h4 id="exchange">exchange</h4>
+<p>&#x4E0E;amqp&#x4E2D;&#x7684;exchange&#x4E00;&#x6837;&#xFF0C;&#x7528;&#x6765;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x4EA4;&#x6362;&#x673A;&#xFF0C;&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x4E00;&#x4E2A;&#x72EC;&#x4E00;&#x65E0;&#x4E8C;&#x7684;&#x540D;&#x5B57;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x4E3A;&#x7A7A;</p>
+<p>&#x4E3A;&#x7A7A;&#x7684;&#x8BDD;&#xFF0C;&#x9ED8;&#x8BA4;&#x4E3A;&quot;openstack&quot;&#xFF0C;&#x8FD9;&#x4E2A;&#x9ED8;&#x8BA4;&#x503C;&#x662F;&#x901A;&#x8FC7;oslo-config&#x7684;&#x9ED8;&#x8BA4;&#x53C2;&#x6570;&#x6765;&#x5B9A;&#x4E49;&#x7684;&#xFF0C;&#x4EE3;&#x7801;&#x5982;&#x4E0B;</p>
+<pre><code>    cfg.StrOpt(&apos;control_exchange&apos;,
+               default=&apos;openstack&apos;,
+               help=&apos;The default exchange under which topics are scoped. May &apos;
+                    &apos;be overridden by an exchange name specified in the &apos;
+                    &apos;transport_url option.&apos;),
+</code></pre><p>&#x5982;&#x679C;&#x60F3;&#x4FEE;&#x6539;&#x8FD9;&#x4E2A;&#x9ED8;&#x8BA4;&#x503C;&#x7684;&#x8BDD;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x5728;config&#x6587;&#x4EF6;&#x4E2D;&#x5B9A;&#x4E49;control_exchange&#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#xFF0C;&#x5982;&#x4E0B;:</p>
+<pre><code>[DEFAULT]
+transport_url = rabbit://guest:guest@192.168.184.128:5672
+control_exchange = my_default_exchange
+</code></pre><h4 id="topic">topic</h4>
+<p>&#x8FD9;&#x91CC;&#x7684;topic&#x4E0E;amqp&#x4E2D;&#x7684;topic&#x6982;&#x5FF5;&#x4E0D;&#x540C;&#xFF0C;amqp&#x4E2D;&#x7684;topic&#x662F;&#x6307;&#x7684;exchange&#x7684;&#x4E00;&#x79CD;&#x7C7B;&#x578B;&#xFF0C;&#x800C;&#x8FD9;&#x91CC;&#x7684;topic&#xFF0C;&#x5C31;&#x662F;&#x6307;&#x7684;&#x4E00;&#x4E2A;&#x4E3B;&#x9898;&#xFF0C;&#x6216;&#x8005;&#x662F;&#x4E00;&#x4E2A;&#x72EC;&#x4E00;&#x65E0;&#x4E8C;&#x7684;routing_key&#xFF0C;&#x5728;oslo-message&#x4E2D;&#xFF0C;&#x8FD9;&#x4E5F;&#x662F;&#x8DEF;&#x7531;&#x6D88;&#x606F;&#x5FC5;&#x987B;&#x914D;&#x7F6E;&#x7684;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#xFF0C;&#x800C;&#x4E14;&#x662F;&#x552F;&#x4E00;&#x4E00;&#x4E2A;&#x5FC5;&#x987B;&#x914D;&#x7F6E;&#x7684;&#x53C2;&#x6570;</p>
+<p>&#x5728;amqp&#x7684;&#x6A21;&#x578B;&#x4E2D;&#xFF0C;&#x4E00;&#x4E2A;&#x6D88;&#x606F;&#x662F;&#x901A;&#x8FC7;&#x4E24;&#x4E2A;&#x53C2;&#x6570;&#x6765;&#x8DEF;&#x7531;&#x7684;&#xFF0C;exchange name + routing_key</p>
+<p>&#x5728;oslo-message&#x4E2D;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;topic&#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#xFF0C;&#x4ED6;&#x5C06;rpc&#x7B80;&#x5316;&#x4E3A;&#x4E86;&#x53EA;&#x7528;&#x4E00;&#x4E2A;topic&#x8DEF;&#x7531;&#x7684;&#x7B80;&#x5355;&#x6A21;&#x578B;</p>
+<h4 id="namespace&#x548C;version">namespace&#x548C;version</h4>
+<p>&#x5728;server&#x7AEF;&#xFF0C;Target&#x4E5F;&#x5206;&#x4E3A;&#x4E24;&#x7C7B;:server target&#x548C;endpoint target</p>
+<p>server target &#x5C31;&#x662F;&#x6211;&#x4EEC;&#x4E0A;&#x9762;&#x6240;&#x8BF4;&#x7684;&#xFF0C;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;topic&#x5E76;&#x63A5;&#x6536;&#x6D88;&#x606F;</p>
+<p>endpoint target&#x662F;&#x5B9A;&#x4E49;&#x8FD9;&#x4E2A;endpoint&#x6240;&#x5C5E;&#x7684;&#x8303;&#x56F4;&#xFF0C;&#x4E00;&#x4E2A;endpoint&#x4EE3;&#x8868;&#x4E00;&#x4E2A;&#x53EF;&#x8C03;&#x7528;&#x5BF9;&#x8C61;&#xFF0C;&#x5982;&#x6211;&#x4EEC;&#x4E0A;&#x9762;&#x4F8B;&#x5B50;&#x4E2D;&#x7684;GetVersion object&#x5C31;&#x662F;&#x4E00;&#x4E2A;endpoint&#xFF0C;&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x6240;&#x6709;&#x7684;endpoint&#x90FD;&#x5C5E;&#x4E8E;default namespace&#xFF0C;&#x4E3A;&#x4E86;&#x5C06;endpoint&#x5F52;&#x7C7B;&#xFF0C;&#x5F15;&#x5165;&#x4E86;endpoint target&#x6982;&#x5FF5;,&#x5373;&#x4E00;&#x4E2A;endpoint&#x53EF;&#x4EE5;&#x5F52;&#x5C5E;&#x4E8E;&#x67D0;&#x4E2A;namespace&#xFF0C;&#x548C;&#x5176;&#x5BF9;&#x5E94;&#x7684;version&#xFF0C;&#x4E66;&#x5199;&#x65B9;&#x5F0F;&#x5982;&#x4E0B;</p>
+<p>&#x6211;&#x4EEC;&#x8FD8;&#x662F;&#x4EE5;&#x4E0A;&#x9762;&#x4F8B;&#x5B50;&#x4E2D;&#x7684;GetVersion&#x4E3A;&#x4F8B;&#x5B50;</p>
+<pre><code>class GetVersion(object):
+    target = oslo_messaging.Target(namespace=&apos;ns1&apos;,
+                                    version=&apos;2.0&apos;)
+
+    def get_version(self,ctx,arg):
+        print &quot;------ GetVersion.get_version arg:%s--------&quot;%arg
+        return &quot;version 1.0.0&quot;
+</code></pre><p>&#x7ED9;GetVersion&#x7C7B;&#x6DFB;&#x52A0;&#x7C7B;&#x5C5E;&#x6027;target&#x540E;&#xFF0C;&#x8868;&#x793A;&#x6B64;endpoint&#x5C5E;&#x4E8E;namespace ns1&#xFF0C;&#x540C;&#x65F6;version&#x4E3A;2.0</p>
+<p>&#x5219;client&#x7AEF;&#x5728;&#x5B9A;&#x4E49;Target&#x65F6;&#xFF0C;&#x9700;&#x8981;&#x8FD9;&#x6837;&#x5199;</p>
+<pre><code>target = messaging.Target(topic=&apos;test&apos;,namespace=&apos;ns1&apos;,version=&apos;2.0&apos;)
+</code></pre><h4 id="server">server</h4>
+<p>server&#x53C2;&#x6570;&#x662F;&#x5728;server&#x7AEF;&#x586B;&#x5199;&#xFF0C;&#x662F;&#x5FC5;&#x586B;&#x53C2;&#x6570;&#xFF0C;&#x7528;&#x6765;&#x552F;&#x4E00;&#x8868;&#x793A;&#x4E00;&#x4E2A;server</p>
+<p>client&#x7AEF;&#x53EF;&#x4EE5;&#x586B;&#x5199;server&#x53C2;&#x6570;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x4E0D;&#x586B;&#x5199;&#xFF0C;&#x5982;&#x679C;&#x586B;&#x5199;server&#xFF0C;&#x5219;&#x6309;&#x7167;&#x6307;&#x5B9A;&#x7684;server&#x8FDB;&#x884C;&#x6295;&#x9012;</p>
+<p>&#x5982;&#x679C;client&#x7AEF;&#x4E0D;&#x586B;&#x5199;server&#x4E14;&#x6709;&#x591A;&#x4E2A;&#x4E0D;&#x540C;&#x7684;server&#x7AEF;&#x76D1;&#x542C;&#x4E86;&#x540C;&#x4E00;&#x4E2A;topic&#x7684;&#x8BDD;&#xFF0C;&#x5219;&#x6309;&#x7167;server&#x7AEF;&#x6CE8;&#x518C;&#x7684;&#x987A;&#x5E8F;&#xFF0C;client&#x5BF9;&#x4E8E;&#x8FD9;&#x4E00;topic&#x7684;&#x6D88;&#x606F;&#x6295;&#x9012;&#x7ED9;&#x7B2C;&#x4E00;&#x4E2A;&#x6CE8;&#x518C;&#x7684;server&#xFF0C;&#x540E;&#x9762;&#x6CE8;&#x518C;&#x7684;server&#x5C06;&#x6536;&#x4E0D;&#x5230;&#x6295;&#x9012;&#x7684;&#x6D88;&#x606F;</p>
+<h4 id="fanout">fanout</h4>
+<p>True/False</p>
+<p>&#x8868;&#x793A;&#x8FD9;&#x4E2A;&#x6D88;&#x606F;&#x662F;&#x5426;&#x5E7F;&#x64AD;&#xFF0C;&#x9ED8;&#x8BA4;&#x4E3A;False&#xFF0C;&#x5982;&#x679C;&#x8BBE;&#x7F6E;&#x4E3A;True&#xFF0C;&#x5219;&#x5C06;&#x6B64;&#x6D88;&#x606F;&#x5E7F;&#x64AD;&#x5230;&#x6BCF;&#x4E00;&#x4E2A;&#x76D1;&#x542C;&#x4E86;&#x6B64;topic&#x7684;server</p>
+<p>&#x6CE8;&#x610F;&#xFF0C;&#x4E00;&#x65E6;&#x8BBE;&#x7F6E;&#x4E3A;True&#xFF0C;&#x5219;server&#x53C2;&#x6570;&#x5C06;&#x5931;&#x6548;&#xFF0C;&#x5373;&#x4F7F;client&#x7AEF;&#x663E;&#x793A;&#x5B9A;&#x4E49;&#x4E86;server&#xFF0C;&#x4E5F;&#x5C06;&#x4E0D;&#x8D77;&#x4F5C;&#x7528;&#xFF0C;&#x8C03;&#x7528;&#x5982;&#x4E0B;</p>
+<pre><code>import sys
+from oslo_config import cfg
+import oslo_messaging as messaging
+
+cfg.CONF(sys.argv[1:])
+
+transport= messaging.get_transport(cfg.CONF)
+target = messaging.Target(topic=&apos;test&apos;,fanout=True)
+client = messaging.RPCClient(transport, target)
+
+ret= client.cast(ctxt = {},
+                  method = &apos;get_version&apos;,arg = &apos;hello world&apos;)
+</code></pre><h3 id="endpoint">endpoint</h3>
+<p>endpoint&#x5373;rpc&#x7684;&#x65B9;&#x6CD5;&#x5B9E;&#x73B0;&#x4F53;&#xFF0C;&#x53EF;&#x4EE5;&#x5B9A;&#x4E49;&#x4E3A;&#x4EFB;&#x610F;&#x7684;python&#x7C7B;&#x4E2D;&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x8C03;&#x7528;&#x65F6;&#x4F7F;&#x7528;&#x51FD;&#x6570;&#x540D;&#x8FDB;&#x884C;&#x8C03;&#x7528;&#xFF0C;&#x65E0;&#x9700;&#x5BF9;&#x5E94;&#x7C7B;&#x540D;&#xFF0C;&#x4E00;&#x4E2A;&#x7C7B;&#x53EF;&#x4EE5;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;rpc&#x51FD;&#x6570;&#x4E5F;&#x53EF;&#x4EE5;&#x5B9A;&#x4E49;&#x591A;&#x4E2A;rpc&#x51FD;&#x6570;</p>
+<p>&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x5728;&#x521B;&#x5EFA;server&#x65F6;&#x4F1A;&#x58F0;&#x660E;&#x51FD;&#x6570;&#x8FC7;&#x6EE4;&#x5668;&#xFF0C;&#x8FD9;&#x4E2A;&#x8FC7;&#x6EE4;&#x5668;&#x4F1A;&#x8FC7;&#x6EE4;&#x53EF;&#x8C03;&#x7528;&#x7684;&#x51FD;&#x6570;&#x540D;&#xFF0C;&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x53EA;&#x6709;&#x4EE5; _ &#x5F00;&#x5934;&#x7684;&#x51FD;&#x6570;&#x4F1A;&#x88AB;&#x8FC7;&#x6EE4;&#x6389;&#xFF0C;&#x5176;&#x4ED6;&#x51FD;&#x6570;&#x5747;&#x53EF;&#x4EE5;&#x89E3;&#x6790;&#x4E3A;rpc&#x51FD;&#x6570;</p>
+<h3 id="getrpcserver">get_rpc_server</h3>
+<p>get_rpc_server&#x51FD;&#x6570;&#xFF0C;&#x6839;&#x636E;&#x5B9A;&#x4E49;&#x7684;transport&#x3001;target&#x3001;endpoints&#xFF0C;&#x521B;&#x5EFA;rpc server handler</p>
+<p>&#x7528;&#x4E00;&#x53E5;&#x8BDD;&#x6982;&#x62EC;&#xFF0C;&#x5C31;&#x662F;&#x4F7F;&#x7528;&#x914D;&#x7F6E;&#x7684;&#x6D88;&#x606F;&#x4F20;&#x9012;driver&#x8FDB;&#x884C;&#x6D88;&#x606F;&#x4F20;&#x9012;&#x5DE5;&#x5177;&#x6765;&#x76D1;&#x542C;target&#x5B9A;&#x4E49;&#x7684;topic&#x5E76;&#x5C06;&#x6536;&#x5230;&#x7684;&#x6D88;&#x606F;&#x8DEF;&#x7531;&#x5230;endpoints&#x8FDB;&#x884C;&#x5904;&#x7406;</p>
+<h4 id="&#x53C2;&#x6570;executor">&#x53C2;&#x6570;executor</h4>
+<p>&#x53EF;&#x9009;&#x53C2;&#x6570;executor&#xFF0C;&#x8FD9;&#x4E2A;&#x53C2;&#x6570;&#x9ED8;&#x8BA4;&#x503C;&#x662F;blocking&#xFF0C;&#x8FD9;&#x4E2A;&#x53C2;&#x6570;&#x6709;&#x4E09;&#x4E2A;&#x503C;&#x53EF;&#x4EE5;&#x9009;&#x62E9;:blocking,eventlet&#x548C;threading</p>
+<p>&#x8FD9;&#x51E0;&#x4E2A;&#x53C2;&#x6570;&#x7684;&#x533A;&#x522B;&#x5982;&#x4E0B;:</p>
+<ul>
+<li>blocking: &#x5904;&#x7406;&#x51FD;&#x6570;&#x5355;&#x7EBF;&#x7A0B;&#x6267;&#x884C;&#xFF0C;&#x5373;&#x4E00;&#x6B21;&#x53EA;&#x80FD;&#x5904;&#x7406;&#x4E00;&#x4E2A;&#x8C03;&#x7528;</li>
+<li>eventlet: &#x5904;&#x7406;&#x51FD;&#x6570;&#x7528;eventlet green thread pool&#x6765;&#x6267;&#x884C;&#xFF0C;&#x53EF;&#x4EE5;&#x540C;&#x65F6;&#x5904;&#x7406;&#x591A;&#x4E2A;&#x6D88;&#x606F;</li>
+<li>threading: &#x5904;&#x7406;&#x51FD;&#x6570;&#x7528;pyhton thread pool&#x6267;&#x884C;&#xFF0C;&#x591A;&#x7EBF;&#x7A0B;&#x53EF;&#x4EE5;&#x540C;&#x65F6;&#x5904;&#x7406;&#x591A;&#x4E2A;&#x6D88;&#x606F;</li>
+</ul>
+<p>oslo-message&#x540C;&#x6837;&#x662F;&#x4F7F;&#x7528;stevedore&#x6765;&#x52A0;&#x8F7D;&#x4E0D;&#x540C;&#x7684;&#x6267;&#x884C;&#x4F53;&#xFF0C;&#x8BE6;&#x89C1;setup.cfg</p>
+<pre><code>oslo.messaging.executors =
+    blocking = futurist:SynchronousExecutor
+    eventlet = futurist:GreenThreadPoolExecutor
+    threading = futurist:ThreadPoolExecutor
+</code></pre><h4 id="&#x53C2;&#x6570;accesspolicy">&#x53C2;&#x6570;access_policy</h4>
+<p>&#x53EF;&#x9009;&#x53C2;&#x6570;access_policy&#xFF0C;&#x53EF;&#x4EE5;&#x89E3;&#x91CA;&#x4E3A;&#x5B83;&#x662F;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x8FC7;&#x6EE4;&#x5668;&#xFF0C;&#x8FD9;&#x4E2A;&#x53C2;&#x6570;&#x6307;&#x5411;&#x4E86;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x8FC7;&#x6EE4;&#x5668;&#xFF0C;&#x8D1F;&#x8D23;&#x6267;&#x884C;endpoint&#x53EF;&#x8C03;&#x7528;&#x51FD;&#x6570;&#x7684;&#x8FC7;&#x6EE4;&#xFF0C;&#x5982;&#x679C;&#x4E0D;&#x8BBE;&#x7F6E;&#x6216;&#x8005;&#x8BBE;&#x7F6E;&#x4E3A;None&#xFF0C;&#x5219;&#x9ED8;&#x8BA4;&#x4F7F;&#x7528;DefaultRPCAccessPolicy&#x8FDB;&#x884C;&#x8FC7;&#x6EE4;</p>
+<pre><code>class DefaultRPCAccessPolicy(RPCAccessPolicyBase):
+    def is_allowed(self, endpoint, method):
+        return not method.startswith(&apos;_&apos;)
+</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x8FD9;&#x4E2A;&#x8FC7;&#x6EE4;&#x5668;&#xFF0C;&#x53EA;&#x4F1A;&#x963B;&#x6B62; _ &#x5F00;&#x5934;&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x5176;&#x4ED6;&#x51FD;&#x6570;&#x5747;&#x53EF;&#x901A;&#x8FC7;&#x8FC7;&#x6EE4;</p>
+<p>&#x9664;&#x4E86;DefaultRPCAccessPolicy&#xFF0C;&#x8FD8;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;ExplicitRPCAccessPolicy</p>
+<pre><code>class ExplicitRPCAccessPolicy(RPCAccessPolicyBase):
+    &quot;&quot;&quot;Policy which requires decorated endpoint methods to allow dispatch&quot;&quot;&quot;
+
+    def is_allowed(self, endpoint, method):
+        if hasattr(endpoint, method):
+            return hasattr(getattr(endpoint, method), &apos;exposed&apos;)
+        return False
+</code></pre><p>&#x8FD9;&#x4E2A;&#x8FC7;&#x6EE4;&#x5668;&#x9700;&#x8981;&#x51FD;&#x6570;&#x4F53;&#x62E5;&#x6709;exposed&#x5C5E;&#x6027;&#xFF0C;&#x7531;&#x4E8E;&#x7C7B;&#x51FD;&#x6570;&#x662F;bound&#x51FD;&#x6570;&#xFF0C;&#x4E0D;&#x80FD;&#x8BBE;&#x7F6E;&#x5C5E;&#x6027;&#xFF0C;&#x6240;&#x4EE5;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x5982;&#x4E0B;&#x65B9;&#x5F0F;&#x5B9A;&#x4E49;endpoint&#x6765;&#x4F7F;&#x7528;ExplicitRPCAccessPolicy</p>
+<p>&#x8FD8;&#x662F;&#x901A;&#x8FC7;GetVersion&#x6765;&#x4E3E;&#x4F8B;</p>
+<pre><code>class GetVersion(object):
+
+    def _get_version(self):
+        def real_fun(ctx,arg):
+            print &quot;------ GetVersion.get_version arg:%s--------&quot;%arg
+            return &quot;version 1.0.0&quot;
+        real_fun.exposed = True
+        return real_fun
+
+    def __getattr__(self, item):
+        if item == &quot;get_version&quot;:
+            return self._get_version()
+</code></pre><p>&#x901A;&#x8FC7;<strong>getattr</strong>&#x5C06;get_version&#x8C03;&#x7528;&#x8F6C;&#x6362;&#x4E3A;unbound&#x51FD;&#x6570;&#xFF0C;&#x5373;&#x53EF;&#x8BBE;&#x7F6E;exposed&#x5C5E;&#x6027;</p>
+<p>&#x83B7;&#x53D6;rpc server&#x65F6;&#x8FD9;&#x6837;&#x83B7;&#x53D6;</p>
+<pre><code>server = oslo_messaging.get_rpc_server(transport, target, endpoints,
+                                      executor=&apos;blocking&apos;,access_policy=oslo_messaging.rpc.ExplicitRPCAccessPolicy)
+</code></pre><p>&#x5982;&#x679C;&#x60F3;&#x81EA;&#x5DF1;&#x5B9E;&#x73B0;&#x8FC7;&#x6EE4;&#x5668;&#x7684;&#x8BDD;&#xFF0C;&#x7F16;&#x5199;&#x5B50;&#x7C7B;&#x7EE7;&#x627F;oslo_messaging.rpc.RPCAccessPolicyBase&#x5E76;&#x5B9E;&#x73B0;is_allowed&#x51FD;&#x6570;&#x5373;&#x53EF;</p>
+<h3 id="rpcclient">RPCClient</h3>
+<p>RPCClient&#x662F;client&#x7AEF;&#x8FDB;&#x884C;&#x6D88;&#x606F;&#x53D1;&#x9001;&#x7684;&#x7C7B;</p>
+<p>&#x4E0E;rpc_server&#x4E00;&#x6837;&#xFF0C;RPCClient&#x4E5F;&#x662F;&#x901A;&#x8FC7;transport&#x548C;target&#x786E;&#x5B9A;&#x6D88;&#x606F;&#x5E94;&#x8BE5;&#x53D1;&#x9001;&#x5230;&#x4F55;&#x65B9;</p>
+<p>&#x4ED6;&#x6709;&#x4E24;&#x4E2A;&#x53D1;&#x9001;&#x51FD;&#x6570;&#xFF0C;&#x5206;&#x522B;&#x662F;call&#x548C;cast</p>
+<h4 id="call">call</h4>
+<pre><code>def call(self, ctxt, method, **kwargs):
+</code></pre><p>call()&#x65B9;&#x6CD5;&#x7528;&#x4E8E;&#x8C03;&#x7528;&#x8FDC;&#x7AEF;rpc&#x65B9;&#x6CD5;&#xFF0C;&#x5E76;&#x83B7;&#x53D6;&#x5230;&#x4E00;&#x4E2A;&#x8FD4;&#x56DE;&#x503C;&#xFF0C;&#x56E0;&#x6B64;&#x8C03;&#x7528;call&#x65B9;&#x6CD5;&#x65F6;&#xFF0C;&#x4E0D;&#x80FD;&#x8BB2;target&#x7684;fanout&#x5C5E;&#x6027;&#x8BBE;&#x7F6E;&#x4E3A;True</p>
+<p>call&#x65B9;&#x6CD5;&#x662F;&#x4E00;&#x4E2A;&#x540C;&#x6B65;&#x65B9;&#x6CD5;&#xFF0C;&#x5B83;&#x4F1A;&#x963B;&#x585E;&#x4F4F;&#x5F53;&#x524D;&#x7EBF;&#x7A0B;&#xFF0C;&#x76F4;&#x5230;&#x8C03;&#x7528;&#x8FD4;&#x56DE;&#xFF0C;&#x6216;&#x8005;&#x662F;&#x901A;&#x8FC7;timeout&#x53C2;&#x6570;&#x8BBE;&#x5B9A;&#x8D85;&#x65F6;&#x65F6;&#x95F4;</p>
+<h4 id="cast">cast</h4>
+<pre><code>def cast(self, ctxt, method, **kwargs):
+</code></pre><p>cast()&#x65B9;&#x6CD5;&#x7528;&#x4E8E;&#x8C03;&#x7528;&#x8FDC;&#x7AEF;rpc&#x65B9;&#x6CD5;&#xFF0C;&#x4E0D;&#x83B7;&#x53D6;&#x8FD4;&#x56DE;&#x503C;&#xFF0C;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x5E38;&#x7528;&#x4E8E;Target&#x8BBE;&#x7F6E;&#x4E86;fanout=True&#x7684;&#x5E7F;&#x64AD;&#x8C03;&#x7528;</p>
+<p>cast&#x65B9;&#x6CD5;&#x4EC5;&#x4EC5;&#x4F1A;&#x963B;&#x585E;&#x7EBF;&#x7A0B;&#x5230;transport&#x5373;driver&#x5C42;&#x83B7;&#x53D6;&#x5230;&#x6B64;rpc&#x8C03;&#x7528;&#xFF0C;&#x4F46;&#x662F;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x4E0D;&#x4FDD;&#x8BC1;rpc&#x8C03;&#x7528;&#x88AB;&#x8FDC;&#x7AEF;server&#x54CD;&#x5E94;</p>
+<footer class="page-footer-ex"> <span class="page-footer-ex-copyright"> By <a href="https://github.com/cao19881125" target="_blank">&#x66F9;&#x4E91;&#x6D9B;</a>&#xFF0C;&#x4F7F;&#x7528;<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">&#x77E5;&#x8BC6;&#x5171;&#x4EAB; &#x7F72;&#x540D;-&#x975E;&#x5546;&#x4E1A;&#x6027;&#x4F7F;&#x7528;-&#x7981;&#x6B62;&#x6F14;&#x7ECE; 4.0 &#x56FD;&#x9645; &#x8BB8;&#x53EF;&#x534F;&#x8BAE;</a>&#x53D1;&#x5E03; </span> &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; <span class="page-footer-ex-footer-update"> &#x6B64;&#x9875;&#x9762;&#x4FEE;&#x8BA2;&#x4E8E;&#xFF1A; 2019-07-23 17:52:21 </span> </footer>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="kombu.html" class="navigation navigation-prev " aria-label="Previous page: kombu">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="rabbit_driver.html" class="navigation navigation-next " aria-label="Next page: RabbitDriver解析">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"oslo-message使用","level":"4.3","depth":1,"next":{"title":"RabbitDriver解析","level":"4.4","depth":1,"path":"common_lib/oslo_messaging/rabbit_driver.md","ref":"common_lib/oslo_messaging/rabbit_driver.md","articles":[]},"previous":{"title":"kombu","level":"4.2","depth":1,"path":"common_lib/oslo_messaging/kombu.md","ref":"common_lib/oslo_messaging/kombu.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-lunr","-search","-highlight","-livereload","search-plus@^0.0.11","mermaid-gb3","splitter@^0.0.8","expandable-chapters-small","github@^2.0.0","github-buttons@2.1.0","page-footer-ex","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"github":{"url":"https://github.com/cao19881125/neutron-parse"},"page-footer-ex":{"copyright":"By [曹云涛](https://github.com/cao19881125)，使用[知识共享 署名-非商业性使用-禁止演绎 4.0 国际 许可协议](http://creativecommons.org/licenses/by-nc-nd/4.0/)发布","markdown":true,"update_format":"YYYY-MM-DD HH:mm:ss","update_label":"此页面修订于："},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"github-buttons":{"repo":"cao19881125/neutron-parse","types":["star","watch","fork"],"size":"small"},"expandable-chapters-small":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"search-plus":{}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Neutron源码解析","language":"zh-hans","links":{"sidebar":{"Home":"https://github.com/cao19881125"}},"gitbook":"3.x","description":"Neutron源码解析"},"file":{"path":"common_lib/oslo_messaging/oslo_message_usage.md","mtime":"2019-07-23T09:52:21.660Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-07-24T06:33:04.642Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-plus/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-plus/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-mermaid-gb3/book/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-expandable-chapters-small/expandable-chapters-small.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github-buttons/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    <script src="../../gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.min.js"></script>
+
+    </body>
+</html>
+

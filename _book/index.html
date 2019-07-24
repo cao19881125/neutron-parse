@@ -1,0 +1,757 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>前言 · Neutron源码解析</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search-plus/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-expandable-chapters-small/expandable-chapters-small.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-page-footer-ex/style/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+
+    
+
+        
+    
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="forward.html" />
+    
+    
+
+    <style>
+    @media only screen and (max-width: 640px) {
+        .book-header .hidden-mobile {
+            display: none;
+        }
+    }
+    </style>
+    <script>
+        window["gitbook-plugin-github-buttons"] = {"repo":"cao19881125/neutron-parse","types":["star","watch","fork"],"size":"small"};
+    </script>
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="输入并搜索" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="https://github.com/cao19881125" target="_blank" class="custom-link">Home</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        <li class="header">简介</li>
+        
+        
+    
+        <li class="chapter active" data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                        <b>1.1.</b>
+                    
+                    前言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="forward.html">
+            
+                <a href="forward.html">
+            
+                    
+                        <b>1.2.</b>
+                    
+                    序章
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-config配置解析</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="common_lib/oslo_config/config.html">
+            
+                <a href="common_lib/oslo_config/config.html">
+            
+                    
+                        <b>2.1.</b>
+                    
+                    安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="common_lib/oslo_config/example.html">
+            
+                <a href="common_lib/oslo_config/example.html">
+            
+                    
+                        <b>2.2.</b>
+                    
+                    例子
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="common_lib/oslo_config/value_type.html">
+            
+                <a href="common_lib/oslo_config/value_type.html">
+            
+                    
+                        <b>2.3.</b>
+                    
+                    变量类型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="common_lib/oslo_config/cfg_conf.html">
+            
+                <a href="common_lib/oslo_config/cfg_conf.html">
+            
+                    
+                        <b>2.4.</b>
+                    
+                    cfg.CONF实现解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="common_lib/oslo_config/neutron_conf.html">
+            
+                <a href="common_lib/oslo_config/neutron_conf.html">
+            
+                    
+                        <b>2.5.</b>
+                    
+                    neutron与cfg.CONF
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-service构建resetful server</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="common_lib/oslo_service/define.html">
+            
+                <a href="common_lib/oslo_service/define.html">
+            
+                    
+                        <b>3.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="common_lib/oslo_service/wsgi_eventlet.html">
+            
+                <a href="common_lib/oslo_service/wsgi_eventlet.html">
+            
+                    
+                        <b>3.2.</b>
+                    
+                    eventlet.wsgi
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="common_lib/oslo_service/pastedeploy.html">
+            
+                <a href="common_lib/oslo_service/pastedeploy.html">
+            
+                    
+                        <b>3.3.</b>
+                    
+                    PasteDeploy
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="common_lib/oslo_service/oslo_service.html">
+            
+                <a href="common_lib/oslo_service/oslo_service.html">
+            
+                    
+                        <b>3.4.</b>
+                    
+                    oslo-service使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="common_lib/oslo_service/service_usage.html">
+            
+                <a href="common_lib/oslo_service/service_usage.html">
+            
+                    
+                        <b>3.5.</b>
+                    
+                    oslo-service其他用法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" data-path="common_lib/oslo_service/code_parse.html">
+            
+                <a href="common_lib/oslo_service/code_parse.html">
+            
+                    
+                        <b>3.6.</b>
+                    
+                    oslo-service源码解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="common_lib/oslo_service/neutron_oslo_service.html">
+            
+                <a href="common_lib/oslo_service/neutron_oslo_service.html">
+            
+                    
+                        <b>3.7.</b>
+                    
+                    neutron与oslo-service
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-message搭建rpc通信框架</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="common_lib/oslo_messaging/define.html">
+            
+                <a href="common_lib/oslo_messaging/define.html">
+            
+                    
+                        <b>4.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="common_lib/oslo_messaging/kombu.html">
+            
+                <a href="common_lib/oslo_messaging/kombu.html">
+            
+                    
+                        <b>4.2.</b>
+                    
+                    kombu
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="common_lib/oslo_messaging/oslo_message_usage.html">
+            
+                <a href="common_lib/oslo_messaging/oslo_message_usage.html">
+            
+                    
+                        <b>4.3.</b>
+                    
+                    oslo-message使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="common_lib/oslo_messaging/rabbit_driver.html">
+            
+                <a href="common_lib/oslo_messaging/rabbit_driver.html">
+            
+                    
+                        <b>4.4.</b>
+                    
+                    RabbitDriver解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-db操作数据库</li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="common_lib/oslo_db/define.html">
+            
+                <a href="common_lib/oslo_db/define.html">
+            
+                    
+                        <b>5.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-log记录日志</li>
+        
+        
+    
+        <li class="chapter " data-level="6.1" data-path="common_lib/oslo_log/define.html">
+            
+                <a href="common_lib/oslo_log/define.html">
+            
+                    
+                        <b>6.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">core-plugin二层业务处理</li>
+        
+        
+    
+        <li class="chapter " data-level="7.1" data-path="core_plugin/define.html">
+            
+                <a href="core_plugin/define.html">
+            
+                    
+                        <b>7.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">service-plugin三层业务处理</li>
+        
+        
+    
+        <li class="chapter " data-level="8.1" data-path="service_plugin/define.html">
+            
+                <a href="service_plugin/define.html">
+            
+                    
+                        <b>8.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">mechanism-driver构建sdn桥梁</li>
+        
+        
+    
+        <li class="chapter " data-level="9.1" data-path="mechanism_driver/define.html">
+            
+                <a href="mechanism_driver/define.html">
+            
+                    
+                        <b>9.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">openvswitch架构</li>
+        
+        
+    
+        <li class="chapter " data-level="10.1" data-path="openvswitch/define.html">
+            
+                <a href="openvswitch/define.html">
+            
+                    
+                        <b>10.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">ovn架构</li>
+        
+        
+    
+        <li class="chapter " data-level="11.1" data-path="ovn/define.html">
+            
+                <a href="ovn/define.html">
+            
+                    
+                        <b>11.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">自己实现一个mechanism-driver</li>
+        
+        
+    
+        <li class="chapter " data-level="12.1" data-path="mechanism_self/define.html">
+            
+                <a href="mechanism_self/define.html">
+            
+                    
+                        <b>12.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本书使用 GitBook 发布
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >前言</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="neutron&#x6E90;&#x7801;&#x89E3;&#x6790;">neutron&#x6E90;&#x7801;&#x89E3;&#x6790;</h1>
+<p>&#x672C;&#x4E66;&#x4E3B;&#x8981;&#x4ECE;neutron&#x4EE3;&#x7801;&#x5C42;&#x9762;&#x5165;&#x624B;&#xFF0C;&#x901A;&#x8FC7;&#x5206;&#x6790;neutron&#x4EE3;&#x7801;&#x7684;&#x67B6;&#x6784;&#x8BBE;&#x8BA1;&#x3001;&#x6A21;&#x5757;/&#x63D2;&#x4EF6;&#x8BBE;&#x8BA1;&#x3001;&#x5BF9;&#x8C61;&#x8BBE;&#x8BA1;&#x3001;&#x4E1A;&#x52A1;&#x6D41;&#x7A0B;&#x3001;&#x51FD;&#x6570;&#x5C5E;&#x6027;&#x7B49;&#xFF0C;&#x5C06;neutron&#x4EE5;&#x53CA;&#x80CC;&#x540E;&#x7684;sdn&#x6280;&#x672F;&#x8FDB;&#x884C;&#x5256;&#x6790;</p>
+<h3 id="&#x672C;&#x4E66;&#x9762;&#x5411;&#x7684;&#x8BFB;&#x8005;&#x4E3A;&#xFF1A;">&#x672C;&#x4E66;&#x9762;&#x5411;&#x7684;&#x8BFB;&#x8005;&#x4E3A;&#xFF1A;</h3>
+<ul>
+<li>&#x5BF9;openstack neutron&#x6709;&#x4E00;&#x5B9A;&#x7684;&#x90E8;&#x7F72;&#x3001;&#x64CD;&#x4F5C;&#x7ECF;&#x9A8C;&#xFF0C;&#x5E0C;&#x671B;&#x4E86;&#x89E3;&#x5176;&#x5185;&#x90E8;&#x67B6;&#x6784;&#x7684;</li>
+<li>&#x5BF9;neutron&#x8BBE;&#x8BA1;&#x5230;&#x7684;sdn&#x6280;&#x672F;&#xFF0C;&#x5982;openvswitch,linuxbridge,ovn&#x7B49;&#x611F;&#x5174;&#x8DA3;&#xFF0C;&#x5E0C;&#x671B;&#x8FDB;&#x884C;&#x5B66;&#x4E60;&#x7684;</li>
+<li>&#x9700;&#x8981;&#x5BF9;neutron&#x4EE3;&#x7801;&#x8FDB;&#x884C;&#x5F00;&#x53D1;&#x6539;&#x9020;&#x7684;</li>
+</ul>
+<h3 id="&#x901A;&#x8FC7;&#x672C;&#x4E66;&#x4F60;&#x5C06;&#x5B66;&#x4E60;&#x5230;&#x5982;&#x4E0B;&#x5185;&#x5BB9;">&#x901A;&#x8FC7;&#x672C;&#x4E66;&#x4F60;&#x5C06;&#x5B66;&#x4E60;&#x5230;&#x5982;&#x4E0B;&#x5185;&#x5BB9;</h3>
+<ul>
+<li>neutron&#x7528;&#x5230;&#x7684;openstack&#x516C;&#x5171;&#x6A21;&#x5757;&#xFF0C;&#x5982;:oslo-config,oslo-db,oslo-log,oslo-messing,oslo-service&#x7B49;</li>
+<li>neutron&#x7684;&#x6A21;&#x5757;&#x53CA;&#x63D2;&#x4EF6;&#x8BBE;&#x8BA1;&#xFF0C;&#x5305;&#x62EC;:core-plugin,service-plugin,mechanism-driver &#x7B49;&#xFF0C;&#x4EE5;&#x53CA;&#x4ED6;&#x4EEC;&#x7684;&#x5185;&#x90E8;&#x67B6;&#x6784;</li>
+<li>neutron&#x5305;&#x542B;&#x7684;sdn&#x6280;&#x672F;&#xFF0C;&#x4EE5;&#x53CA;&#x8FD9;&#x4E9B;&#x6280;&#x672F;&#x76F8;&#x5BF9;&#x7684;&#x4E1A;&#x52A1;&#x67B6;&#x6784;&#xFF0C;&#x5982;linux-bridge&#xFF0C;openvswitch,ovn&#x7B49;</li>
+<li>&#x5982;&#x4F55;&#x81EA;&#x5DF1;&#x5F00;&#x53D1;&#x4E00;&#x6B3E;mechanism-driver&#x63D2;&#x4EF6;</li>
+</ul>
+<h3 id="&#x5907;&#x6CE8;&#xFF1A;">&#x5907;&#x6CE8;&#xFF1A;</h3>
+<p>&#x672C;&#x4E66;&#x4F7F;&#x7528;&#x7684;&#x4EE3;&#x7801;&#x4E3A;openstack ocata&#x7248;&#x672C;</p>
+<p>&#x7B14;&#x8005;&#x5B66;&#x4E60;&#x7684;&#x601D;&#x8DEF;&#x4E00;&#x822C;&#x4E3A;&#x4E0D;&#x7BA1;&#x4E09;&#x4E03;&#x4E8C;&#x5341;&#x4E00;&#x5148;&#x5199;&#x6D4B;&#x8BD5;&#x4EE3;&#x7801;&#xFF0C;&#x628A;&#x6D4B;&#x8BD5;&#x4EE3;&#x7801;&#x8DD1;&#x8D77;&#x6765;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x53CD;&#x8FC7;&#x5934;&#x6765;&#x5206;&#x6790;&#xFF0C;&#x8FD9;&#x6837;&#x7684;&#x597D;&#x5904;&#x662F;&#x80FD;&#x5148;&#x6709;&#x4E00;&#x4E9B;&#x6210;&#x5C31;&#x611F;&#xFF0C;&#x7136;&#x540E;&#x66F4;&#x6709;&#x52A8;&#x529B;&#x53BB;&#x5B66;&#x4E60;&#x5176;&#x4E2D;&#x7684;&#x539F;&#x7406;</p>
+<p>&#x6240;&#x4EE5;&#x672C;&#x4E66;&#x4E5F;&#x6309;&#x7167;&#x8FD9;&#x4E2A;&#x601D;&#x8DEF;&#xFF0C;&#x4F1A;&#x653E;&#x4E00;&#x4E9B;&#x4F8B;&#x5B50;&#x4EE3;&#x7801;&#x4E0A;&#x6765;&#xFF0C;&#x5E76;&#x4E14;&#x9644;&#x4E0A;&#x6D4B;&#x8BD5;&#x8FD0;&#x884C;&#x7684;&#x8FC7;&#x7A0B;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x6765;&#x5206;&#x6790;&#x5176;&#x4E2D;&#x7684;&#x539F;&#x7406;</p>
+<p>&#x7531;&#x4E8E;&#x67D0;&#x4E9B;&#x51FD;&#x6570;&#x7684;&#x4EE3;&#x7801;&#x91CF;&#x6BD4;&#x8F83;&#x5927;&#x4E0D;&#x4FBF;&#x4E8E;&#x9605;&#x8BFB;&#xFF0C;&#x6240;&#x4EE5;&#x6211;&#x4F1A;&#x7CBE;&#x7B80;&#x4EE3;&#x7801;&#xFF0C;&#x5305;&#x62EC;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x4E2D;&#x53BB;&#x6389;&#x4E0D;&#x76F8;&#x5173;&#x7684;&#x53C2;&#x6570;&#xFF0C;&#x51FD;&#x6570;&#x5B9E;&#x73B0;&#x4E2D;&#x53BB;&#x6389;&#x4E0D;&#x76F8;&#x5173;&#x7684;&#x5F02;&#x5E38;&#x5904;&#x7406;&#x3001;&#x4E0D;&#x76F8;&#x5173;&#x7684;&#x903B;&#x8F91;&#x5904;&#x7406;&#xFF0C;&#x5C06;&#x7C7B;&#x6216;&#x8005;&#x51FD;&#x6570;&#x91CD;&#x65B0;&#x6392;&#x7248;&#x7B49;&#xFF0C;&#x53EA;&#x5C06;&#x91CD;&#x8981;&#x7684;&#x90E8;&#x5206;&#x7EB3;&#x5165;&#x8FDB;&#x6765;</p>
+<hr>
+<ul>
+<li>&#x4F5C;&#x8005;&#xFF1A;&#x66F9;&#x4E91;&#x6D9B;&#xFF0C;Github <a href="https://github.com/cao19881125" target="_blank">@cao</a></li>
+<li>&#x90AE;&#x4EF6;&#xFF1A;caoyuntao1125@gmail.com</li>
+<li>&#x672C;&#x4E66;github&#x5730;&#x5740;: <a href="https://github.com/cao19881125/neutron-parse" target="_blank">neutron-parse</a></li>
+</ul>
+<footer class="page-footer-ex"> <span class="page-footer-ex-copyright"> By <a href="https://github.com/cao19881125" target="_blank">&#x66F9;&#x4E91;&#x6D9B;</a>&#xFF0C;&#x4F7F;&#x7528;<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">&#x77E5;&#x8BC6;&#x5171;&#x4EAB; &#x7F72;&#x540D;-&#x975E;&#x5546;&#x4E1A;&#x6027;&#x4F7F;&#x7528;-&#x7981;&#x6B62;&#x6F14;&#x7ECE; 4.0 &#x56FD;&#x9645; &#x8BB8;&#x53EF;&#x534F;&#x8BAE;</a>&#x53D1;&#x5E03; </span> &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; <span class="page-footer-ex-footer-update"> &#x6B64;&#x9875;&#x9762;&#x4FEE;&#x8BA2;&#x4E8E;&#xFF1A; 2019-07-24 14:32:38 </span> </footer>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                
+                <a href="forward.html" class="navigation navigation-next navigation-unique" aria-label="Next page: 序章">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"前言","level":"1.1","depth":1,"next":{"title":"序章","level":"1.2","depth":1,"path":"forward.md","ref":"forward.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-lunr","-search","-highlight","-livereload","search-plus@^0.0.11","mermaid-gb3","splitter@^0.0.8","expandable-chapters-small","github@^2.0.0","github-buttons@2.1.0","page-footer-ex","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"github":{"url":"https://github.com/cao19881125/neutron-parse"},"page-footer-ex":{"copyright":"By [曹云涛](https://github.com/cao19881125)，使用[知识共享 署名-非商业性使用-禁止演绎 4.0 国际 许可协议](http://creativecommons.org/licenses/by-nc-nd/4.0/)发布","markdown":true,"update_format":"YYYY-MM-DD HH:mm:ss","update_label":"此页面修订于："},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"github-buttons":{"repo":"cao19881125/neutron-parse","types":["star","watch","fork"],"size":"small"},"expandable-chapters-small":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"search-plus":{}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Neutron源码解析","language":"zh-hans","links":{"sidebar":{"Home":"https://github.com/cao19881125"}},"gitbook":"3.x","description":"Neutron源码解析"},"file":{"path":"README.md","mtime":"2019-07-24T06:32:38.772Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-07-24T06:33:04.642Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-search-plus/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search-plus/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-mermaid-gb3/book/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-expandable-chapters-small/expandable-chapters-small.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-github-buttons/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    <script src="gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.min.js"></script>
+
+    </body>
+</html>
+

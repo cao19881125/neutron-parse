@@ -1,0 +1,988 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>kombu · Neutron源码解析</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search-plus/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-expandable-chapters-small/expandable-chapters-small.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-page-footer-ex/style/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+
+    
+
+        
+    
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="oslo_message_usage.html" />
+    
+    
+    <link rel="prev" href="define.html" />
+    
+
+    <style>
+    @media only screen and (max-width: 640px) {
+        .book-header .hidden-mobile {
+            display: none;
+        }
+    }
+    </style>
+    <script>
+        window["gitbook-plugin-github-buttons"] = {"repo":"cao19881125/neutron-parse","types":["star","watch","fork"],"size":"small"};
+    </script>
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="输入并搜索" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="https://github.com/cao19881125" target="_blank" class="custom-link">Home</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        <li class="header">简介</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                        <b>1.1.</b>
+                    
+                    前言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../../forward.html">
+            
+                <a href="../../forward.html">
+            
+                    
+                        <b>1.2.</b>
+                    
+                    序章
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-config配置解析</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../oslo_config/config.html">
+            
+                <a href="../oslo_config/config.html">
+            
+                    
+                        <b>2.1.</b>
+                    
+                    安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../oslo_config/example.html">
+            
+                <a href="../oslo_config/example.html">
+            
+                    
+                        <b>2.2.</b>
+                    
+                    例子
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../oslo_config/value_type.html">
+            
+                <a href="../oslo_config/value_type.html">
+            
+                    
+                        <b>2.3.</b>
+                    
+                    变量类型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../oslo_config/cfg_conf.html">
+            
+                <a href="../oslo_config/cfg_conf.html">
+            
+                    
+                        <b>2.4.</b>
+                    
+                    cfg.CONF实现解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="../oslo_config/neutron_conf.html">
+            
+                <a href="../oslo_config/neutron_conf.html">
+            
+                    
+                        <b>2.5.</b>
+                    
+                    neutron与cfg.CONF
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-service构建resetful server</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../oslo_service/define.html">
+            
+                <a href="../oslo_service/define.html">
+            
+                    
+                        <b>3.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../oslo_service/wsgi_eventlet.html">
+            
+                <a href="../oslo_service/wsgi_eventlet.html">
+            
+                    
+                        <b>3.2.</b>
+                    
+                    eventlet.wsgi
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="../oslo_service/pastedeploy.html">
+            
+                <a href="../oslo_service/pastedeploy.html">
+            
+                    
+                        <b>3.3.</b>
+                    
+                    PasteDeploy
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="../oslo_service/oslo_service.html">
+            
+                <a href="../oslo_service/oslo_service.html">
+            
+                    
+                        <b>3.4.</b>
+                    
+                    oslo-service使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="../oslo_service/service_usage.html">
+            
+                <a href="../oslo_service/service_usage.html">
+            
+                    
+                        <b>3.5.</b>
+                    
+                    oslo-service其他用法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" data-path="../oslo_service/code_parse.html">
+            
+                <a href="../oslo_service/code_parse.html">
+            
+                    
+                        <b>3.6.</b>
+                    
+                    oslo-service源码解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="../oslo_service/neutron_oslo_service.html">
+            
+                <a href="../oslo_service/neutron_oslo_service.html">
+            
+                    
+                        <b>3.7.</b>
+                    
+                    neutron与oslo-service
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-message搭建rpc通信框架</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="define.html">
+            
+                <a href="define.html">
+            
+                    
+                        <b>4.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="4.2" data-path="kombu.html">
+            
+                <a href="kombu.html">
+            
+                    
+                        <b>4.2.</b>
+                    
+                    kombu
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="oslo_message_usage.html">
+            
+                <a href="oslo_message_usage.html">
+            
+                    
+                        <b>4.3.</b>
+                    
+                    oslo-message使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="rabbit_driver.html">
+            
+                <a href="rabbit_driver.html">
+            
+                    
+                        <b>4.4.</b>
+                    
+                    RabbitDriver解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-db操作数据库</li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../oslo_db/define.html">
+            
+                <a href="../oslo_db/define.html">
+            
+                    
+                        <b>5.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">oslo-log记录日志</li>
+        
+        
+    
+        <li class="chapter " data-level="6.1" data-path="../oslo_log/define.html">
+            
+                <a href="../oslo_log/define.html">
+            
+                    
+                        <b>6.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">core-plugin二层业务处理</li>
+        
+        
+    
+        <li class="chapter " data-level="7.1" data-path="../../core_plugin/define.html">
+            
+                <a href="../../core_plugin/define.html">
+            
+                    
+                        <b>7.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">service-plugin三层业务处理</li>
+        
+        
+    
+        <li class="chapter " data-level="8.1" data-path="../../service_plugin/define.html">
+            
+                <a href="../../service_plugin/define.html">
+            
+                    
+                        <b>8.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">mechanism-driver构建sdn桥梁</li>
+        
+        
+    
+        <li class="chapter " data-level="9.1" data-path="../../mechanism_driver/define.html">
+            
+                <a href="../../mechanism_driver/define.html">
+            
+                    
+                        <b>9.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">openvswitch架构</li>
+        
+        
+    
+        <li class="chapter " data-level="10.1" data-path="../../openvswitch/define.html">
+            
+                <a href="../../openvswitch/define.html">
+            
+                    
+                        <b>10.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">ovn架构</li>
+        
+        
+    
+        <li class="chapter " data-level="11.1" data-path="../../ovn/define.html">
+            
+                <a href="../../ovn/define.html">
+            
+                    
+                        <b>11.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">自己实现一个mechanism-driver</li>
+        
+        
+    
+        <li class="chapter " data-level="12.1" data-path="../../mechanism_self/define.html">
+            
+                <a href="../../mechanism_self/define.html">
+            
+                    
+                        <b>12.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本书使用 GitBook 发布
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >kombu</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <p>&#x4E0A;&#x4E00;&#x7AE0;&#x4ECB;&#x7ECD;&#x4E86;rabbitmq&#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x672C;&#x7AE0;&#x4ECB;&#x7ECD;&#x4E00;&#x4E2A;python&#x5B9E;&#x73B0;&#x7684;amqp&#x5E93;kumbo</p>
+<p>&#x4E4B;&#x6240;&#x4EE5;&#x8981;&#x4ECB;&#x7ECD;kumbo&#xFF0C;&#x662F;&#x56E0;&#x4E3A;&#x5728;oslo-messaging&#x4E2D;&#xFF0C;kombu&#x662F;openstack&#x5B98;&#x65B9;&#x5B9E;&#x73B0;&#x7684;amqp
+driver&#xFF0C;&#x5176;&#x4ED6;&#x7684;driver&#x8FD8;&#x6709;ZeroMQ,kafka,pika&#x7B49;</p>
+<p>&#x901A;&#x8FC7;&#x672C;&#x7AE0;&#x7684;&#x5B66;&#x4E60;&#xFF0C;&#x4F60;&#x5C06;&#x77E5;&#x9053;&#x5982;&#x4F55;&#x4F7F;&#x7528;kumbo&#x6765;&#x8FDE;&#x63A5;rabbitmq&#xFF0C;&#x5E76;&#x5728;rabbitmq&#x4E0A;&#x521B;&#x5EFA;exchange&#x4E0E;queue&#xFF0C;&#x751F;&#x4EA7;&#x6D88;&#x606F;&#x4EE5;&#x53CA;&#x6D88;&#x8D39;&#x6D88;&#x606F;</p>
+<h2 id="&#x51E0;&#x4E2A;&#x91CD;&#x8981;&#x6B65;&#x9AA4;">&#x51E0;&#x4E2A;&#x91CD;&#x8981;&#x6B65;&#x9AA4;</h2>
+<p>&#x6211;&#x4EEC;&#x5728;&#x4E0A;&#x4E00;&#x7AE0;&#x8BB2;&#x89E3;rabbitmq&#x65F6;&#xFF0C;&#x8BB2;&#x89E3;&#x4E86;&#x4E00;&#x4E9B;&#x91CD;&#x8981;&#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x5176;&#x4E2D;&#x5305;&#x62EC;connection,exchange,queue,producer,consumer&#x7B49;</p>
+<p>&#x672C;&#x7AE0;&#x901A;&#x8FC7;&#x4EE3;&#x7801;&#x5B9E;&#x8DF5;&#xFF0C;&#x5C06;&#x8FD9;&#x4E9B;&#x6982;&#x5FF5;&#x7A7F;&#x63D2;&#x8D77;&#x6765;&#xFF0C;&#x8BA9;&#x8BFB;&#x8005;&#x80FD;&#x591F;&#x901A;&#x8FC7;&#x771F;&#x5B9E;&#x7684;&#x4F8B;&#x5B50;&#x4E86;&#x89E3;&#x5230;&#x8FD9;&#x4E9B;&#x6982;&#x5FF5;&#x7684;&#x4F5C;&#x7528;</p>
+<p>&#x901A;&#x8FC7;&#x603B;&#x7ED3;&#xFF0C;consumer&#x7AEF;&#x548C;producer&#x7AEF;&#x7684;&#x6B65;&#x9AA4;&#x5982;&#x4E0B;</p>
+<h3 id="consumer&#x7AEF;&#x6B65;&#x9AA4;">consumer&#x7AEF;&#x6B65;&#x9AA4;</h3>
+<ol>
+<li>&#x5B9A;&#x4E49;connection</li>
+<li>&#x5B9A;&#x4E49;exchange</li>
+<li>&#x5B9A;&#x4E49;queue&#xFF0C;&#x7ED1;&#x5B9A;exchange&#x4E0E;routing_key</li>
+<li>&#x5B9A;&#x4E49;consumer&#xFF0C;&#x7ED1;&#x5B9A;queue&#x4E0E;&#x56DE;&#x8C03;&#x51FD;&#x6570;</li>
+<li>&#x542F;&#x52A8;&#x670D;&#x52A1;&#xFF0C;&#x5904;&#x7406;&#x56DE;&#x8C03;</li>
+</ol>
+<h3 id="producer&#x7AEF;&#x6B65;&#x9AA4;">producer&#x7AEF;&#x6B65;&#x9AA4;</h3>
+<ol>
+<li>&#x5B9A;&#x4E49;connection</li>
+<li>&#x5B9A;&#x4E49;exchange</li>
+<li>&#x5B9A;&#x4E49;producer</li>
+<li>&#x901A;&#x8FC7;producer&#x5411;exchange&#x53D1;&#x9001;&#x6D88;&#x606F;</li>
+</ol>
+<h1 id="&#x4EE3;&#x7801;&#x5B9E;&#x4F8B;">&#x4EE3;&#x7801;&#x5B9E;&#x4F8B;</h1>
+<p>&#x672C;&#x8282;&#x901A;&#x8FC7;&#x4EE3;&#x7801;&#x5B9E;&#x4F8B;&#x6765;&#x8BB2;&#x89E3;kombu&#x7684;&#x7528;&#x6CD5;&#xFF0C;&#x4EE3;&#x7801;&#x5B9E;&#x4F8B;&#x6309;&#x7167;&#x4E09;&#x79CD;exchange&#x5206;&#x522B;&#x4E3E;&#x4E00;&#x4E2A;&#x4F8B;&#x5B50;</p>
+<h2 id="direct-exchange">direct exchange</h2>
+<p>direct exchange&#x6839;&#x636E;&#x786E;&#x5B9A;&#x7684;routing_key&#x8FDB;&#x884C;&#x6D88;&#x606F;&#x8DEF;&#x7531;</p>
+<h3 id="consumer">consumer</h3>
+<p>recver.py</p>
+<pre><code class="lang-python">import sys
+from kombu import Exchange, Queue,Consumer
+from kombu import Connection
+
+
+conn = Connection(&apos;amqp://guest:guest@192.168.184.128:5672//&apos;)
+
+task_exchange = Exchange(&apos;kombu_test&apos;, type=&apos;direct&apos;)
+
+task_queues = []
+
+severity = sys.argv[1]
+
+if not severity:
+    sys.stderr.write(&quot;Usage: %s [info] [warning] [error]\n&quot; % sys.argv[0])
+    sys.exit(1)
+
+
+q = Queue(severity, task_exchange, channel=conn.channel(),routing_key=severity)
+q.declare()
+
+def _callback( body, message):
+    print(&quot; [x] %r:%r&quot; % (message.delivery_info[&apos;routing_key&apos;], body))
+    message.ack()
+
+consumer = Consumer(conn.channel(),queues=[q],accept=[&apos;pickle&apos;, &apos;json&apos;],callbacks=[_callback])
+
+consumer.consume()
+
+while True:
+    conn.drain_events()
+</code></pre>
+<h3 id="producer">producer</h3>
+<p>sender.py</p>
+<pre><code>import sys
+from kombu.pools import producers
+from kombu import Exchange, Queue
+from kombu import Connection
+
+
+task_exchange = Exchange(&apos;kombu_test&apos;, type=&apos;direct&apos;)
+
+connection = Connection(&apos;amqp://guest:guest@192.168.184.128:5672//&apos;)
+
+severity = sys.argv[1] if len(sys.argv) &gt; 1 else &apos;info&apos;
+message = &apos; &apos;.join(sys.argv[2:]) or &apos;Hello World!&apos;
+
+with producers[connection].acquire(block=True) as producer:
+    producer.publish(message,
+                     serializer=&apos;pickle&apos;,
+                     compression=&apos;bzip2&apos;,
+                     exchange=task_exchange,
+                     declare=[task_exchange],
+                     routing_key=severity)
+
+print(&quot; [x] Sent %r:%r&quot; % (severity, message))
+</code></pre><h3 id="run">run</h3>
+<ul>
+<li><p>consumer </p>
+<pre><code>python recver.py key1
+</code></pre></li>
+<li><p>producer </p>
+<pre><code>python sender.py key1 hello world!
+</code></pre></li>
+<li><p>consumer&#x6536;&#x5230;&#x6D88;&#x606F;</p>
+</li>
+</ul>
+<pre><code>python recver.py key1
+ [x] u&apos;key1&apos;:&apos;hello world!&apos;
+</code></pre><h2 id="fanout-exchange">fanout exchange</h2>
+<h3 id="consumer">consumer</h3>
+<p>recver.py</p>
+<pre><code>from kombu import Exchange, Queue
+from kombu import Connection
+from kombu.mixins import ConsumerMixin
+import uuid
+
+
+task_exchange = Exchange(&apos;kombu_test_fanout&apos;, type=&apos;fanout&apos;)
+
+task_queues = [Queue(str(uuid.uuid4()), task_exchange)]
+
+
+class Worker(ConsumerMixin):
+
+    def __init__(self, connection):
+        self.connection = connection
+
+    def get_consumers(self, Consumer, channel):
+        return [Consumer(queues=task_queues,
+                         accept=[&apos;pickle&apos;, &apos;json&apos;],
+                         callbacks=[self.process_task])]
+
+    def process_task(self, body, message):
+        print(&quot; [x] %r:%r&quot; % (message.delivery_info[&apos;routing_key&apos;], body))
+        message.ack()
+
+
+with Connection(&apos;amqp://guest:guest@192.168.184.128:5672//&apos;) as conn:
+    try:
+        worker = Worker(conn)
+        worker.run()
+    except KeyboardInterrupt:
+        print(&apos;bye bye&apos;)
+</code></pre><h3 id="producer">producer</h3>
+<p>sender.py</p>
+<pre><code>import sys
+from kombu.pools import producers
+from kombu import Exchange, Queue
+from kombu import Connection
+
+task_exchange = Exchange(&apos;kombu_test_fanout&apos;, type=&apos;fanout&apos;)
+
+connection = Connection(&apos;amqp://guest:guest@192.168.184.128:5672//&apos;)
+
+message = &apos; &apos;.join(sys.argv[1:]) or &apos;Hello World!&apos;
+
+with producers[connection].acquire(block=True) as producer:
+    producer.publish(message,
+                     serializer=&apos;pickle&apos;,
+                     compression=&apos;bzip2&apos;,
+                     exchange=task_exchange,
+                     declare=[task_exchange])
+
+print(&quot; [x] Sent %r&quot; % ( message))
+</code></pre><h3 id="run">run</h3>
+<p>&#x542F;&#x52A8;&#x4E24;&#x4E2A;consumer</p>
+<pre><code>python recver.py
+</code></pre><p>&#x542F;&#x52A8;&#x4E00;&#x4E2A;producer</p>
+<pre><code>python sender.py how are you
+ [x] Sent &apos;how are you&apos;
+</code></pre><p>&#x4E24;&#x4E2A;consumer&#x5747;&#x6536;&#x5230;&#x6570;&#x636E;</p>
+<pre><code># python recver.py
+ [x] u&apos;key1&apos;:&apos;how are you&apos;
+</code></pre><pre><code># python recver.py
+ [x] u&apos;key1&apos;:&apos;how are you&apos;
+</code></pre><h2 id="topic-exchange">topic exchange</h2>
+<h3 id="consumer">consumer</h3>
+<p>recver.py</p>
+<pre><code>import sys
+from kombu import Exchange, Queue
+from kombu import Connection
+from kombu.mixins import ConsumerMixin
+
+
+
+task_exchange = Exchange(&apos;kombu_test_topic&apos;, type=&apos;topic&apos;)
+
+task_queues = []
+
+severities = sys.argv[1:]
+
+if not severities:
+    sys.stderr.write(&quot;Usage: %s [info] [warning] [error]\n&quot; % sys.argv[0])
+    sys.exit(1)
+
+for severity in severities:
+    task_queues.append(Queue(severity, task_exchange, routing_key=severity))
+
+class Worker(ConsumerMixin):
+
+    def __init__(self, connection):
+        self.connection = connection
+
+    def get_consumers(self, Consumer, channel):
+        return [Consumer(queues=task_queues,
+                         accept=[&apos;pickle&apos;, &apos;json&apos;],
+                         callbacks=[self.process_task])]
+
+    def process_task(self, body, message):
+        print(&quot; [x] %r:%r&quot; % (message.delivery_info[&apos;routing_key&apos;], body))
+        message.ack()
+
+
+with Connection(&apos;amqp://guest:guest@192.168.184.128:5672//&apos;) as conn:
+    try:
+        worker = Worker(conn)
+        worker.run()
+    except KeyboardInterrupt:
+        print(&apos;bye bye&apos;)
+</code></pre><h3 id="producer">producer</h3>
+<p>sender.py</p>
+<pre><code>import sys
+from kombu.pools import producers
+from kombu import Exchange, Queue
+from kombu import Connection
+
+
+task_exchange = Exchange(&apos;kombu_test_topic&apos;, type=&apos;topic&apos;)
+
+connection = Connection(&apos;amqp://guest:guest@192.168.184.128:5672//&apos;)
+
+severity = sys.argv[1] if len(sys.argv) &gt; 1 else &apos;info&apos;
+message = &apos; &apos;.join(sys.argv[2:]) or &apos;Hello World!&apos;
+
+with producers[connection].acquire(block=True) as producer:
+    producer.publish(message,
+                     serializer=&apos;pickle&apos;,
+                     compression=&apos;bzip2&apos;,
+                     exchange=task_exchange,
+                     declare=[task_exchange],
+                     routing_key=severity)
+
+print(&quot; [x] Sent %r:%r&quot; % (severity, message))
+</code></pre><h3 id="run">run</h3>
+<p>recver1&#x76D1;&#x542C;green.*</p>
+<pre><code># python recver.py &quot;green.*&quot;
+</code></pre><p>recver2&#x76D1;&#x542C;#.dog</p>
+<pre><code># python recver.py &quot;#.dog&quot;
+</code></pre><p>sender&#x53D1;&#x9001;</p>
+<ol>
+<li>&#x4EE5;green.dog&#x4E3A;key&#x53D1;&#x9001;</li>
+</ol>
+<pre><code>python sender.py green.dog this is tom
+ [x] Sent &apos;green.dog&apos;:&apos;this is tom&apos;
+</code></pre><p>&#x4E24;&#x4E2A;&#x90FD;&#x80FD;&#x6536;&#x5230;</p>
+<ol>
+<li>&#x4EE5;blue.dog&#x4E3A;key&#x53D1;&#x9001;</li>
+</ol>
+<p>&#x53EA;&#x6709;recver2&#x80FD;&#x6536;&#x5230;</p>
+<p>3.&#x4EE5;old.green.dog&#x53D1;&#x9001;</p>
+<p>&#x53EA;&#x6709;recver2&#x80FD;&#x6536;&#x5230;</p>
+<footer class="page-footer-ex"> <span class="page-footer-ex-copyright"> By <a href="https://github.com/cao19881125" target="_blank">&#x66F9;&#x4E91;&#x6D9B;</a>&#xFF0C;&#x4F7F;&#x7528;<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">&#x77E5;&#x8BC6;&#x5171;&#x4EAB; &#x7F72;&#x540D;-&#x975E;&#x5546;&#x4E1A;&#x6027;&#x4F7F;&#x7528;-&#x7981;&#x6B62;&#x6F14;&#x7ECE; 4.0 &#x56FD;&#x9645; &#x8BB8;&#x53EF;&#x534F;&#x8BAE;</a>&#x53D1;&#x5E03; </span> &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; <span class="page-footer-ex-footer-update"> &#x6B64;&#x9875;&#x9762;&#x4FEE;&#x8BA2;&#x4E8E;&#xFF1A; 2019-07-18 14:38:38 </span> </footer>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="define.html" class="navigation navigation-prev " aria-label="Previous page: 简介">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="oslo_message_usage.html" class="navigation navigation-next " aria-label="Next page: oslo-message使用">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"kombu","level":"4.2","depth":1,"next":{"title":"oslo-message使用","level":"4.3","depth":1,"path":"common_lib/oslo_messaging/oslo_message_usage.md","ref":"common_lib/oslo_messaging/oslo_message_usage.md","articles":[]},"previous":{"title":"简介","level":"4.1","depth":1,"path":"common_lib/oslo_messaging/define.md","ref":"common_lib/oslo_messaging/define.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-lunr","-search","-highlight","-livereload","search-plus@^0.0.11","mermaid-gb3","splitter@^0.0.8","expandable-chapters-small","github@^2.0.0","github-buttons@2.1.0","page-footer-ex","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"github":{"url":"https://github.com/cao19881125/neutron-parse"},"page-footer-ex":{"copyright":"By [曹云涛](https://github.com/cao19881125)，使用[知识共享 署名-非商业性使用-禁止演绎 4.0 国际 许可协议](http://creativecommons.org/licenses/by-nc-nd/4.0/)发布","markdown":true,"update_format":"YYYY-MM-DD HH:mm:ss","update_label":"此页面修订于："},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"github-buttons":{"repo":"cao19881125/neutron-parse","types":["star","watch","fork"],"size":"small"},"expandable-chapters-small":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"search-plus":{}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Neutron源码解析","language":"zh-hans","links":{"sidebar":{"Home":"https://github.com/cao19881125"}},"gitbook":"3.x","description":"Neutron源码解析"},"file":{"path":"common_lib/oslo_messaging/kombu.md","mtime":"2019-07-18T06:38:38.242Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-07-24T06:33:04.642Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-plus/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-plus/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-mermaid-gb3/book/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-expandable-chapters-small/expandable-chapters-small.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github-buttons/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    <script src="../../gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.min.js"></script>
+
+    </body>
+</html>
+
