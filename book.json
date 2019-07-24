@@ -3,18 +3,47 @@
 	"title": "Neutron源码解析",
 	"description": "Neutron源码解析",
 	"language": "zh-hans",
-
+	"links": {
+        "sidebar": {
+            "Home": "https://github.com/cao19881125"
+        }
+    },
 	"pluginsConfig": {
 		"theme-default": {
 			"showLevel": true
-		}
+		},
+		"github": {
+        	"url": "https://github.com/cao19881125/neutron-parse"
+    	},
+		"github-buttons": {
+            "repo": "cao19881125/neutron-parse",
+            "types": [
+                "star",
+                "watch",
+                "fork"
+            ],
+            "size": "small"
+        },
+        "page-footer-ex": {
+            "copyright": "By [曹云涛](https://github.com/cao19881125)，使用[知识共享 署名-非商业性使用-禁止演绎 4.0 国际 许可协议](http://creativecommons.org/licenses/by-nc-nd/4.0/)发布",
+            "markdown": true,
+			"update_label": "此页面修订于：",
+            "update_format": "YYYY-MM-DD HH:mm:ss"
+        }
 	},
 
 	"plugins": [
-		"-search",
+		"-lunr",
+        "-search",
+        "-highlight",
+        "-livereload",
+        "search-plus@^0.0.11",
 		"mermaid-gb3",
 		"splitter@^0.0.8",
-		"expandable-chapters-small"
+		"expandable-chapters-small",
+		"github@^2.0.0",
+        "github-buttons@2.1.0",
+		"page-footer-ex"
 	]
 
 
