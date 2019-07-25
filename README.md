@@ -29,3 +29,7 @@
 - 邮件：caoyuntao1125@gmail.com
 - 本书github地址: [neutron-parse](https://github.com/cao19881125/neutron-parse)
 
+## 版权声明
+
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">neutron源码解析</span> 由 <a xmlns:cc="http://creativecommons.org/ns#" href="https://github.com/cao19881125/neutron-parse" property="cc:attributionName" rel="cc:attributionURL">曹云涛</a> 采用 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享 署名-非商业性使用-禁止演绎 4.0 国际 许可协议</a>进行许可。
